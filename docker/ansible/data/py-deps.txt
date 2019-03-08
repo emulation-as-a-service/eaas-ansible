@@ -1,0 +1,9 @@
+ansible
+
+# ansible's dep for
+# json_query filter
+jmespath
+
+# GCP deps
+requests
+google-auth
