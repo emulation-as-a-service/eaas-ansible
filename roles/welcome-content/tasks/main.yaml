@@ -1,0 +1,10 @@
+---
+- name: create folder
+  file:
+    path: "{{ host_eaas_home }}/welcome-content"
+    state: directory
+
+- name: add default page
+  template:
+    src: "index.html"
+    dest: "{{ host_eaas_home}}/welcome-content"
