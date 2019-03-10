@@ -1,0 +1,29 @@
+---
+- name: enable epel repository
+  become: yes
+  yum:
+    name: epel-release
+    state: present
+
+- name: install docker dependencies
+  become: yes
+  yum:
+    name:
+    - yum-utils
+    - python-pip
+    - device-mapper-persistent-data
+    - device-mapper
+    - lvm2
+    state: present
+    update_cache: yes
+
+- name: add docker repo
+  become: yes
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: install docker package
+  become: yes
+  yum:
+    name: docker-ce
+    state: present
+    update_cache: yes

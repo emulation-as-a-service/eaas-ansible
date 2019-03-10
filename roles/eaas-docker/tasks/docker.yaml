@@ -1,0 +1,26 @@
+---
+- name: check supported distribution
+  when: "ansible_distribution not in ['Ubuntu', 'CentOS', 'RedHat']"
+  fail:
+    msg: "{{ ansible_distribution }} distribution is currently not supported!"
+
+- name: install docker on ubuntu
+  when: "ansible_distribution == 'Ubuntu'"
+  include_tasks: docker-ubuntu.yaml
+
+- name: install docker on redhat/centos
+  when: "ansible_distribution in ['CentOS', 'RedHat']"
+  include_tasks: docker-redhat.yaml
+
+- name: install python bindings
+  become: yes
+  pip:
+    name: docker
+    state: present
+
+- name: enable/start docker.service
+  become: yes
+  service:
+    name: docker.service
+    state: started
+    enabled: yes

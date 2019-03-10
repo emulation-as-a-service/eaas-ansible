@@ -1,0 +1,11 @@
+---
+- name: install docker
+  when: "'docker.service' not in ansible_facts.services"
+  include_tasks: docker.yaml
+
+- name: setup custom-network for docker
+  when: docker_custom_network != ''
+  include_tasks: custom-network.yaml
+
+- name: install docker-compose
+  import_tasks: docker-compose.yaml

@@ -1,0 +1,39 @@
+---
+- name: create docker network test
+  become: yes
+  docker_network:
+    name: test
+    state: present
+    ipam_options:
+      subnet: '172.20.0.0/16'
+      gateway: '172.20.0.1'
+      iprange: '172.20.0.0/24'
+  register: docker_test_network
+
+- set_fact:
+    bridge_id: "br-{{ docker_test_network.ansible_facts.docker_network.Id[:12] }}"
+
+- become: yes
+  shell: firewall-cmd --permanent --new-zone docker || true
+
+- name: setup firewall for docker zone
+  become: yes
+  firewalld:
+    zone: docker
+    service: http
+    permanent: true
+    state: enabled
+
+- name: add interface bridge_id to zone
+  become: yes
+  firewalld:
+    zone: docker
+    interface: "{{ bridge_id }}"
+    permanent: true
+    state: enabled
+
+- name: reload firwewalld
+  become: yes
+  systemd:
+    name: firewalld
+    state: reloaded

@@ -1,0 +1,27 @@
+---
+- name: install python-bindings for apt
+  become: yes
+  apt:
+    name: python-apt
+    state: present
+
+- name: add docker-key
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add docker's deb repo
+  become: yes
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable"
+    state: present
+    update_cache: yes
+
+- name: install docker packages
+  become: yes
+  apt:
+    name:
+    - docker-ce
+    - python-pip
+    state: present
