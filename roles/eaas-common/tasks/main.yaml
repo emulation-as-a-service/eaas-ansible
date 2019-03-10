@@ -1,0 +1,13 @@
+---
+- name: configure custom ssh port
+  when: host_ssh_port != ''
+  set_fact:
+    ansible_ssh_port: "{{ host_ssh_port }}"
+
+- name: prepare temp folder
+  when: host_eaas_tmp != ''
+  become: yes
+  file:
+    path: "{{ host_eaas_tmp }}"
+    state: directory
+    mode: u=rwx,g=rwx,o=rwx

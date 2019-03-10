@@ -1,0 +1,3 @@
+---
+host_eaas_tmp: "{{ host.eaas_tmp | default('/tmp') }}"
+host_ssh_port: "{{ host.ssh_port | default('') }}"
