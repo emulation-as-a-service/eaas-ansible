@@ -1,0 +1,67 @@
+---
+- name: create eaas home folder
+  become: yes
+  file:
+    path: "{{ host_eaas_home }}"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: create eaas runtime folders
+  file:
+    path: "{{ host_eaas_home }}/{{ item }}"
+    state: directory
+  loop:
+  - config
+  - deployments
+  - eaas-ui
+
+- name: download pre-built eaas-server
+  get_url:
+    url: "{{ eaas_server_ear_url }}"
+    dest: "{{ host_eaas_home }}/deployments/eaas-server.ear"
+    mode: a=r
+
+- name: prepare customized docker image
+  import_tasks: docker/customize.yaml
+
+- name: create directory for eaas-config parts
+  file:
+    path: "{{ host_eaas_config_parts_dir }}"
+    state: directory
+
+- name: prepare main eaas-config
+  when: eaas_deployment_mode != 'emucomp'
+  template:
+    src: eaas-config.yaml.j2
+    dest: "{{ host_eaas_config_parts_dir }}/01-main.yaml"
+
+- name: prepare cluster-manager config
+  when: eaas_deployment_mode != 'emucomp'
+  vars:
+    clustermgr: "{{ eaas_clustermgr }}"
+  template:
+    src: "{{ eaas_clustermgr_config_template }}"
+    dest: "{{ host_eaas_config_parts_dir }}/02-clustermgr.yaml"
+
+- name: prepare admin-ui
+  when: ui_enable_admin_ui
+  include_tasks: ui/admin-ui.yaml
+
+- name: create systemd unit
+  become: yes
+  template:
+    src: eaas.service.j2
+    dest: /etc/systemd/system/eaas.service
+
+- name: reload systemd deamons
+  become: yes
+  systemd:
+    daemon_reload: yes
+
+- name: enable eaas.service
+  become: yes
+  service:
+    name: eaas.service
+    state: started
+    enabled: yes

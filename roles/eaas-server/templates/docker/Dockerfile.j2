@@ -1,0 +1,17 @@
+FROM {{ docker_image }}
+
+ADD apache-config/ /etc/apache2/sites-enabled/
+
+{% if ui_http_auth != '' %}
+COPY auth.pwd /var/www/
+{% endif %}
+
+{% if docker_ssl_enabled %}
+RUN a2enmod remoteip
+RUN echo add-x-forwarded-for=yes >> /etc/nghttpx/nghttpx.conf
+{% endif %}
+
+{% if eaas_http_proxy != '' %}
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY proxy /etc/nginx/conf.d/proxy.conf
+{% endif %}

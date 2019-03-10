@@ -1,0 +1,35 @@
+---
+- name: create temporary build-dir
+  become: yes
+  file:
+    path: "{{ host_build_dir }}"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: setup proxy/webserver
+  import_tasks: webserver/setup.yaml
+
+- name: generate custom dockerfile
+  template:
+    src: docker/Dockerfile.j2
+    dest: "{{ host_build_dir }}/Dockerfile"
+
+- name: pull pre-built eaas-docker image
+  become: yes
+  docker_image:
+    name: "{{ docker_image }}"
+    state: present
+    pull: yes
+
+- name: build custom docker-image
+  become: yes
+  docker_image:
+    name: "{{ docker_custom_image }}"
+    path: "{{ host_build_dir }}"
+    state: present
+
+- name: generate docker-compose file
+  template:
+    src: docker/docker-compose.yaml.j2
+    dest: "{{ host_eaas_home }}/docker-compose.yaml"

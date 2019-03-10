@@ -1,0 +1,43 @@
+<VirtualHost *:8090>
+        DocumentRoot /var/www/
+        RewriteEngine On
+
+{% if docker_ssl_enabled %}
+        RemoteIPHeader X-Forwarded-For
+        RemoteIPInternalProxy 127.0.0.1
+{% endif %}
+
+        ProxyPass /admin !
+        ProxyPass /user !
+
+        ProxyPass / http://localhost:8080/ retry=0
+        ProxyPassReverse / http://localhost:8080/
+        ProxyPreserveHost on
+
+        RewriteCond %{HTTP:upgrade} =websocket [NC]
+        RewriteRule .* ws://localhost:8080/$0 [P]
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        <filesMatch "\.(html|htm|js|css)$">
+                <ifModule mod_headers.c>
+                        Header set Cache-Control "no-cache"
+                </ifModule>
+        </filesMatch>
+
+        <Location /admin>
+                SetEnvIf Request_URI ^/objectarchive/ noauth=1
+                SetEnvIf Request_URI ^/imagearchive/ noauth=1
+
+{% if ui_http_auth != '' %}
+                AuthUserFile /var/www/auth.pwd
+                AuthName "Emulation Demo Page"
+                AuthType Basic
+
+                Require valid-user
+                Require env noauth
+                Require local
+{% endif %}
+       </Location>
+</VirtualHost>

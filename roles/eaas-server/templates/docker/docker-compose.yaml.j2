@@ -1,0 +1,41 @@
+version: '3.1'
+{% if docker_custom_network != '' %}
+networks:
+  test:
+    external: true
+{% endif %}
+services:
+  eaas:
+    image: {{ docker_custom_image }}
+    container_name: eaas
+    privileged: true
+{% if docker_custom_network != '' %}
+    networks:
+    - test
+{% endif %}
+    environment:
+    - SSL_PROXY={{ docker_ssl_enabled | default("no") | lower }}
+{% if not docker_ssl_enabled %}
+    - EAAS_PROXYPORT={{ docker_port }}
+{% endif %}
+    ports:
+    - {{ docker_port_mapping }}
+    volumes:
+    - ./log:/eaas/log
+    - ./server-data:/eaas/server-data
+    - {{ docker_objects_volume | default("./objects", true) }}:/eaas/objects
+    - {{ docker_export_volume | default("./export", true) }}:/eaas/export
+    - {{ docker_image_archive_volume | default("./image-archive", true) }}:/eaas/image-archive
+    - {{ docker_import_volume | default("./import", true) }}:/eaas/import
+    - ./eaas-ui:/eaas/demo-ui
+    - ./roms:/eaas/roms
+    - ./config:/eaas/config
+{% if host_eaas_tmp != '' %}
+    - {{ host_eaas_tmp }}:/tmp
+{% endif %}
+    - ./deployments:/eaas/deployments
+    - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
+{% if docker_ssl_enabled %}
+    extra_hosts:
+    - {{ eaas_hostname }}:127.0.0.1
+{% endif %}

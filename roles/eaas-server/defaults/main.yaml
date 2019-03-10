@@ -1,0 +1,37 @@
+---
+host_eaas_home: "{{ host.eaas_home }}"
+host_build_dir: "{{ host.build_dir }}"
+host_eaas_config_dir: "{{ host_eaas_home }}/config"
+host_eaas_config_parts_dir: "{{ host_eaas_config_dir }}/eaas-config.d"
+host_ui_artifact_file: "{{ host_eaas_tmp }}/eaas-ui.zip"
+host_ui_install_dir: "{{ host_eaas_home }}/eaas-ui"
+
+docker_image: "{{ docker.image }}"
+docker_custom_image: eaas-custom
+docker_ssl_enabled: "{{ docker.ssl_enabled | default(false) }}"
+docker_port: "{{ docker.port }}"
+docker_port_mapping: "{% if docker_ssl_enabled %}{{ docker_port }}:443{% else %}{{ docker_port }}:8090{% endif %}"
+docker_objects_volume: "{{ docker.objects_volume | default('') }}"
+docker_export_volume: "{{ docker.export_volume | default('') }}"
+docker_image_archive_volume: "{{ docker.image_archive_volume | default('') }}"
+docker_import_volume: "{{ docker.import_volume | default('') }}"
+
+eaas_deployment_mode: 'all'
+eaas_hostname: "{{ ansible_host }}"
+eaas_protocol: "{% if docker_ssl_enabled %}https://{% else %}http://{% endif %}"
+eaas_http_proxy: "{{ eaas.http_proxy | default('') }}"
+eaas_http_cache_path: "{{ eaas.http_cache_path | default('') }}"
+eaas_http_proxy_cache_size: "{{ eaas.http_proxy_cache_size | default('') }}"
+eaas_software_archive_id: "{{ eaas.software_archive_id | default('default') }}"
+eaas_object_archive_id: "{{ eaas.object_archive_id | default('default') }}"
+eaas_enable_new_image_archive: "{{ eaas.enable_new_image_archive | default(true) }}"
+eaas_enable_oaipmh_provider: "{{ eaas.enable_oaipmh_provider }}"
+eaas_enable_oaipmh_harvester: "{{ eaas.enable_oaipmh_harvester | default(true) }}"
+eaas_enable_handlenet: "{{ eaas.enable_handlenet | default(false) }}"
+eaas_cluster_api_access_token: "{{ eaas.cluster_api_access_token }}"
+
+ui_http_auth: "{{ ui.http_auth | default('') }}"
+ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
+ui_enable_snapshots: "{{ ui.enable_snapshots | default(true) }}"
+ui_enable_admin_ui: "{{ ui.enable_admin_ui | default(true) }}"
+ui_enable_user_ui: "{{ ui.enable_user_ui | default(false) }}"

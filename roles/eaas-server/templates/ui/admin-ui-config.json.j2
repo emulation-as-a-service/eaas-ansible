@@ -1,0 +1,31 @@
+{% set baseurl = eaas_protocol + eaas_hostname + ':' + docker_port %}
+{
+  "eaasBackendURL": "{{ baseurl }}/emil/",
+  "stopEmulatorRedirectURL":"{{ baseurl }}/admin/",
+  "dashboardClusterAPIBaseURL" : "{{ baseurl }}/eaas/api/v1/clusters/",
+  "dashboardAccessToken": "{{ eaas_cluster_api_access_token }}",
+{% if eaas_enable_oaipmh_provider %}
+  "oaipmhServiceBaseUrl" : "{{ baseurl }}/oaipmh/",
+{% endif %}
+{% if ui.landing_page | default(false) %}
+  "landingPage": "{{ baseurl }}/citar-headless-client/",
+{% endif %}
+  "features" : {
+    "screenshots": true,
+    "snapshots": false,
+    "containers": false,
+    "objectEnvironments": true,
+    "objects": true,
+    "network": true,
+    "software" : true,
+    "objectUpload" : true,
+    "advanced" : false,
+    "oaipmh" : true,
+    "emulators" : true
+{% if handle_key | default(false) %}
+    , "handle": true
+{% endif %}
+  },
+  "baseEmulatorUrl" : "{{ baseurl }}/admin/",
+  "softwareArchiveId" : "{{ eaas_software_archive_id | default('default') }}"
+}

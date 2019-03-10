@@ -1,0 +1,23 @@
+---
+- name: download pre-built ui
+  get_url:
+    url: "{{ ui_artifact_url }}"
+    dest: "{{ host_ui_artifact_file }}"
+
+- name: install unzip package
+  become: yes
+  package:
+    name: unzip
+    state: present
+
+- name: extract pre-built ui
+  unarchive:
+    src: "{{ host_ui_artifact_file }}"
+    dest: "{{ host_ui_install_dir }}"
+    remote_src: yes
+
+- name: prepare admin-ui config
+  when: ui_enable_admin_ui
+  template:
+    src: "ui/admin-ui-config.json.j2"
+    dest: "{{ host_ui_install_dir }}/eaas-frontend-admin/dist/config.json"

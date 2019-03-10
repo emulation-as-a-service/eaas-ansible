@@ -1,0 +1,126 @@
+{% set baseurl = eaas_protocol + eaas_hostname + ':' + docker_port %}
+imagearchive:
+{% if image_archive_address is defined | default(false) %}
+  httpprefix: "{{ image_archive_address }}/imagearchive/"
+{% else %}
+  httpprefix: "{{ baseurl }}/imagearchive/"
+{% endif %}
+
+objectarchive:
+  httpprefix: "{{ baseurl }}/imagearchive/"
+
+emil:
+  classificationservice: "{{ baseurl }}/"
+  imageproposerservice: "{{ baseurl }}/"
+
+ws:
+  blobstore: "{{ baseurl }}"
+  imagebuilder: "{{ baseurl }}"
+  imagearchive: "{{ baseurl }}"
+  eaasgw:  "{{ baseurl }}"
+  embedgw: "{{ baseurl }}"
+  objectarchive: "{{ baseurl }}"
+  softwarearchive: "{{ baseurl }}"
+
+rest:
+  blobstore: "{{ baseurl }}/blobstore/api/v1/blobs"
+
+emucomp:
+  enable_screenshooter: {{ ui_enable_screenshooter | default(false) | lower }}
+
+imagebuilder:
+  blobstore: "{{ baseurl }}/"
+
+{% if eaas_auth_secret is defined %}
+emil:
+  authEnabled: true
+  authSecret: "{{ eaas_auth_secret }}"
+{% endif %}
+
+components:
+  client_timeout: 30s
+  timeout: 60s
+  emulator_containers:
+    enabled: {{ ui_enable_snapshots | default(false) | lower }}
+    uid: 1000
+    gid: 1000
+
+  session_statistics:
+    flush_delay: 30s
+
+  tcpNode:
+    ports: 10000-10009
+
+{% if eaas_enable_new_image_archive %}
+imagearchive:
+  backends:
+  - name: public
+    type: filesystem
+    basepath: /home/bwfla/image-archive/public
+    http_prefix: "{{ baseurl }}/imagearchive/public"
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/public/
+    export_handles: {{ eaas_enable_handlenet | lower }}
+  - name: remote
+    type: filesystem
+    basepath: /home/bwfla/image-archive/remote
+    http_prefix: http://hdl.handle.net/11270
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/remote/
+    export_handles: false
+    order: 1
+  - name: emulators
+    type: filesystem
+    basepath: /home/bwfla/image-archive/emulators
+    http_prefix: "{{ baseurl }}/imagearchive/emulators"
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/emulators/
+    export_handles: false
+  - name: default
+    type: filesystem
+    basepath: /home/bwfla/image-archive/
+    http_prefix: "{{ baseurl }}/imagearchive/default"
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/default/
+    order: 2
+{% endif %}
+
+{% if eaas_http_proxy != '' %}
+emucomp.image_proxy: {{ eaas_http_proxy }}
+{% endif %}
+
+{% if eaas_enable_oaipmh_provider %}
+metadata_provider:
+  base_url: "{{ baseurl }}/oaipmh/providers"
+  backends:
+  - name: "environments"
+    identity:
+      repository_name: 'EaaSI data repository'
+      earliest_date: '2018-11-01T00:00:00Z'
+      admin_email: 'admin@dummy.com'
+
+    source:
+      base_url: "{{ baseurl }}/emil/metadata-repositories/public-environments"
+
+    response_limits:
+      max_num_identifiers: 50
+      max_num_records: 50
+      max_num_sets: 100
+
+  - name: "images"
+    identity:
+      repository_name: 'EaaSI data repository'
+      earliest_date: '2018-11-01T00:00:00Z'
+      admin_email: 'admin@dummy.com'
+
+    source:
+      base_url: "{{ baseurl }}/emil/metadata-repositories/public-images"
+
+    response_limits:
+      max_num_identifiers: 50
+      max_num_records: 50
+      max_num_sets: 100
+{% endif %}
+
+{% if eaas_enable_oaipmh_harvester %}
+metadata_harvester:
+    base_url: "{{ baseurl }}/oaipmh/harvesters"
+{% endif %}
+
+clustermanager.providers.defaults.all.protocol: ""

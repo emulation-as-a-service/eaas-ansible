@@ -1,0 +1,11 @@
+---
+- name: setup http-basic-auth
+  when: ui_http_auth != ''
+  include_tasks: http-basic-auth.yaml
+
+- name: setup apache webserver
+  import_tasks: apache.yaml
+
+- name: setup webproxy
+  when: eaas_http_proxy != ''
+  include_tasks: proxy.yaml

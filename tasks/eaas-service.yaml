@@ -1,0 +1,11 @@
+---
+- name: update service facts
+  service_facts:
+  no_log: true
+
+- name: "ensure eaas-server is {{ state }}"
+  when: '"eaas.service" in ansible_facts.services'
+  become: yes
+  service:
+    name: eaas.service
+    state: "{{ state }}"
