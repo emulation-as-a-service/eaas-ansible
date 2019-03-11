@@ -1,3 +1,0 @@
----
-- name: check python installation on ubuntu
-  raw: /bin/sh -c "which python || { export DEBIAN_FRONTEND=noninteractive; sudo apt-get -yq update && sudo apt-get install -yq python-minimal; }"
