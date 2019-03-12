@@ -28,7 +28,7 @@ eaas_enable_new_image_archive: "{{ eaas.enable_new_image_archive | default(true)
 eaas_enable_oaipmh_provider: "{{ eaas.enable_oaipmh_provider }}"
 eaas_enable_oaipmh_harvester: "{{ eaas.enable_oaipmh_harvester | default(true) }}"
 eaas_enable_handlenet: "{{ eaas.enable_handlenet | default(false) }}"
-eaas_cluster_api_access_token: "{{ eaas.cluster_api_access_token }}"
+eaas_cluster_api_access_token: "{{ eaas.cluster_api_access_token | default('') }}"
 
 ui_http_auth: "{{ ui.http_auth | default('') }}"
 ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
