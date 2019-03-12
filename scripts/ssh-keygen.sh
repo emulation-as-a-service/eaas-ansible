@@ -48,6 +48,8 @@ docker run --rm --tty --interactive --name ssh-keygen \
     eaas/ssh-keygen \
     ssh-keygen -t ed25519 -N '' -C "${comment}" -f "${keyname}"
 
+chmod -v 400 ${keydir}/${keyname}*
+
 __newline
 __info 'generated ssh-key pair:'
 echo "${keydir}/${keyname}.pub"
