@@ -1,4 +1,10 @@
 ---
+- name: install firewalld
+  become: yes
+  package:
+    name: firewalld
+    state: latest
+
 - name: create docker network test
   become: yes
   docker_network:
