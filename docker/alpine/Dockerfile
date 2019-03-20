@@ -2,7 +2,7 @@ FROM alpine:3.9
 ARG uid
 ARG gid
 ARG name=eaas
+ARG workdir='/var/work'
+ADD ./data "${workdir}"
+RUN cd "${workdir}" && ./installer.sh "${name}" "${uid}" "${gid}" && rm -r "${workdir}"
 
-# create a new container's user/group matching a host's UID/GID
-RUN addgroup -g "${gid}" "${name}" && \
-    adduser -D -G "${name}" -u "${uid}" -g "${name}" "${name}"
