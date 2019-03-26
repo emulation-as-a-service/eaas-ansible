@@ -1,4 +1,16 @@
 ---
+- name: check eaas components to update
+  when: eaas_update_components != ''
+  vars:
+    eaas_components:
+    - "{{ eaas_component_ui }}"
+    - "{{ eaas_component_ear }}"
+    - "{{ eaas_component_docker_image }}"
+  assert:
+    that: eaas_update_components is subset(eaas_components)
+    success_msg: "Components to update: {{ eaas_update_components }}"
+    fail_msg: "Invalid components to update: {{ eaas_update_components }}"
+
 - name: create eaas home folder
   become: yes
   file:
@@ -18,9 +30,9 @@
 
 - name: download pre-built eaas-server
   get_url:
+    force: "{{ eaas_component_ear in eaas_update_components }}"
     url: "{{ eaas_server_ear_url }}"
     dest: "{{ host_eaas_home }}/deployments/eaas-server.ear"
-    mode: a=r
 
 - name: prepare customized docker image
   import_tasks: docker/customize.yaml

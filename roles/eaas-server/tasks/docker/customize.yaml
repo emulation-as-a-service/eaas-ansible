@@ -18,6 +18,7 @@
 - name: pull pre-built eaas-docker image
   become: yes
   docker_image:
+    force: "{{ eaas_component_docker_image in eaas_update_components }}"
     name: "{{ docker_image }}"
     state: present
     pull: yes
@@ -25,6 +26,7 @@
 - name: build custom docker-image
   become: yes
   docker_image:
+    force: "{{ eaas_component_docker_image in eaas_update_components }}"
     name: "{{ docker_custom_image }}"
     path: "{{ host_build_dir }}"
     state: present

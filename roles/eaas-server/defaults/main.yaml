@@ -16,6 +16,12 @@ docker_export_volume: "{{ docker.export_volume | default('') }}"
 docker_image_archive_volume: "{{ docker.image_archive_volume | default('') }}"
 docker_import_volume: "{{ docker.import_volume | default('') }}"
 
+# A list of components to update
+eaas_update_components: ''
+eaas_component_ui: 'ui'
+eaas_component_ear: 'ear'
+eaas_component_docker_image: 'docker-image'
+
 eaas_deployment_mode: 'all'
 eaas_hostname: "{{ ansible_host }}"
 eaas_protocol: "{% if docker_ssl_enabled %}https://{% else %}http://{% endif %}"
