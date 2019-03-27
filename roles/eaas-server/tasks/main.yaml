@@ -25,6 +25,7 @@
     state: directory
   loop:
   - config
+  - certificates
   - deployments
   - eaas-ui
 

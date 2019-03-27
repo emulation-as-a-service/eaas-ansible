@@ -1,4 +1,15 @@
 ---
+- name: copy custom ssl-certificate
+  when: docker_ssl_certificate != ''
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ host_eaas_home }}/certificates/{{ item.name }}"
+  loop:
+  - src: "{{ docker_ssl_certificate }}"
+    name: "server.crt"
+  - src: "{{ docker_ssl_private_key }}"
+    name: "server.key"
+
 - name: setup http-basic-auth
   when: ui_http_auth != ''
   include_tasks: http-basic-auth.yaml
@@ -9,3 +20,9 @@
 - name: setup webproxy
   when: eaas_http_proxy != ''
   include_tasks: proxy.yaml
+
+- name: generate dns-env
+  when: eaas_dns_credentials != ''
+  template:
+    src: webserver/dns-env.j2
+    dest: "{{ host_eaas_config_dir }}/dns-env"

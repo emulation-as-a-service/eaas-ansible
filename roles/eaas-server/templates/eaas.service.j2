@@ -6,7 +6,6 @@ Requires=docker.service
 [Service]
 WorkingDirectory={{ host_eaas_home }}
 Restart=always
-ExecStartPre=-{{ docker_compose_install_path }} pull
 ExecStart={{ docker_compose_install_path }} up
 ExecStop={{ docker_compose_install_path }} down
 TimeoutSec=1200

@@ -30,6 +30,7 @@ services:
     - ./eaas-ui:/eaas/demo-ui
     - ./roms:/eaas/roms
     - ./config:/eaas/config
+    - ./certificates:/eaas/certificates
 {% if host_eaas_tmp != '' %}
     - {{ host_eaas_tmp }}:/tmp
 {% endif %}
