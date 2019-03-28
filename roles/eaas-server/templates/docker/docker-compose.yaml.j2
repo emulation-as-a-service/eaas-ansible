@@ -36,6 +36,9 @@ services:
 {% endif %}
     - ./deployments:/eaas/deployments
     - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
+{% for volume in docker_custom_volumes %}
+    - {{ volume }}
+{% endfor %}
 {% if docker_ssl_enabled %}
     extra_hosts:
     - {{ eaas_hostname }}:127.0.0.1
