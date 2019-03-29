@@ -1,0 +1,10 @@
+---
+- name: "create parent directories for {{ target_path }}"
+  file:
+    path: "{{ target_path | dirname }}"
+    state: directory
+
+- name: "upload file {{ source_path }}"
+  synchronize:
+    src: "{{ source_path }}"
+    dest: "{{ target_path }}"

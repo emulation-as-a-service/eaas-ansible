@@ -29,6 +29,13 @@
   - deployments
   - eaas-ui
 
+- name: upload custom files
+  loop: "{{ eaas_custom_files }}"
+  include_tasks: custom-files.yaml
+  vars:
+    source_path: "{{ item.source }}"
+    target_path: "{{ item.target }}"
+
 - name: download pre-built eaas-server
   get_url:
     force: "{{ eaas_component_ear in eaas_update_components }}"
