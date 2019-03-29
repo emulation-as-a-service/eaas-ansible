@@ -1,11 +1,6 @@
 ---
-- name: check http-basic-auth file
-  register: authpwd_check
-  stat:
-    path: "{{ host_build_dir }}/auth.pwd"
-
 - name: create http-basic-auth file
-  when: not authpwd_check.stat.exists
+  when: ui_http_auth != ''
   become: yes
   vars:
     workdir: /var/work
@@ -18,5 +13,7 @@
     working_dir: "{{ workdir }}"
     state: started
     detach: no
+    env:
+      HOME: /tmp
     volumes:
     - "{{ host_build_dir }}:{{ workdir }}"
