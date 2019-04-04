@@ -1,31 +1,31 @@
 {% set baseurl = eaas_protocol + eaas_hostname + ':' + docker_port %}
 {
   "eaasBackendURL": "{{ baseurl }}/emil/",
-  "stopEmulatorRedirectURL":"{{ baseurl }}/admin/",
-  "dashboardClusterAPIBaseURL" : "{{ baseurl }}/eaas/api/v1/clusters/",
+  "stopEmulatorRedirectURL": "{{ baseurl }}/admin/",
+  "dashboardClusterAPIBaseURL": "{{ baseurl }}/eaas/api/v1/clusters/",
   "dashboardAccessToken": "{{ eaas_cluster_api_access_token }}",
 {% if eaas_enable_oaipmh_provider %}
-  "oaipmhServiceBaseUrl" : "{{ baseurl }}/oaipmh/",
+  "oaipmhServiceBaseUrl": "{{ baseurl }}/oaipmh/",
 {% endif %}
 {% if ui.landing_page | default(false) %}
   "landingPage": "{{ baseurl }}/citar-headless-client/",
 {% endif %}
-  "features" : {
-    "screenshots": true,
-    "snapshots": false,
-    "containers": false,
-    "objectEnvironments": true,
-    "objects": true,
-    "network": true,
-    "software" : true,
-    "objectUpload" : true,
-    "advanced" : false,
-    "oaipmh" : true,
-    "emulators" : true
+  "features": {
+    "screenshots": {{ ui_enable_screenshooter | lower }},
+    "snapshots": {{ ui_enable_snapshots | lower }},
+    "containers": {{ ui_enable_containers | lower }},
+    "objectEnvironments": {{ ui_enable_object_environments | lower }},
+    "objects": {{ ui_enable_objects | lower }},
+    "network": {{ ui_enable_network | lower }},
+    "software": {{ ui_enable_software | lower }},
+    "objectUpload": {{ ui_enable_object_upload | lower }},
+    "advanced": {{ ui_enable_advanced | lower }},
+    "oaipmh": {{ ui_enable_oaipmh | lower }},
+    "emulators": {{ ui_enable_emulators | lower }}
 {% if handle_key | default(false) %}
     , "handle": true
 {% endif %}
   },
-  "baseEmulatorUrl" : "{{ baseurl }}/admin/",
-  "softwareArchiveId" : "{{ eaas_software_archive_id | default('default') }}"
+  "baseEmulatorUrl": "{{ baseurl }}/admin/",
+  "softwareArchiveId": "{{ eaas_software_archive_id | default('default') }}"
 }
