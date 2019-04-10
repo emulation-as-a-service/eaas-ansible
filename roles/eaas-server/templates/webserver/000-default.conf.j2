@@ -20,7 +20,7 @@
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        <filesMatch "\.(html|htm|js|css)$">
+        <filesMatch "\.(html|htm|js|css|json)$">
                 <ifModule mod_headers.c>
                         Header set Cache-Control "no-cache"
                 </ifModule>
