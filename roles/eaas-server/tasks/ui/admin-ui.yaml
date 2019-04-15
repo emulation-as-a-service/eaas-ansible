@@ -4,6 +4,8 @@
     url: "{{ ui_artifact_url }}"
     dest: "{{ host_ui_artifact_file }}"
     force: "{{ eaas_component_ui in eaas_update_components }}"
+    headers:
+      PRIVATE-TOKEN: "{{ ui_private_token  | default(omit) }}"
 
 - name: install unzip package
   become: yes
