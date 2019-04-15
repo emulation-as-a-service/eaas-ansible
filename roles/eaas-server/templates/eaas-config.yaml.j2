@@ -41,7 +41,7 @@ components:
   client_timeout: 30s
   timeout: 60s
   emulator_containers:
-    enabled: {{ eaas_enable_emulator_containers | default(false) | lower }}
+    enabled: {{ eaas_enable_emulator_containers | default(true) | lower }}
     snapshot: {{ eaas_enable_snapshots | default(false) | lower }} 
     uid: 1000
     gid: 1000
