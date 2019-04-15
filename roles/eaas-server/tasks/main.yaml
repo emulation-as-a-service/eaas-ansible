@@ -41,6 +41,8 @@
     force: "{{ eaas_component_ear in eaas_update_components }}"
     url: "{{ eaas_server_ear_url }}"
     dest: "{{ host_eaas_home }}/deployments/eaas-server.ear"
+    headers:
+      PRIVATE-TOKEN: "{{ eaas_private_token  | default(omit) }}"
 
 - name: prepare customized docker image
   import_tasks: docker/customize.yaml
