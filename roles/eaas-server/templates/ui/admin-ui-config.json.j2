@@ -21,7 +21,8 @@
     "objectUpload": {{ ui_enable_object_upload | lower }},
     "advanced": {{ ui_enable_advanced | lower }},
     "oaipmh": {{ ui_enable_oaipmh | lower }},
-    "emulators": {{ ui_enable_emulators | lower }}
+    "emulators": {{ ui_enable_emulators | lower }},
+    "network_sessions" : {{ ui_enable_network_sessions | lower }}
 {% if handle_key | default(false) %}
     , "handle": true
 {% endif %}
