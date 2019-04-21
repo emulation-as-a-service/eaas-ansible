@@ -23,4 +23,4 @@
   when: ui_enable_admin_ui
   template:
     src: "ui/admin-ui-config.json.j2"
-    dest: "{{ host_ui_install_dir }}/eaas-frontend-admin/dist/config.json"
+    dest: "{{ host_ui_install_dir }}/eaas-frontend-admin/dist/eaas-config.js"
