@@ -14,6 +14,7 @@ docker_ssl_certificate: "{% if docker_ssl_enabled %}{{ docker.ssl.certificate | 
 docker_ssl_private_key: "{% if docker_ssl_enabled %}{{ docker.ssl.private_key | default('') }}{% endif %}"
 docker_port: "{{ docker.port }}"
 docker_port_mapping: "{% if docker_ssl_enabled %}{{ docker_port }}:443{% else %}{{ docker_port }}:8090{% endif %}"
+docker_network_ports: "{{docker.network_ports | default('')}}"
 docker_objects_volume: "{{ docker.objects_volume | default('') }}"
 docker_export_volume: "{{ docker.export_volume | default('') }}"
 docker_image_archive_volume: "{{ docker.image_archive_volume | default('') }}"

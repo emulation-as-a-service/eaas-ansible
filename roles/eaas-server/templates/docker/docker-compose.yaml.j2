@@ -20,6 +20,9 @@ services:
 {% endif %}
     ports:
     - {{ docker_port_mapping }}
+{% if docker_network_ports != '' %}
+    - {{ docker_network_ports }}
+{% endif %}
     volumes:
     - ./log:/eaas/log
     - ./server-data:/eaas/server-data
