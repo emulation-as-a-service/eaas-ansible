@@ -7,8 +7,8 @@
 {% if eaas_enable_oaipmh_provider %}
   "oaipmhServiceBaseUrl": "{{ baseurl }}/oaipmh/",
 {% endif %}
-{% if ui.landing_page | default(false) %}
-  "landingPage": "{{ baseurl }}/citar-headless-client/",
+{% if ui_landing_page | default(false) %}
+  "landingPage": "{{ baseurl }}/landing-page/",
 {% endif %}
   "features": {
     "screenshots": {{ ui_enable_screenshooter | lower }},

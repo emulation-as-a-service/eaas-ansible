@@ -23,4 +23,10 @@
   when: ui_enable_admin_ui
   template:
     src: "ui/admin-ui-config.json.j2"
-    dest: "{{ host_ui_install_dir }}/eaas-frontend-admin/dist/eaas-config.js"
+    dest: "{{ host_ui_install_dir }}/eaas-frontend-admin/dist/config.json"
+
+- name: prepare landing-page config
+  when: ui_landing_page
+  template:
+    src: "ui/admin-ui-config.json.j2"
+    dest: "{{ host_ui_install_dir }}/landing-page/dist/config.json"

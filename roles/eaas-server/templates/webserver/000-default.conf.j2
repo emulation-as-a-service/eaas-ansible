@@ -9,6 +9,7 @@
 
         ProxyPass /admin !
         ProxyPass /user !
+        ProxyPass /landing-page !
 
         ProxyPass / http://localhost:8080/ retry=0
         ProxyPassReverse / http://localhost:8080/
