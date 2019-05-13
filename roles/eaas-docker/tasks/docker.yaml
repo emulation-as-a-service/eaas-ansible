@@ -7,12 +7,6 @@
   when: "ansible_distribution in ['CentOS', 'RedHat']"
   include_tasks: docker-redhat.yaml
 
-- name: install python bindings
-  become: yes
-  pip:
-    name: docker
-    state: present
-
 - name: enable/start docker.service
   become: yes
   service:
