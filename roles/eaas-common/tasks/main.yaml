@@ -1,4 +1,9 @@
 ---
+- name: check supported distribution
+  when: "ansible_distribution not in ['Ubuntu', 'CentOS', 'RedHat']"
+  fail:
+    msg: "{{ ansible_distribution }} distribution is currently not supported!"
+
 - name: configure custom ssh port
   when: host_ssh_port != ''
   set_fact:

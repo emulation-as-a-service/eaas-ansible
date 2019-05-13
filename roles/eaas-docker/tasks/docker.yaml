@@ -1,9 +1,4 @@
 ---
-- name: check supported distribution
-  when: "ansible_distribution not in ['Ubuntu', 'CentOS', 'RedHat']"
-  fail:
-    msg: "{{ ansible_distribution }} distribution is currently not supported!"
-
 - name: install docker on ubuntu
   when: "ansible_distribution == 'Ubuntu'"
   include_tasks: docker-ubuntu.yaml
