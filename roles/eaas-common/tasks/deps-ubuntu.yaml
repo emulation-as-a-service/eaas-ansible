@@ -1,0 +1,8 @@
+---
+- name: install common dependencies
+  become: yes
+  apt:
+    update_cache: yes
+    state: present
+    name:
+    - python-pip

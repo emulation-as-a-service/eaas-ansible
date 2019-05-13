@@ -4,6 +4,14 @@
   fail:
     msg: "{{ ansible_distribution }} distribution is currently not supported!"
 
+- name: install deps on ubuntu
+  when: "ansible_distribution == 'Ubuntu'"
+  include_tasks: deps-ubuntu.yaml
+
+- name: install deps on redhat/centos
+  when: "ansible_distribution in ['CentOS', 'RedHat']"
+  include_tasks: deps-redhat.yaml
+
 - name: configure custom ssh port
   when: host_ssh_port != ''
   set_fact:
