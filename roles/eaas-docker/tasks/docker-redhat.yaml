@@ -10,7 +10,6 @@
   yum:
     name:
     - yum-utils
-    - python-pip
     - device-mapper-persistent-data
     - device-mapper
     - lvm2
