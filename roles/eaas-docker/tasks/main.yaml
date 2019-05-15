@@ -9,3 +9,9 @@
 
 - name: install docker-compose
   import_tasks: docker-compose.yaml
+
+- name: install python bindings
+  become: yes
+  pip:
+    name: docker
+    state: present

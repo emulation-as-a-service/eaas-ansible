@@ -21,7 +21,5 @@
 - name: install docker packages
   become: yes
   apt:
-    name:
-    - docker-ce
-    - python-pip
+    name: docker-ce
     state: present
