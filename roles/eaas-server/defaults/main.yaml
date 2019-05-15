@@ -5,9 +5,11 @@ host_eaas_config_dir: "{{ host_eaas_home }}/config"
 host_eaas_config_parts_dir: "{{ host_eaas_config_dir }}/eaas-config.d"
 host_ui_artifact_file: "{{ host_eaas_tmp }}/eaas-ui.zip"
 host_ui_install_dir: "{{ host_eaas_home }}/eaas-ui"
+host_eaas_service_name: "{{host.eaas_service_name | default('eaas') }}"
 
 docker_image: "{{ docker.image }}"
 docker_custom_image: eaas-custom
+docker_compose_file_version: "{{docker.compose_file_version | default('3.1')}}"
 docker_custom_volumes: "{{ docker.volumes | default('') }}"
 docker_ssl_enabled: "{{ docker.ssl is defined and docker.ssl.enabled }}"
 docker_ssl_certificate: "{% if docker_ssl_enabled %}{{ docker.ssl.certificate | default('') }}{% endif %}"

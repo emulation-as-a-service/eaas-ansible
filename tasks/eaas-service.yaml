@@ -3,9 +3,12 @@
   service_facts:
   no_log: true
 
+- set_fact:
+    _eaas_service: "{{host_eaas_service_name}}.service"
+
 - name: "ensure eaas-server is {{ state }}"
-  when: '"eaas.service" in ansible_facts.services'
+  when: '_eaas_service in ansible_facts.services'
   become: yes
   service:
-    name: eaas.service
+    name: "{{host_eaas_service_name}}.service"
     state: "{{ state }}"

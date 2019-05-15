@@ -79,7 +79,7 @@
   become: yes
   template:
     src: eaas.service.j2
-    dest: /etc/systemd/system/eaas.service
+    dest: "/etc/systemd/system/{{ host_eaas_service_name}}.service"
 
 - name: reload systemd deamons
   become: yes
@@ -89,6 +89,6 @@
 - name: enable eaas.service
   become: yes
   service:
-    name: eaas.service
+    name: "{{host_eaas_service_name}}.service"
     state: started
     enabled: yes
