@@ -5,6 +5,12 @@ networks:
     external: true
 {% endif %}
 services:
+  nginx:
+    image: eaas/eaas-proxy
+    container_name: nginx
+    entrypoint: "/usr/local/openresty/bin/openresty -g 'daemon off;' -c /etc/nginx/nginx.conf"
+    volumes:
+      - {{ docker_image_archive_volume | default("./image-archive", true) }}:/home/bwfla/image-archive:ro  
   eaas:
     image: {{ docker_custom_image }}
     container_name: {{ host_eaas_service_name }}
@@ -24,7 +30,7 @@ services:
     - {{ docker_network_ports }}
 {% endif %}
     volumes:
-    - ./log:/eaas/log
+    - ./log/server:/home/bwfla/bw-fla-server/standalone/log
     - ./server-data:/eaas/server-data
     - {{ docker_objects_volume | default("./objects", true) }}:/eaas/objects
     - {{ docker_export_volume | default("./export", true) }}:/eaas/export

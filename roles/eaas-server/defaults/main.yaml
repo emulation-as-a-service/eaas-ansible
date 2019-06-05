@@ -8,6 +8,7 @@ host_ui_install_dir: "{{ host_eaas_home }}/eaas-ui"
 host_eaas_service_name: "{{host.eaas_service_name | default('eaas') }}"
 
 docker_image: "{{ docker.image }}"
+docker_proxy_image: "{{ docker.proxy_image | default('eaas/eaas-proxy')}}"
 docker_custom_image: eaas-custom
 docker_compose_file_version: "{{docker.compose_file_version | default('3.1')}}"
 docker_custom_volumes: "{{ docker.volumes | default('') }}"
