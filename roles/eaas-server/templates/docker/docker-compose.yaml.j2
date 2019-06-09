@@ -8,6 +8,10 @@ services:
   nginx:
     image: eaas/eaas-proxy
     container_name: nginx
+{% if docker_custom_network != '' %}
+    networks:
+    - test
+{% endif %}
     entrypoint: "/usr/local/openresty/bin/openresty -g 'daemon off;' -c /etc/nginx/nginx.conf"
     volumes:
       - {{ docker_image_archive_volume | default("./image-archive", true) }}:/home/bwfla/image-archive:ro  
