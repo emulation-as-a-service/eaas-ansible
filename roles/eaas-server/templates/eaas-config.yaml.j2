@@ -27,6 +27,8 @@ rest:
 
 emucomp:
   enable_screenshooter: {{ ui_enable_screenshooter | default(false) | lower }}
+  blobstore_soap: "{{ baseurl }}"
+  blobstore_rest: "{{ baseurl }}/blobstore/api/v1/blobs"
 
 imagebuilder:
   blobstore: "{{ baseurl }}/"
