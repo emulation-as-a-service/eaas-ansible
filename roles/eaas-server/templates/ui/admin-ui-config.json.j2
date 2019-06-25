@@ -10,6 +10,9 @@
 {% if ui_landing_page | default(false) %}
   "landingPage": "{{ baseurl }}/landing-page/",
 {% endif %}
+{% if ui_help_url != '' %}
+  "helpUrl" : "{{ui_help_url}}",
+{% endif %}
   "features": {
     "screenshots": {{ ui_enable_screenshooter | lower }},
     "snapshots": {{ eaas_enable_snapshots | lower }},
