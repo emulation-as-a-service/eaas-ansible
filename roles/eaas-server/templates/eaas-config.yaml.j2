@@ -47,6 +47,8 @@ components:
     snapshot: {{ eaas_enable_snapshots | default(false) | lower }} 
     uid: 1000
     gid: 1000
+  containers:
+    blobstore: "{{ baseurl }}"
 
   session_statistics:
     flush_delay: 30s
