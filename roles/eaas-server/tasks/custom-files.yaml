@@ -8,3 +8,11 @@
   synchronize:
     src: "{{ source_path }}"
     dest: "{{ target_path }}"
+
+- name: "update ownership for path {{ target_path }}"
+  file:
+    path: "{{ target_path }}"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    state: "{% if target_path is directory %}directory{% else %}file{% endif %}"
+    recurse: "{% if target_path is directory %}yes{% else %}no{% endif %}"
