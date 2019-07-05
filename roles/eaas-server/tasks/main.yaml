@@ -28,8 +28,12 @@
   - certificates
   - deployments
   - eaas-ui
+  - image-archive
+  - server-data
+  - log
 
 - name: upload custom files
+  when: eaas_deployment_mode != 'emucomp'
   loop: "{{ eaas_custom_files }}"
   include_tasks: custom-files.yaml
   vars:
