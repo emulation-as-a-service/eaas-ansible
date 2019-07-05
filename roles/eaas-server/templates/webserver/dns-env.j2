@@ -1,3 +1,31 @@
-DNSSERVER="{{ eaas_dns_credentials.server }}"
-APIKEY="{{ eaas_dns_credentials.apikey }}"
-DOMAIN="{{ eaas_hostname }}"
+EAAS_DOMAIN='{{ eaas_hostname }}'
+EAAS_DNS_PROVIDER='{{ eaas_dns.provider }}'
+
+{% if eaas_dns.provider == 'powerdns' %}
+# acme.sh domain-check delay
+export Le_DNSSleep=5
+
+# PowerDNS related options
+EAAS_DNS_SERVER='{{ eaas_dns.credentials.server }}'
+EAAS_DNS_APIKEY='{{ eaas_dns.credentials.apikey }}'
+
+# acme.sh + pdns options
+ACMESH_DNS_API='dns_pdns'
+export PDNS_Url="${EAAS_DNS_SERVER%/}"
+export PDNS_ServerId="localhost"
+export PDNS_Token="${EAAS_DNS_APIKEY}"
+export PDNS_Ttl=60
+{% elif eaas_dns.provider == 'gcp' %}
+# GCP related options
+EAAS_DNS_RECORD_TTL=3600
+EAAS_DNS_ZONE='{{ eaas_dns.managed_zone }}'
+EAAS_DNS_PROJECT_ID='{{ eaas_dns.project_id }}'
+EAAS_DNS_SERVICE_ACCOUNT_EMAIL='{{ eaas_dns.service_account.email }}'
+EAAS_DNS_SERVICE_ACCOUNT_FILE='{{ eaas_dns.service_account.file }}'
+
+# acme.sh domain-check delay
+export Le_DNSSleep=100
+
+# acme.sh + gcloud options
+ACMESH_DNS_API='dns_gcloud'
+{% endif %}
