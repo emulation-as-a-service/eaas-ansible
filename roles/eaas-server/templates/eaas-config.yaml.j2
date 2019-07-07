@@ -60,7 +60,7 @@ imagearchive:
   - name: public
     type: filesystem
     basepath: /home/bwfla/image-archive/public
-    http_prefix: "http://nginx:82"
+    http_prefix: "{{ baseurl }}/imagearchive/public"
     nameindex_config_path: /home/bwfla/.bwFLA/nameindices/public/
     export_handles: {{ eaas_enable_handlenet | lower }}
   - name: remote
