@@ -1,6 +1,6 @@
 ---
 - name: copy custom ssl-certificate
-  when: docker_ssl_certificate != ''
+  when: (eaas_deployment_mode != 'emucomp') and (docker_ssl_certificate != '')
   copy:
     src: "{{ item.src }}"
     dest: "{{ host_eaas_home }}/certificates/{{ item.name }}"
@@ -22,7 +22,7 @@
   include_tasks: proxy.yaml
 
 - name: generate dns-env
-  when: eaas_dns_credentials != ''
+  when: (eaas_deployment_mode != 'emucomp') and (eaas_dns != '')
   template:
     src: webserver/dns-env.j2
     dest: "{{ host_eaas_config_dir }}/dns-env"

@@ -28,8 +28,12 @@
   - certificates
   - deployments
   - eaas-ui
+  - image-archive
+  - server-data
+  - log
 
 - name: upload custom files
+  when: eaas_deployment_mode != 'emucomp'
   loop: "{{ eaas_custom_files }}"
   include_tasks: custom-files.yaml
   vars:
@@ -72,7 +76,7 @@
     dest: "{{ host_eaas_config_parts_dir }}/02-clustermgr.yaml"
 
 - name: prepare admin-ui
-  when: ui_enable_admin_ui
+  when: ui_enable_admin_ui and eaas_deployment_mode != 'emucomp'
   include_tasks: ui/admin-ui.yaml
 
 - name: create systemd unit
