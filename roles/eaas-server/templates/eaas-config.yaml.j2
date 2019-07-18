@@ -21,6 +21,9 @@ ws:
   embedgw: "{{ baseurl }}"
   objectarchive: "{{ baseurl }}"
   softwarearchive: "{{ baseurl }}"
+{% if eaas_enable_backend_auth is defined and eaas_enable_backend_auth %}
+  apiSecret: "{{ eaas_api_secret }}"
+{% endif %}
 
 rest:
   blobstore: "{{ baseurl }}/blobstore/api/v1/blobs"

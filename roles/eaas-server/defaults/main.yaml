@@ -46,6 +46,8 @@ eaas_dns: "{{ eaas.dns | default('') }}"
 eaas_custom_files: "{{ eaas.files | default([]) }}"
 eaas_enable_emulator_containers: "{{eaas.enable_emulator_containers | default(true) }}"
 eaas_enable_snapshots: "{{ eaas.enable_snapshots | default(false) }}"
+eaas_api_secret: "{{ eaas.api_secret | default('') }}"
+eaas_enable_backend_auth: "{{ eaas.enable_backend_auth | default(false) }}"
 
 ui_http_auth: "{{ ui.http_auth | default('') }}"
 ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
