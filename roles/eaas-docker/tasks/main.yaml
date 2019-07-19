@@ -2,8 +2,6 @@
 - name: install docker
   when: "'docker.service' not in ansible_facts.services"
   include_tasks: docker.yaml
-  tags:
-  - system_setup
 
 - name: setup custom-network for docker
   when: docker_custom_network != ''
@@ -17,6 +15,3 @@
   pip:
     name: docker
     state: present
-  tags:
-  - system_setup
-

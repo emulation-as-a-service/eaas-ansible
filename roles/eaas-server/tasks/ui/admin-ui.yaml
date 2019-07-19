@@ -12,19 +12,12 @@
   package:
     name: unzip
     state: present
-  tags:
-  - system_setup
 
 - name: extract pre-built ui
   unarchive:
     src: "{{ host_ui_artifact_file }}"
     dest: "{{ host_ui_install_dir }}"
     remote_src: yes
-  tags:
-  - system_setup
-
-- name: extract pre-built ui
-  command: "/usr/local/bin/unzip -o {{ host_ui_artifact_file }} -d {{ host_ui_install_dir }}"
 
 - name: prepare admin-ui config
   when: ui_enable_admin_ui
