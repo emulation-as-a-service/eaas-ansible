@@ -7,4 +7,4 @@
 - name: add default page
   template:
     src: "index.html"
-    dest: "{{ host_eaas_home}}/welcome-content"
+    dest: "{{ host_eaas_home}}/welcome-content/index.html"
