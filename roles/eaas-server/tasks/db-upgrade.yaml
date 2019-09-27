@@ -1,0 +1,45 @@
+---
+- name: check if db-version file exists
+  register: db_version_check
+  stat:
+    path: "{{ db_version_file }}"
+
+- name: execute db-upgrade
+  when: not db_version_check.stat.exists
+  block:
+  - name: clone db-upgrade repository
+    git:
+      repo: "{{ eaas_db_upgrade_repo }}"
+      dest: "{{ host_db_upgrade_repo_dir }}"
+
+  - name: create db backup directory
+    become: yes
+    file:
+      path: "{{ db_backup_dir }}"
+      state: directory
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+
+  - name: backup image-archive's db
+    delegate_to: "{{ inventory_hostname }}"
+    become: yes
+    synchronize:
+      src: "{{ db_dir }}/"
+      dest: "{{ db_backup_dir }}"
+      compress: no
+
+  - name: upgrade image-archive's db
+    become: yes
+    command: "./upgrade-mongo-db.sh {{ db_dir }}"
+    args:
+      chdir: "{{ host_db_upgrade_repo_dir }}"
+
+  - name: update db version file
+    shell: "git rev-parse HEAD > {{ db_version_file }}"
+    args:
+      chdir: "{{ host_db_upgrade_repo_dir }}"
+
+  - name: remove db-upgrade repository
+    file:
+      path: "{{ host_db_upgrade_repo_dir }}"
+      state: absent

@@ -48,6 +48,14 @@
     headers:
       PRIVATE-TOKEN: "{{ eaas_private_token  | default(omit) }}"
 
+- name: upgrade image-archive's db
+  when: eaas_db_upgrade | bool
+  include_tasks: db-upgrade.yaml
+  vars:
+    db_dir: "{{ host_eaas_home }}/server-data/db"
+    db_backup_dir: "{{ db_dir }}-backup"
+    db_version_file: "{{ db_dir }}-version.txt"
+
 - name: prepare customized docker image
   import_tasks: docker/customize.yaml
 
