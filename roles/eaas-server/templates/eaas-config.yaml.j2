@@ -93,6 +93,11 @@ imagearchive:
 emucomp.image_proxy: {{ eaas_http_proxy }}
 {% endif %}
 
+{% if eaas_enable_webrtc %}
+emucomp:
+  enable_pulseaudio: true
+{% endif %}
+
 {% if eaas_enable_oaipmh_provider %}
 metadata_provider:
   base_url: "{{ baseurl }}/oaipmh/providers"
