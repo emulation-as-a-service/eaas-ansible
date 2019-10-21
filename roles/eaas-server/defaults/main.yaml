@@ -54,7 +54,7 @@ eaas_enable_backend_auth: "{{ eaas.enable_backend_auth | default(false) }}"
 eaas_enable_webrtc: "{{ eaas.enable_webrtc | default(false) }}"
 
 ui_http_auth: "{{ ui.http_auth | default('') }}"
-ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
+ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(false) }}"
 ui_enable_containers: "{{ ui.enable_containers | default(false) }}"
 ui_enable_object_environments: "{{ ui.enable_object_environments | default(true) }}"
 ui_enable_objects: "{{ ui.enable_objects | default(true) }}"
