@@ -78,13 +78,13 @@ imagearchive:
   - name: emulators
     type: filesystem
     basepath: /home/bwfla/image-archive/emulators
-    http_prefix: "http://nginx"
+    http_prefix: "http://nginx:81/"
     nameindex_config_path: /home/bwfla/.bwFLA/nameindices/emulators/
     export_handles: false
   - name: default
     type: filesystem
     basepath: /home/bwfla/image-archive/
-    http_prefix: "http://nginx:81"
+    http_prefix: "http://nginx:81/"
     nameindex_config_path: /home/bwfla/.bwFLA/nameindices/default/
     order: 2
 {% endif %}

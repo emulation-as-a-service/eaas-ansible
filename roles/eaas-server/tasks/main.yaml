@@ -83,6 +83,23 @@
     src: "{{ eaas_clustermgr_config_template }}"
     dest: "{{ host_eaas_config_parts_dir }}/02-clustermgr.yaml"
 
+- name: create directory for nginx configs
+  file:
+    path: "{{ host_eaas_config_nginx_dir }}"
+    state: directory
+
+- name: prepare main nginx-config
+  when: eaas_deployment_mode != 'emucomp'
+  template:
+    src: nginx/nginx.conf
+    dest: "{{ host_eaas_config_nginx_dir }}/nginx.conf"
+
+- name: prepare main nginx-js
+  when: eaas_deployment_mode != 'emucomp'
+  template:
+    src: nginx/proxy.js
+    dest: "{{ host_eaas_config_nginx_dir }}/proxy.js"
+
 - name: prepare admin-ui
   when: ui_enable_admin_ui and eaas_deployment_mode != 'emucomp'
   include_tasks: ui/admin-ui.yaml
