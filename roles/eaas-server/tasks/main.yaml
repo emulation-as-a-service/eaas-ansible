@@ -48,8 +48,13 @@
     headers:
       PRIVATE-TOKEN: "{{ eaas_private_token  | default(omit) }}"
 
+- name: check if db exists
+  register: db_dir_check
+  stat:
+    path: "{{ host_eaas_home }}/server-data/db"
+
 - name: upgrade image-archive's db
-  when: eaas_db_upgrade | bool
+  when: db_dir_check.stat.exists and eaas_db_upgrade | bool
   include_tasks: db-upgrade.yaml
   vars:
     db_dir: "{{ host_eaas_home }}/server-data/db"
