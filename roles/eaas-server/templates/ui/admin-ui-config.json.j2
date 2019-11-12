@@ -1,4 +1,4 @@
-{% set baseurl = eaas_protocol + eaas_hostname + ':' + docker_port %}
+{% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
 {
   "eaasBackendURL": "{{ baseurl }}/emil/",
   "stopEmulatorRedirectURL": "{{ baseurl }}/admin/",

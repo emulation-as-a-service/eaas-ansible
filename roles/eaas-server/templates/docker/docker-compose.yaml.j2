@@ -27,7 +27,7 @@ services:
     environment:
     - SSL_PROXY={{ docker_ssl_enabled | default("no") | lower }}
 {% if not docker_ssl_enabled %}
-    - EAAS_PROXYPORT={{ docker_port }}
+    - EAAS_PROXYPORT={{ eaas_public_port }}
 {% endif %}
     ports:
     - {{ docker_port_mapping }}
@@ -45,9 +45,6 @@ services:
     - ./roms:/eaas/roms
     - ./config:/eaas/config
     - ./certificates:/eaas/certificates
-{% if host_eaas_tmp != '' %}
-    - {{ host_eaas_tmp }}:/tmp
-{% endif %}
     - ./deployments:/eaas/deployments
     - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
 {% for volume in docker_custom_volumes %}

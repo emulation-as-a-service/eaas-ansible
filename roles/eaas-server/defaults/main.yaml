@@ -33,7 +33,9 @@ eaas_component_docker_image: 'docker-image'
 
 eaas_deployment_mode: 'all'
 eaas_hostname: "{{ ansible_host }}"
-eaas_protocol: "{% if docker_ssl_enabled %}https://{% else %}http://{% endif %}"
+eaas_frontend_protocol: "{{eaas.frontend_protocol | default('http://') }}"  
+eaas_public_port: "{{ eaas.public_port | default(docker_port) }}"
+eaas_protocol: "{% if docker_ssl_enabled %}https://{% else %}{{ eaas.frontend_protocol | default('http://') }}{% endif %}"
 eaas_http_proxy: "{{ eaas.http_proxy | default('') }}"
 eaas_http_cache_path: "{{ eaas.http_cache_path | default('') }}"
 eaas_http_proxy_cache_size: "{{ eaas.http_proxy_cache_size | default('') }}"
@@ -55,7 +57,7 @@ eaas_enable_backend_auth: "{{ eaas.enable_backend_auth | default(false) }}"
 eaas_enable_webrtc: "{{ eaas.enable_webrtc | default(false) }}"
 
 ui_http_auth: "{{ ui.http_auth | default('') }}"
-ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(false) }}"
+ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
 ui_enable_containers: "{{ ui.enable_containers | default(false) }}"
 ui_enable_object_environments: "{{ ui.enable_object_environments | default(true) }}"
 ui_enable_objects: "{{ ui.enable_objects | default(true) }}"
