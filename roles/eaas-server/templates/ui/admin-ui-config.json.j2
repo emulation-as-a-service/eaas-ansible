@@ -25,7 +25,8 @@
     "advanced": {{ ui_enable_advanced | lower }},
     "oaipmh": {{ ui_enable_oaipmh | lower }},
     "emulators": {{ ui_enable_emulators | lower }},
-    "network_sessions" : {{ ui_enable_network_sessions | lower }}
+    "network_sessions" : {{ ui_enable_network_sessions | lower }},
+    "standalone" : {{ui_enable_standalone | lower }}
 {% if handle_key | default(false) %}
     , "handle": true
 {% endif %}
