@@ -55,6 +55,8 @@ eaas_enable_snapshots: "{{ eaas.enable_snapshots | default(false) }}"
 eaas_api_secret: "{{ eaas.api_secret | default('') }}"
 eaas_enable_backend_auth: "{{ eaas.enable_backend_auth | default(false) }}"
 eaas_enable_webrtc: "{{ eaas.enable_webrtc | default(false) }}"
+eaas_user_archive_prefix: "{{ eaas.user_archive_prefix | default('user_archive')}}"
+eaas_default_archive: "{{ eaas.default_archive | default('default')}}"
 
 ui_http_auth: "{{ ui.http_auth | default('') }}"
 ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
