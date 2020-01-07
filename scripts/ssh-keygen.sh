@@ -42,7 +42,10 @@ keydir="$(dirname -- "${outfile}")"
 keydir="$(cd "${keydir}" && pwd -P)"
 workdir='/var/work'
 
-docker run --rm --tty --interactive --name ssh-keygen \
+# check if sudo is required to run docker
+docker info > /dev/null 2>&1 || sudocmd='sudo'
+
+${sudocmd} docker run --rm --tty --interactive --name ssh-keygen \
     --volume "${keydir}:${workdir}" \
     --workdir "${workdir}" \
     eaas/ssh-keygen \
