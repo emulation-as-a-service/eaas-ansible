@@ -1,4 +1,8 @@
+{% if eaas_hostname == 'localhost' %}
+{% set baseurl = eaas_protocol + 'eaas:8080' %}
+{% else %}
 {% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
+{% endif %}
 imagearchive:
 {% if image_archive_address is defined | default(false) %}
   httpprefix: "{{ image_archive_address }}/imagearchive/"
