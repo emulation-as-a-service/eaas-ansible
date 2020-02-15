@@ -69,22 +69,26 @@ imagearchive:
     type: filesystem
     basepath: /home/bwfla/image-archive/public
     http_prefix: "{{ baseurl }}/imagearchive/public"
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/public/
     export_handles: {{ eaas_enable_handlenet | lower }}
   - name: remote
     type: filesystem
     basepath: /home/bwfla/image-archive/remote
     http_prefix: http://hdl.handle.net/11270
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/remote/
     export_handles: false
     order: 1
   - name: emulators
     type: filesystem
     basepath: /home/bwfla/image-archive/emulators
     http_prefix: "http://nginx:81/"
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/emulators/
     export_handles: false
   - name: default
     type: filesystem
     basepath: /home/bwfla/image-archive/
     http_prefix: "http://nginx:81/"
+    nameindex_config_path: /home/bwfla/.bwFLA/nameindices/default/
     order: 2
 {% endif %}
 
