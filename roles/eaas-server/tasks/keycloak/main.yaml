@@ -1,0 +1,14 @@
+- name: create keycloak data dir
+  become: yes
+  file:
+    path: "{{ host_eaas_home }}/keycloak-data"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: o+rwx 
+
+
+- name: generate random keycloak password
+  when: keycloak_admin_password == ''
+  set_fact:
+    keycloak_admin_password: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
