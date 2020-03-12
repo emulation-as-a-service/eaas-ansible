@@ -7,6 +7,22 @@
     group: "{{ ansible_user_gid }}"
     mode: o+rwx 
 
+- name: create keycloak data dir
+  become: yes
+  when: keycloak_theme_repo != ''
+  file:
+    path: "{{ host_eaas_home }}/theme"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: o+rwx 
+
+- name: checkout theme
+  when: keycloak_theme_repo != ''
+  become: yes
+  git:
+    repo: "{{ keycloak_theme_repo }}"
+    dest: "{{ host_eaas_home }}/theme/"
 
 - name: generate random keycloak password
   when: keycloak_admin_password == ''

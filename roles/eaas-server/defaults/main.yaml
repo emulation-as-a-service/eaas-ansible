@@ -61,6 +61,7 @@ keycloak_enabled: "{{ keycloak.enabled | default(false) }}"
 keycloak_admin_user: "{{ keycloak.admin_user | default('admin') }}"
 keycloak_admin_password: "{{ keycloak.admin_password | default('') }}"
 keycloak_frontend_url: "{{ keycloak.frontend_url | default('') }}"
+keycloak_theme_repo: "{{ keycloak.theme_repo | default('') }}"
 
 ui_http_auth: "{{ ui.http_auth | default('') }}"
 ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"

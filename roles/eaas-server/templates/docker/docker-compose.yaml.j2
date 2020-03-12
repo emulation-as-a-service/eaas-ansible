@@ -29,6 +29,7 @@ services:
       KEYCLOAK_ALWAYS_HTTPS: "true"
     volumes:
       - ./keycloak-data:/opt/jboss/keycloak/standalone/data
+      - ./theme:/opt/jboss/keycloak/themes/eaas
 {% endif %}
 
   eaas:
