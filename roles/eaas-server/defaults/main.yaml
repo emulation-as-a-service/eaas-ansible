@@ -12,7 +12,7 @@ host_db_upgrade_repo_dir: "{{ host_eaas_tmp }}/db-upgrade"
 docker_image: "{{ docker.image }}"
 docker_proxy_image: "{{ docker.proxy_image | default('eaas/eaas-proxy')}}"
 docker_custom_image: eaas-custom
-docker_compose_file_version: "{{docker.compose_file_version | default('3.1')}}"
+docker_compose_file_version: "{{docker.compose_file_version | default('3.7')}}"
 docker_custom_volumes: "{{ docker.volumes | default('') }}"
 docker_ssl_enabled: "{{ docker.ssl is defined and docker.ssl.enabled }}"
 docker_ssl_certificate: "{% if docker_ssl_enabled %}{{ docker.ssl.certificate | default('') }}{% endif %}"
@@ -33,7 +33,7 @@ eaas_component_docker_image: 'docker-image'
 
 eaas_deployment_mode: 'all'
 eaas_hostname: "{{ ansible_host }}"
-eaas_frontend_protocol: "{{eaas.frontend_protocol | default('http://') }}"  
+eaas_frontend_protocol: "{{eaas.frontend_protocol | default('http://') }}"
 eaas_public_port: "{{ eaas.public_port | default(docker_port) }}"
 eaas_protocol: "{% if docker_ssl_enabled %}https://{% else %}{{ eaas.frontend_protocol | default('http://') }}{% endif %}"
 eaas_http_proxy: "{{ eaas.http_proxy | default('') }}"

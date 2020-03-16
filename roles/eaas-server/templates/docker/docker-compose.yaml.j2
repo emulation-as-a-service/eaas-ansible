@@ -1,8 +1,13 @@
 version: "{{ docker_compose_file_version }}"
-{% if docker_custom_network != '' %}
+
+{% if docker_network_name != '' %}
 networks:
-  test:
+  {{ docker_network_name }}:
+    name: {{ docker_network_name }}
+{% if docker_custom_network != '' %}
     external: true
+{% endif %}
+
 {% endif %}
 services:
   nginx:
@@ -10,19 +15,20 @@ services:
     container_name: nginx
     volumes:
       - {{ docker_image_archive_volume | default("./image-archive", true) }}:/image-archive:ro
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf 
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/proxy.js:/etc/nginx/proxy.js
-{% if docker_custom_network != '' %}
+{% if docker_network_name != '' %}
     networks:
-    - test
-{% endif %} 
+    - {{ docker_network_name }}
+{% endif %}
+
   eaas:
     image: {{ docker_custom_image }}
     container_name: {{ host_eaas_service_name }}
     privileged: true
-{% if docker_custom_network != '' %}
+{% if docker_network_name != '' %}
     networks:
-    - test
+    - {{ docker_network_name }}
 {% endif %}
     environment:
     - SSL_PROXY={{ docker_ssl_enabled | default("no") | lower }}
