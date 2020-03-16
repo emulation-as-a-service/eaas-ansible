@@ -41,8 +41,8 @@ echo 'python not found, installing...'
 osid="$(__osinfo ID)"
 case "${osid}" in
     ubuntu)
-        export DEBIAN_FRONTEND=noninteractive
-        sudo apt-get -yq update && sudo apt-get install -yq python-minimal || __fail
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update &&
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq python-minimal || __fail
         ;;
     centos|redhat)
         sudo yum -y update && sudo yum install -y python || __fail
