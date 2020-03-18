@@ -1,4 +1,9 @@
 ---
+- name: ensure network's name is defined
+  when: docker_network_name == ''
+  set_fact:
+    docker_network_name: "eaas"
+
 - name: install firewalld
   become: yes
   package:
@@ -8,7 +13,7 @@
 - name: create docker network test
   become: yes
   docker_network:
-    name: test
+    name: "{{ docker_network_name }}"
     state: present
     ipam_options:
       subnet: '172.20.0.0/16'
