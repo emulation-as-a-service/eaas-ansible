@@ -35,11 +35,11 @@ services:
 {% if not docker_ssl_enabled %}
     - EAAS_PROXYPORT={{ eaas_public_port }}
 {% endif %}
-    ports:
-    - {{ docker_port_mapping }}
-{% if docker_network_ports != '' %}
-    - {{ docker_network_ports }}
-{% endif %}
+#    ports:
+#    - {{ docker_port_mapping }}
+#{% if docker_network_ports != '' %}
+#    - {{ docker_network_ports }}
+#{% endif %}
     volumes:
     - ./log/server:/home/bwfla/bw-fla-server/standalone/log
     - ./server-data:/eaas/server-data
@@ -52,7 +52,7 @@ services:
     - ./config:/eaas/config
     - ./certificates:/eaas/certificates
     - ./deployments:/eaas/deployments
-    - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
+ #   - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
 {% for volume in docker_custom_volumes %}
     - {{ volume }}
 {% endfor %}
