@@ -34,6 +34,7 @@ services:
     - SSL_PROXY={{ docker_ssl_enabled | default("no") | lower }}
 {% if not docker_ssl_enabled %}
     - EAAS_PROXYPORT={{ eaas_public_port }}
+    - EAAS_PROXYHOST={{ eaas_hostname }}
 {% endif %}
 #    ports:
 #    - {{ docker_port_mapping }}
