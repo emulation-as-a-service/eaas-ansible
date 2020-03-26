@@ -41,6 +41,8 @@ services:
 {% if docker_network_ports != '' %}
 #    - {{ docker_network_ports }}
 {% endif %}
+    external_links:
+    - eaasi-nginx:{{ eaas_hostname }}
     volumes:
     - ./log/server:/home/bwfla/bw-fla-server/standalone/log
     - ./server-data:/eaas/server-data
