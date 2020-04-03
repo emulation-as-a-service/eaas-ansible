@@ -18,7 +18,7 @@ docker_ssl_enabled: "{{ docker.ssl is defined and docker.ssl.enabled }}"
 docker_ssl_certificate: "{% if docker_ssl_enabled %}{{ docker.ssl.certificate | default('') }}{% endif %}"
 docker_ssl_private_key: "{% if docker_ssl_enabled %}{{ docker.ssl.private_key | default('') }}{% endif %}"
 docker_port: "{{ docker.port }}"
-docker_internal_port: 8080
+docker_internal_port: "{% if portal is defined %}8080{% elif docker_ssl_enabled %}443{% else %}8090{% endif %}"
 docker_port_mapping: "{{ docker_port }}:{{ docker_internal_port }}"
 docker_network_ports: "{{docker.network_ports | default('')}}"
 docker_objects_volume: "{{ docker.objects_volume | default('') }}"
