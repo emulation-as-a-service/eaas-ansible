@@ -1,7 +1,4 @@
-{% set baseurl = eaas_protocol + eaas_hostname %}
-{% if portal is undefined %}
-{% set baseurl = baseurl + ':' + eaas_public_port %}
-{% endif %}
+{% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
 {
   "eaasBackendURL": "{{ baseurl }}/emil/",
   "stopEmulatorRedirectURL": "{{ baseurl }}/admin/",
