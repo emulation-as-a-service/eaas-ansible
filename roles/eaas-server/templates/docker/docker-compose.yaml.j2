@@ -32,6 +32,11 @@ services:
       KEYCLOAK_PASSWORD: {{ keycloak_admin_password }}
       KEYCLOAK_FRONTEND_URL: {{ keycloak_frontend_url }}
       KEYCLOAK_ALWAYS_HTTPS: "true"
+
+{% if keycloak_enable_user_groups %}
+    command: -Dkeycloak.profile=preview
+{% endif %}
+  
     volumes:
       - ./keycloak-data:/opt/jboss/keycloak/standalone/data
       - ./theme:/opt/jboss/keycloak/themes/eaas
