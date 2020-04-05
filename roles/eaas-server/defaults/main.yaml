@@ -64,7 +64,7 @@ keycloak_admin_password: "{{ keycloak.admin_password | default('') }}"
 keycloak_frontend_url: "{{ keycloak.frontend_url | default('') }}"
 keycloak_theme_repo: "{{ keycloak.theme_repo | default('') }}"
 keycloak_enable_user_groups: "{{ keycloak.enable_user_groups | default(false) }}"
-keycloak_client_id: "{{keycloak.client_id | default('eaas')"
+keycloak_client_id: "{{keycloak.client_id | default('eaas') }}"
 
 ui_http_auth: "{{ ui.http_auth | default('') }}"
 ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
