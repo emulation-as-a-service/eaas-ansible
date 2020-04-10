@@ -8,6 +8,7 @@ host_ui_artifact_file: "{{ host_eaas_tmp }}/eaas-ui.zip"
 host_ui_install_dir: "{{ host_eaas_home }}/eaas-ui"
 host_eaas_service_name: "{{host.eaas_service_name | default('eaas') }}"
 host_db_upgrade_repo_dir: "{{ host_eaas_tmp }}/db-upgrade"
+host_tmp_storage: "{{host.temp_storage | default('./tmp-storage') }}"
 
 docker_image: "{{ docker.image }}"
 docker_proxy_image: "{{ docker.proxy_image | default('eaas/eaas-proxy')}}"

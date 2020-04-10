@@ -32,6 +32,16 @@
   - server-data
   - log
 
+- name: create eaas tmpStorage folder
+  become: yes
+  file:
+    path: "{{ host_tmp_storage }}"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: 01777
+
+
 - name: prepare keycloak
   when: keycloak_enabled
   include_tasks: keycloak/main.yaml
