@@ -89,6 +89,11 @@
     src: eaas-config.yaml.j2
     dest: "{{ host_eaas_config_parts_dir }}/01-main.yaml"
 
+- name: generate random cluster-manager access-token
+  when: eaas_cluster_api_access_token == ''
+  set_fact:
+    eaas_cluster_api_access_token: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
+
 - name: prepare cluster-manager config
   when: eaas_deployment_mode != 'emucomp'
   vars:

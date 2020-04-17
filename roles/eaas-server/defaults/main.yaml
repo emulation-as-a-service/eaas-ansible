@@ -47,6 +47,7 @@ eaas_enable_new_image_archive: "{{ eaas.enable_new_image_archive | default(true)
 eaas_enable_oaipmh_provider: "{{ eaas.enable_oaipmh_provider | default(false) }}"
 eaas_enable_oaipmh_harvester: "{{ eaas.enable_oaipmh_harvester | default(true) }}"
 eaas_enable_handlenet: "{{ eaas.enable_handlenet | default(false) }}"
+eaas_cluster_api_access_token: "{{ eaas.cluster_api_access_token | default('') }}"
 eaas_dns: "{{ eaas.dns | default('') }}"
 eaas_db_upgrade: "{{ eaas.db_upgrade | default(false) }}"
 eaas_db_upgrade_repo: "https://gitlab.com/emulation-as-a-service/mongodb-upgrade.git/"
