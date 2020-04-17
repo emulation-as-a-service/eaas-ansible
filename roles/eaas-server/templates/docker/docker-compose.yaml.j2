@@ -68,8 +68,8 @@ services:
     - {{ docker_image_archive_volume | default("./image-archive", true) }}:/eaas/image-archive
     - {{ docker_import_volume | default("./import", true) }}:/eaas/import
     - {{ host_tmp_storage }}:/tmp-storage
-{% !docker_disable_tmp_volume %}
-     - tmpfs_vol:/tmp
+{% if not docker_disable_tmp_volume %}
+    - tmpfs_vol:/tmp
 {% endif %}
     - ./eaas-ui:/eaas/demo-ui
     - ./config:/eaas/config
@@ -84,7 +84,7 @@ services:
     - {{ eaas_hostname }}:127.0.0.1
 {% endif %}
 
-{% !docker_disable_tmp_volume %}
+{% if not docker_disable_tmp_volume %}
 volumes:
   tmpfs_vol:
     driver_opts:
