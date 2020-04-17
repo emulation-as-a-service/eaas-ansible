@@ -26,6 +26,7 @@ docker_objects_volume: "{{ docker.objects_volume | default('') }}"
 docker_export_volume: "{{ docker.export_volume | default('') }}"
 docker_image_archive_volume: "{{ docker.image_archive_volume | default('') }}"
 docker_import_volume: "{{ docker.import_volume | default('') }}"
+docker_disable_tmp_volume: "{{docker.disable_tmp_volume | default(false) }}"
 
 # A list of components to update
 eaas_update_components: ''
