@@ -90,13 +90,14 @@
     dest: "{{ host_eaas_config_parts_dir }}/01-main.yaml"
 
 - name: create directory for nghttpx
+  file:  
     path: "{{ host_eaas_config_nginx_dir }}"
     state: directory
 
 - name: prepare nghttpx-config
-    template:
-      src: proxy/nghttpx.conf.j2
-      dest: "{{ host_eaas_config_nginx_dir }}/nghttpx.conf"
+  template:
+    src: proxy/nghttpx.conf.j2
+    dest: "{{ host_eaas_config_nginx_dir }}/nghttpx.conf"
 
 - name: generate random cluster-manager access-token
   when: eaas_cluster_api_access_token == ''
