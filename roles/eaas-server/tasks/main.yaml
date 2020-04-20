@@ -97,7 +97,7 @@
 - name: prepare nghttpx-config
   template:
     src: proxy/nghttpx.conf.j2
-    dest: "{{ host_eaas_config_nginx_dir }}/nghttpx.conf"
+    dest: "{{ host_eaas_config_nghttpx_dir }}/nghttpx.conf"
 
 - name: generate random cluster-manager access-token
   when: eaas_cluster_api_access_token == ''
