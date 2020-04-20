@@ -91,7 +91,7 @@
 
 - name: create directory for nghttpx
   file:  
-    path: "{{ host_eaas_config_nginx_dir }}"
+    path: "{{ host_eaas_config_nghttpx_dir }}"
     state: directory
 
 - name: prepare nghttpx-config
