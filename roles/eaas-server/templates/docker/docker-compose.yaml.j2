@@ -73,6 +73,7 @@ services:
 {% endif %}
     - ./eaas-ui:/eaas/demo-ui
     - ./config:/eaas/config
+    - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
     - ./certificates:/eaas/certificates
     - ./deployments:/eaas/deployments
     - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
