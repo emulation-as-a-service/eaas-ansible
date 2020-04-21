@@ -39,7 +39,7 @@
     state: directory
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: 01777
+    mode: "a+rwx,+t"
 
 
 - name: prepare keycloak
