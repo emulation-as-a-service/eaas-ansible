@@ -68,9 +68,12 @@ services:
     - {{ docker_image_archive_volume | default("./image-archive", true) }}:/eaas/image-archive
     - {{ docker_import_volume | default("./import", true) }}:/eaas/import
     - {{ host_tmp_storage }}:/tmp-storage
-    - ./eaas-ui:/eaas/demo-ui
+{% if not docker_disable_tmp_volume %}
     - tmpfs_vol:/tmp
+{% endif %}
+    - ./eaas-ui:/eaas/demo-ui
     - ./config:/eaas/config
+    - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
     - ./certificates:/eaas/certificates
     - ./deployments:/eaas/deployments
     - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
@@ -82,8 +85,10 @@ services:
     - {{ eaas_hostname }}:127.0.0.1
 {% endif %}
 
+{% if not docker_disable_tmp_volume %}
 volumes:
   tmpfs_vol:
     driver_opts:
       type: tmpfs
       device: tmpfs
+{% endif %}
