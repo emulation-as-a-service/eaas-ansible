@@ -40,7 +40,7 @@ eaas_component_ear: 'ear'
 eaas_component_docker_image: 'docker-image'
 
 eaas_deployment_mode: 'all'
-eaas_hostname: "{% if eaas.public_fqdn is defined %}{{ eaas.public_fqdn }}{% else %}{{ ansible_host }}{% endif %}"
+eaas_hostname: "{{ eaas.public_fqdn | default(ansible_host) }}"
 eaas_frontend_protocol: "{{eaas.frontend_protocol | default('http://') }}"
 eaas_public_port: "{{ eaas.public_port | default(docker_port) }}"
 eaas_protocol: "{% if docker_ssl_enabled %}https://{% else %}{{ eaas.frontend_protocol | default('http://') }}{% endif %}"
