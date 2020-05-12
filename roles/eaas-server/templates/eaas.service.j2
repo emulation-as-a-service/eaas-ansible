@@ -7,11 +7,15 @@ Requires=docker.service
 WorkingDirectory={{ host_eaas_home }}
 {% if eaas_enable_snapshots %}
 ExecStartPre=/sbin/modprobe ip6table_filter
-{% endif %} 
-Restart=always
-ExecStart={{ docker_compose_install_path }} up
-ExecStop={{ docker_compose_install_path }} down
+{% endif %}
+{% set args = '--file ./docker-compose.yaml' %}
+{% if portal is defined %}
+    {% set args = args + ' --file ' + host_portal_home + '/docker-compose.yaml' %}
+{% endif %}
+ExecStart={{ docker_compose_install_path }} {{ args }} up
+ExecStop={{ docker_compose_install_path }} {{ args }} down
 TimeoutSec=1200
+Restart=always
 
 [Install]
 WantedBy=default.target

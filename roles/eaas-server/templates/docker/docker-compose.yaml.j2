@@ -54,11 +54,18 @@ services:
     - SSL_PROXY={{ docker_ssl_enabled | default("no") | lower }}
 {% if not docker_ssl_enabled %}
     - EAAS_PROXYPORT={{ eaas_public_port }}
+    - EAAS_PROXYHOST={{ eaas_hostname }}
 {% endif %}
+{% if portal is undefined %}
     ports:
     - {{ docker_port_mapping }}
 {% if docker_network_ports != '' %}
     - {{ docker_network_ports }}
+{% endif %}
+{% endif %}
+{% if portal is defined %}
+    external_links:
+    - eaasi-nginx:{{ eaas_hostname }}
 {% endif %}
     volumes:
     - ./log/server:/home/bwfla/bw-fla-server/standalone/log
@@ -76,7 +83,9 @@ services:
     - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
     - ./certificates:/eaas/certificates
     - ./deployments:/eaas/deployments
+{% if portal is undefined %}
     - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
+{% endif %}
 {% for volume in docker_custom_volumes %}
     - {{ volume }}
 {% endfor %}
