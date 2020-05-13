@@ -32,6 +32,16 @@
   - server-data
   - log
 
+- name: create eaas tmpStorage folder
+  become: yes
+  file:
+    path: "{{ host_tmp_storage }}"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "a+rwx,+t"
+
+
 - name: prepare keycloak
   when: keycloak_enabled
   include_tasks: keycloak/main.yaml
@@ -78,6 +88,21 @@
   template:
     src: eaas-config.yaml.j2
     dest: "{{ host_eaas_config_parts_dir }}/01-main.yaml"
+
+- name: create directory for nghttpx
+  file:  
+    path: "{{ host_eaas_config_nghttpx_dir }}"
+    state: directory
+
+- name: prepare nghttpx-config
+  template:
+    src: proxy/nghttpx.conf.j2
+    dest: "{{ host_eaas_config_nghttpx_dir }}/nghttpx.conf"
+
+- name: generate random cluster-manager access-token
+  when: eaas_cluster_api_access_token == ''
+  set_fact:
+    eaas_cluster_api_access_token: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
 
 - name: prepare cluster-manager config
   when: eaas_deployment_mode != 'emucomp'

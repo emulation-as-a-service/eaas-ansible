@@ -32,6 +32,11 @@ services:
       KEYCLOAK_PASSWORD: {{ keycloak_admin_password }}
       KEYCLOAK_FRONTEND_URL: {{ keycloak_frontend_url }}
       KEYCLOAK_ALWAYS_HTTPS: "true"
+
+{% if keycloak_enable_user_groups %}
+    command: -Dkeycloak.profile=preview
+{% endif %}
+  
     volumes:
       - ./keycloak-data:/opt/jboss/keycloak/standalone/data
       - ./theme:/opt/jboss/keycloak/themes/eaas
@@ -69,9 +74,13 @@ services:
     - {{ docker_export_volume | default("./export", true) }}:/eaas/export
     - {{ docker_image_archive_volume | default("./image-archive", true) }}:/eaas/image-archive
     - {{ docker_import_volume | default("./import", true) }}:/eaas/import
+    - {{ host_tmp_storage }}:/tmp-storage
+{% if not docker_disable_tmp_volume %}
+    - tmpfs_vol:/tmp
+{% endif %}
     - ./eaas-ui:/eaas/demo-ui
-    - ./roms:/eaas/roms
     - ./config:/eaas/config
+    - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
     - ./certificates:/eaas/certificates
     - ./deployments:/eaas/deployments
 {% if portal is undefined %}
@@ -83,4 +92,12 @@ services:
 {% if docker_ssl_enabled %}
     extra_hosts:
     - {{ eaas_hostname }}:127.0.0.1
+{% endif %}
+
+{% if not docker_disable_tmp_volume %}
+volumes:
+  tmpfs_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
 {% endif %}

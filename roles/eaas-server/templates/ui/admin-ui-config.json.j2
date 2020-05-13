@@ -3,6 +3,7 @@
   "eaasBackendURL": "{{ baseurl }}/emil/",
   "stopEmulatorRedirectURL": "{{ baseurl }}/admin/",
   "dashboardClusterAPIBaseURL": "{{ baseurl }}/eaas/api/v1/clusters/",
+  "dashboardAccessToken": "{{ eaas_cluster_api_access_token | default('') }}",
 {% if eaas_enable_oaipmh_provider %}
   "oaipmhServiceBaseUrl": "{{ baseurl }}/oaipmh/",
 {% endif %}
@@ -36,7 +37,7 @@
   , "auth0Config" : {
         "AUTH_CONFIGURED": true,
         "DOMAIN": "{{ eaas_hostname }}/admin/redirect.html#{{ baseurl }}/auth/realms/master/protocol/openid-connect/",
-        "CLIENT_ID": "citar",
+        "CLIENT_ID": "{{ keycloak_client_id }}",
         "REDIRECT_URL": "/admin/",
         "issuer": "{{ eaas_protocol }}{{ eaas_hostname }}/auth/realms/master",
         "jwks_uri": "{{ baseurl }}/auth/realms/master/protocol/openid-connect/certs"
