@@ -39,10 +39,12 @@ emucomp:
 imagebuilder:
   blobstore: "{{ baseurl }}/"
 
-{% if eaas_auth_secret is defined %}
+{% if eaas_enable_user_auth %}
 emil:
   authEnabled: true
-  authSecret: "{{ eaas_auth_secret }}"
+  singleUserMode: "{{ eaas_auth_single_user }}"
+  authJwksUri: "https://{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
+  authAudience: "{{ eaas_auth_audience }}"
 {% endif %}
 
 components:

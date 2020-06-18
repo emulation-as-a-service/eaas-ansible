@@ -42,6 +42,15 @@ services:
       - ./theme:/opt/jboss/keycloak/themes/eaas
 {% endif %}
 
+{% if coturn_enabled %}
+  coturn:
+    image: eaas/coturn
+    container_name: coturn
+    ports:
+    - 3478:3478
+    - 3478:3478/udp
+{% endif %}
+
   eaas:
     image: {{ docker_custom_image }}
     container_name: {{ host_eaas_service_name }}

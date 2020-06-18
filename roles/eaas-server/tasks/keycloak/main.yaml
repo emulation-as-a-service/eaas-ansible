@@ -1,3 +1,4 @@
+
 - name: create keycloak data dir
   become: yes
   file:
@@ -7,7 +8,7 @@
     group: "{{ ansible_user_gid }}"
     mode: o+rwx 
 
-- name: create keycloak data dir
+- name: create keycloak theme dir
   become: yes
   when: keycloak_theme_repo != ''
   file:
