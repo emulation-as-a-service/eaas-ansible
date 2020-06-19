@@ -15,8 +15,10 @@ services:
     container_name: nginx
     volumes:
       - {{ docker_image_archive_volume | default("./image-archive", true) }}:/image-archive:ro
+      - ./eaas-ui:/www
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/proxy.js:/etc/nginx/proxy.js
+      - ./welcome-content:/welcome-content
 {% if docker_network_name != '' %}
     networks:
     - {{ docker_network_name }}
@@ -57,7 +59,7 @@ services:
 {% endif %}
 
   eaas:
-    image: {{ docker_custom_image }}
+    image: {{ docker_image }}
     container_name: {{ host_eaas_service_name }}
     privileged: true
 {% if docker_network_name != '' %}
@@ -92,13 +94,11 @@ services:
 {% if not docker_disable_tmp_volume %}
     - tmpfs_vol:/tmp
 {% endif %}
-    - ./eaas-ui:/eaas/demo-ui
     - ./config:/eaas/config
     - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
     - ./certificates:/eaas/certificates
     - ./deployments:/eaas/deployments
 {% if portal is undefined %}
-    - ./welcome-content:/home/bwfla/bw-fla-server/welcome-content
 {% endif %}
 {% for volume in docker_custom_volumes %}
     - {{ volume }}

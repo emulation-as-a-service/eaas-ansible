@@ -17,6 +17,9 @@ function imageId(r)
 function token(r)
 {
   var auth = r.headersIn['Authorization'];
+  if(!auth)
+        return "";
+
   var auth2 = atob(auth.split(/\s+/)[1]).match(/(.*?):(.*)/).slice(1);
   if (auth2[0] !== "jwt") throw undefined;
   var token = "Bearer " + auth2[1];
