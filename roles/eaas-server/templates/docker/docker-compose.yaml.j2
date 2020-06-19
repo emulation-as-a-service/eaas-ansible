@@ -26,6 +26,10 @@ services:
   keycloak:
     image: jboss/keycloak
     container_name: keycloak
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
     environment:
       DB_VENDOR: h2
       KEYCLOAK_USER: {{ keycloak_admin_user}}
