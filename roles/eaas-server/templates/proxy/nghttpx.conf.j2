@@ -1,6 +1,25 @@
 frontend=*,443
-backend=127.0.0.1,8090;/admin/:/landing-page/
-backend=127.0.0.1,8080
+
+{% set eaas_endpoints = [
+			'blobstore',
+			'eaas',
+			'emil',
+			'emucomp',
+			'environment-proposer',
+			'imagearchive',
+			'imagebuilder',
+			'imageclassifier',
+			'imageproposer',
+			'oaipmh',
+			'objectarchive',
+			'softwarearchive'
+] %}
+{% for endpoint in eaas_endpoints %}
+backend=127.0.0.1,8080;/{{endpoint}}/
+{% endfor %}
+
+backend=nginx,80;
+
 {% if keycloak_enabled %}
 backend=keycloak,8080;/auth/
 {% endif %}

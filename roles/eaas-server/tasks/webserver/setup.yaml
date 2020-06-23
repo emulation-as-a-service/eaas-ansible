@@ -10,14 +10,7 @@
   - src: "{{ docker_ssl_private_key }}"
     name: "server.key"
 
-- name: setup http-basic-auth
-  when: ui_http_auth != ''
-  include_tasks: http-basic-auth.yaml
-
-- name: setup apache webserver
-  import_tasks: apache.yaml
-
-- name: setup webproxy
+- name: setup nginx 
   when: eaas_http_proxy != ''
   include_tasks: proxy.yaml
 
