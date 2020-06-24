@@ -52,6 +52,10 @@ services:
   coturn:
     image: eaas/coturn
     container_name: coturn
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
     ports:
     - 3478:3478
     - 3478:3478/udp
