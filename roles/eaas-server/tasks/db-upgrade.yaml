@@ -35,6 +35,7 @@
       chdir: "{{ host_db_upgrade_repo_dir }}"
 
   - name: update db version file
+    become: yes
     shell: "git rev-parse HEAD > {{ db_version_file }}"
     args:
       chdir: "{{ host_db_upgrade_repo_dir }}"
