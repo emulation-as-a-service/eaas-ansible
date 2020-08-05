@@ -1,5 +1,5 @@
 {% if eaas_hostname == 'localhost' %}
-{% set baseurl = eaas_protocol + 'eaas:8080' %}
+{% set baseurl = 'http://eaas:8080' %}
 {% else %}
 {% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
 {% endif %}
@@ -18,6 +18,7 @@ emil:
   imageproposerservice: "{{ baseurl }}/"
 
 ws:
+{% if not eaas_standalone %}
   blobstore: "{{ baseurl }}"
   imagebuilder: "{{ baseurl }}"
   imagearchive: "{{ baseurl }}"
@@ -25,6 +26,8 @@ ws:
   embedgw: "{{ baseurl }}"
   objectarchive: "{{ baseurl }}"
   softwarearchive: "{{ baseurl }}"
+{% endif %}
+
 {% if eaas_enable_backend_auth is defined and eaas_enable_backend_auth %}
   apiSecret: "{{ eaas_api_secret }}"
 {% endif %}

@@ -1,4 +1,8 @@
+{% if docker_ssl_enabled %}
 frontend=*,443
+{% else %}
+frontend=*,80;no-tls
+{% endif %}
 
 {% set eaas_endpoints = [
 			'blobstore',
@@ -25,8 +29,12 @@ backend=keycloak,8080;/auth/
 {% endif %}
 backend-no-tls=yes
 workers=1
+
+{% if docker_ssl_enabled %}
 private-key-file=/etc/nghttpx/server.key
 certificate-file=/etc/nghttpx/server.crt
+{% endif %}
+
 frontend-http2-read-timeout=120m
 frontend-read-timeout=120m
 backend-read-timeout=120m
