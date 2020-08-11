@@ -132,17 +132,20 @@
   include_tasks: ui/admin-ui.yaml
 
 - name: create systemd unit
+  when: "unsupported_os is undefined"
   become: yes
   template:
     src: eaas.service.j2
     dest: "/etc/systemd/system/{{ host_eaas_service_name}}.service"
 
 - name: reload systemd deamons
+  when: "unsupported_os is undefined"
   become: yes
   systemd:
     daemon_reload: yes
 
 - name: enable eaas.service
+  when: "unsupported_os is undefined"
   become: yes
   service:
     name: "{{host_eaas_service_name}}.service"

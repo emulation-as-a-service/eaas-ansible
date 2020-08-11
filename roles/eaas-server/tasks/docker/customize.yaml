@@ -11,7 +11,7 @@
   import_tasks: webserver/setup.yaml
 
 - name: pull pre-built docker image
-  become: yes
+  become: "{{ 'no' if ansible_distribution == 'MacOSX' else yes }}"
   docker_image:
     force: "{{ eaas_component_docker_image in eaas_update_components }}"
     name: "{{ docker_image }}"

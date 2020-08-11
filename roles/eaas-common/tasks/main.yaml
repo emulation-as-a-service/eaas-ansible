@@ -1,7 +1,12 @@
 ---
 - name: check supported distribution
   when: "ansible_distribution not in ['Ubuntu', 'CentOS', 'RedHat']"
-  fail:
+  set_fact: 
+    unsupported_os: "true"
+
+- name: full distribution support
+  when: "unsupported_os != ''"
+  debug:
     msg: "{{ ansible_distribution }} distribution is currently not supported!"
 
 - name: install deps on ubuntu

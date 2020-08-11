@@ -1,6 +1,6 @@
 ---
 - name: install docker
-  when: "'docker.service' not in ansible_facts.services"
+  when: "unsupported_os is undefined and 'docker.service' not in ansible_facts.services"
   include_tasks: docker.yaml
 
 - name: setup custom-network for docker
@@ -8,10 +8,12 @@
   include_tasks: custom-network.yaml
 
 - name: install docker-compose
+  when: "unsupported_os is undefined"
   import_tasks: docker-compose.yaml
 
 - name: install python bindings
   become: yes
+  when: "unsupported_os is undefined"
   pip:
     name: docker
     state: present
