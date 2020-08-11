@@ -7,12 +7,6 @@
     headers:
       PRIVATE-TOKEN: "{{ ui_private_token  | default(omit) }}"
 
-- name: install unzip package
-  become: yes
-  package:
-    name: unzip
-    state: present
-
 - name: extract pre-built ui
   unarchive:
     src: "{{ host_ui_artifact_file }}"
