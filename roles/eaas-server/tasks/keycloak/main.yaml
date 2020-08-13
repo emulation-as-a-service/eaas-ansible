@@ -18,6 +18,20 @@
     group: "{{ ansible_user_gid }}"
     mode: o+rwx 
 
+- name: create keycloak import dir
+  become: yes
+  file:
+    path: "{{ host_eaas_home }}/keycloak-defaults"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: o+rwx 
+
+- name: prep defaults / import
+  template:
+    src: keycloak/default.json.j2
+    dest: "{{ host_eaas_home }}/keycloak-defaults/default.json" 
+
 - name: checkout theme
   when: keycloak_theme_repo != ''
   become: yes
