@@ -39,7 +39,7 @@ services:
       KEYCLOAK_FRONTEND_URL: {{ keycloak_frontend_url }}
       KEYCLOAK_ALWAYS_HTTPS: "true"
 
-    command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=OVERWRITE_EXISTING -Dkeycloak.migration.file=/import/default.json
+    command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.file=/import/default.json
   
     volumes:
       - ./keycloak-data:/opt/jboss/keycloak/standalone/data
