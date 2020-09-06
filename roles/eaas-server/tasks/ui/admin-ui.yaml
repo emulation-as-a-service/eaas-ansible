@@ -18,9 +18,11 @@
   template:
     src: "ui/admin-ui-config.json.j2"
     dest: "{{ host_ui_install_dir }}/eaas-frontend-admin/dist/config.json"
+    mode: "u=rw,g=r,o=r"
 
 - name: prepare landing-page config
   when: ui_landing_page
   template:
     src: "ui/admin-ui-config.json.j2"
     dest: "{{ host_ui_install_dir }}/landing-page/dist/config.json"
+    mode: "u=rw,g=r,o=r"
