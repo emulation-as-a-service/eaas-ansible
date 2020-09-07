@@ -3,19 +3,22 @@
 {% else %}
 {% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
 {% endif %}
-imagearchive:
-{% if image_archive_address is defined | default(false) %}
-  httpprefix: "{{ image_archive_address }}/imagearchive/"
-{% else %}
-  httpprefix: "{{ baseurl }}/imagearchive/"
-{% endif %}
 
 objectarchive:
   httpexport: "{{ baseurl }}/objectarchive/"
+  default_archive: "{{ eaas_default_archive }}"
+  user_archive_prefix: "{{ eaas_user_archive_prefix }}"
 
 emil:
   classificationservice: "{{ baseurl }}/"
   imageproposerservice: "{{ baseurl }}/"
+{% if eaas_enable_user_auth %}
+  authEnabled: true
+  keycloakAdminUser: {{ keycloak_admin_user }}
+  singleUserMode: "{{ eaas_auth_single_user }}"
+  authJwksUri: "https://{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
+  authAudience: "{{ eaas_auth_audience }}"
+{% endif %}
 
 ws:
 {% if not eaas_standalone %}
@@ -27,7 +30,6 @@ ws:
   objectarchive: "{{ baseurl }}"
   softwarearchive: "{{ baseurl }}"
 {% endif %}
-
 {% if eaas_enable_backend_auth is defined and eaas_enable_backend_auth %}
   apiSecret: "{{ eaas_api_secret }}"
 {% endif %}
@@ -38,25 +40,22 @@ rest:
 emucomp:
   blobstore_soap: "{{ baseurl }}"
   blobstore_rest: "{{ baseurl }}/blobstore/api/v1/blobs"
+{% if eaas_http_proxy != '' %}
+  image_proxy: {{ eaas_http_proxy }}
+{% endif %}
+{% if eaas_enable_webrtc %}
+  enable_pulseaudio: true
+{% endif %}
 
 imagebuilder:
   blobstore: "{{ baseurl }}/"
-
-{% if eaas_enable_user_auth %}
-emil:
-  authEnabled: true
-  keycloakAdminUser: {{ keycloak_admin_user }}
-  singleUserMode: "{{ eaas_auth_single_user }}"
-  authJwksUri: "https://{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
-  authAudience: "{{ eaas_auth_audience }}"
-{% endif %}
 
 components:
   client_timeout: 30s
   timeout: 60s
   emulator_containers:
     enabled: {{ eaas_enable_emulator_containers | default(true) | lower }}
-    snapshot: {{ eaas_enable_snapshots | default(false) | lower }} 
+    snapshot: {{ eaas_enable_snapshots | default(false) | lower }}
     uid: 1000
     gid: 1000
   containers:
@@ -98,15 +97,6 @@ imagearchive:
     order: 2
 {% endif %}
 
-{% if eaas_http_proxy != '' %}
-emucomp.image_proxy: {{ eaas_http_proxy }}
-{% endif %}
-
-{% if eaas_enable_webrtc %}
-emucomp:
-  enable_pulseaudio: true
-{% endif %}
-
 {% if eaas_enable_oaipmh_provider %}
 metadata_provider:
   base_url: "{{ baseurl }}/oaipmh/providers"
@@ -144,8 +134,5 @@ metadata_provider:
 metadata_harvester:
     base_url: "{{ baseurl }}/oaipmh/harvesters"
 {% endif %}
-
-objectarchive.user_archive_prefix: "{{eaas_user_archive_prefix}}"
-objectarchive.default_archive: "{{eaas_default_archive}}"
 
 clustermanager.providers.defaults.all.protocol: ""
