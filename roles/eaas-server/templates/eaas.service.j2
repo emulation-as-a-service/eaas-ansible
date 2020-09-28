@@ -8,7 +8,7 @@ WorkingDirectory={{ host_eaas_home }}
 {% if eaas_enable_snapshots %}
 ExecStartPre=/sbin/modprobe ip6table_filter
 {% endif %}
-{% set args = '--file ./docker-compose.yaml' %}
+{% set args = '--project-name eaas --file ./docker-compose.yaml' %}
 {% if portal is defined %}
     {% set args = args + ' --file ' + host_portal_home + '/docker-compose.yaml' %}
 {% endif %}
