@@ -91,6 +91,12 @@ services:
     - EAAS_PROXYPORT={{ eaas_public_port }}
     - EAAS_PROXYHOST={{ eaas_hostname }}
 {% endif %}
+{% if minio_enabled %}
+    - MINIO_ADMIN_KEY: {{ minio_key }}
+    - MINIO_ADMIN_SECRET: {{ minio_secret }}
+    - MINIO_USER_KEY: {{ minio_user_key }}
+    - MINIO_USER_SECRET: {{ minio_user_secret }} 
+{% endif %}
 {% if portal is undefined %}
     ports:
     - {{ docker_port_mapping }}

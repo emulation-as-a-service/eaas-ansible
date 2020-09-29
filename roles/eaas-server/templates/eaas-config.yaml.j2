@@ -15,19 +15,18 @@ objectarchive:
 emil:
   classificationservice: "{{ baseurl }}/"
   imageproposerservice: "{{ baseurl }}/"
-
-{% if minio_enabled %}
-  minio_enabled: true
-  minio_key: "{{ minio_key }}"
-  minio_secret: "{{ minio_secret }}"
-{% endif %}
-
 {% if eaas_enable_user_auth %}
   authEnabled: true
   keycloakAdminUser: {{ keycloak_admin_user }}
   singleUserMode: "{{ eaas_auth_single_user }}"
   authJwksUri: "https://{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
   authAudience: "{{ eaas_auth_audience }}"
+{% endif %}
+
+{% if minio_enabled %}
+storage:
+  s3_user_access_key_id: "{{ minio_user_key }}"
+  s3_user_access_key_secret: "{{ minio_user_secret }}"
 {% endif %}
 
 ws:

@@ -78,6 +78,8 @@ eaas_default_archive: "{{ eaas.default_archive | default('default')}}"
 minio_enabled: "{{ minio.enabled | default(false) }}"
 minio_key: "{{ minio.key | default('') }}"
 minio_secret: "{{ minio.secret | default('') }}"
+minio_user_key: "{{ minio.user_key | default ('') }}"
+minio_user_secret: "{{ minio.user_secret | default('') }}"
 minio_data_path: "{{ minio.data_path | default('./data')}}"
 
 keycloak_enabled: "{{ keycloak.enabled | default(false) }}"
