@@ -86,16 +86,16 @@ services:
     - {{ docker_network_name }}
 {% endif %}
     environment:
-    - SSL_PROXY={{ docker_ssl_enabled | default("no") | lower }}
+      SSL_PROXY: {{ docker_ssl_enabled | default("no") | lower }}
 {% if not docker_ssl_enabled %}
-    - EAAS_PROXYPORT={{ eaas_public_port }}
-    - EAAS_PROXYHOST={{ eaas_hostname }}
+      EAAS_PROXYPORT: {{ eaas_public_port }}
+      EAAS_PROXYHOST: {{ eaas_hostname }}
 {% endif %}
 {% if minio_enabled %}
-    - MINIO_ADMIN_KEY: {{ minio_key }}
-    - MINIO_ADMIN_SECRET: {{ minio_secret }}
-    - MINIO_USER_KEY: {{ minio_user_key }}
-    - MINIO_USER_SECRET: {{ minio_user_secret }} 
+      MINIO_ADMIN_KEY: {{ minio_key }}
+      MINIO_ADMIN_SECRET: {{ minio_secret }}
+      MINIO_USER_KEY: {{ minio_user_key }}
+      MINIO_USER_SECRET: {{ minio_user_secret }}
 {% endif %}
 {% if portal is undefined %}
     ports:
