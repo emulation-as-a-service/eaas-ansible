@@ -24,6 +24,22 @@ services:
     - {{ docker_network_name }}
 {% endif %}
 
+{% if minio_enabled %}
+  minio:
+    image: minio/minio
+    container_name: minio
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
+    volumes:
+    - {{ minio_data_path }}:/data
+    environment:
+      MINIO_ACCESS_KEY: {{ minio_key }}
+      MINIO_SECRET_KEY: {{ minio_secret }}
+    command: server /data
+{% endif %}
+
 {% if keycloak_enabled %}
   keycloak:
     image: jboss/keycloak

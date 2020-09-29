@@ -75,6 +75,11 @@ eaas_enable_webrtc: "{{ eaas.enable_webrtc | default(false) }}"
 eaas_user_archive_prefix: "{{ eaas.user_archive_prefix | default('user_archive')}}"
 eaas_default_archive: "{{ eaas.default_archive | default('default')}}"
 
+minio_enabled: "{{ minio.enabled | default(false) }}"
+minio_key: "{{ minio.key | default('') }}"
+minio_secret: "{{ minio.secret | default('') }}"
+minio_data_path: "{{ minio.data_path | default('./data')}}"
+
 keycloak_enabled: "{{ keycloak.enabled | default(false) }}"
 keycloak_admin_user: "{{ keycloak.admin_user | default('admin') }}"
 keycloak_admin_password: "{{ keycloak.admin_password | default('') }}"

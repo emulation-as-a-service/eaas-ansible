@@ -1,4 +1,7 @@
-{% if eaas_hostname == 'localhost' %}
+
+{% if ui_frontend_url != '' %}
+{% set baseurl = ui_frontend_url %} 
+{% elif eaas_hostname == 'localhost' %}
 {% set baseurl = 'http://eaas:8080' %}
 {% else %}
 {% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
@@ -16,6 +19,11 @@ objectarchive:
 emil:
   classificationservice: "{{ baseurl }}/"
   imageproposerservice: "{{ baseurl }}/"
+{% if minio_enabled %}
+  minio_enabled: true
+  minio_key: "{{ minio_key }}"
+  minio_secret: "{{ minio_secret }}"
+{% endif %}
 
 ws:
 {% if not eaas_standalone %}

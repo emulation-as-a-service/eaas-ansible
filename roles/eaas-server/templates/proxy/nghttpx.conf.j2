@@ -22,6 +22,10 @@ frontend=*,80;no-tls
 backend=127.0.0.1,8080;/{{endpoint}}/
 {% endfor %}
 
+{% if minio_enabled %}
+backend=minio,9000;/user-data/
+{% endif %}
+
 backend=nginx,80;
 
 {% if keycloak_enabled %}
