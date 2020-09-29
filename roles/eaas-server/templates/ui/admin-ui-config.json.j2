@@ -5,7 +5,7 @@
 {% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
 {% endif %}
 {
-  "baseUrl": "{{ baseUrl }}"
+  "baseUrl": "{{ baseurl }}"
   "eaasBackendURL": "{{ baseurl }}/emil/",
   "stopEmulatorRedirectURL": "{{ baseurl }}/admin/",
   "dashboardClusterAPIBaseURL": "{{ baseurl }}/eaas/api/v1/clusters/",
