@@ -1,0 +1,9 @@
+---
+state_dir: '/work/state'
+target_dir: '/work/target'
+docker_compose:
+  project: eaas
+  services:
+  - eaas
+channels:
+{{ operator_channels | to_nice_yaml(indent=2) }}

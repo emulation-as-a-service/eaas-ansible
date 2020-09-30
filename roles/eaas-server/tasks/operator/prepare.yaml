@@ -1,0 +1,31 @@
+---
+- name: create operator runtime directories
+  file:
+    path: "{{ host_eaas_home }}/operator/{{ item }}"
+    state: directory
+  loop:
+  - state
+
+- name: pull pre-built operator image
+  become: "{{ 'no' if ansible_distribution == 'MacOSX' else 'yes' }}"
+  docker_image:
+    force: "{{ eaas_component_docker_image in eaas_update_components }}"
+    name: "{{ operator_image }}"
+    state: present
+    pull: yes
+
+- name: generate operator config file
+  template:
+    src: operator/config.yaml.j2
+    dest: "{{ host_eaas_home }}/operator/config.yaml"
+
+- name: check if operator state.json already exists
+  register: result
+  stat:
+    path: "{{ host_eaas_home }}/operator/state/state.json"
+
+- name: generate initial operator state.json
+  when: not result.stat.exists
+  template:
+    dest: "{{ host_eaas_home }}/operator/state/state.json"
+    src: operator/state.json.j2

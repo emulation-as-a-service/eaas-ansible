@@ -1,0 +1,15 @@
+---
+- name: wait for containers to start
+  become: yes
+  register: result
+  shell: |
+    docker ps --format '{% raw %}{{.Names}}{% endraw %}' | grep eaas || echo 'retry'
+  until: result.stdout != 'retry'
+  retries: 30
+  delay: 1
+
+- name: install current release (using the operator)
+  become: yes
+  shell: |
+    endpoint='http://127.0.0.1:8000/operator/api/v1/deployment/current'
+    docker exec operator curl --silent --show-error -X POST "${endpoint}"

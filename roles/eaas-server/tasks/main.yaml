@@ -41,7 +41,6 @@
     group: "{{ ansible_user_gid }}"
     mode: "a+rwx,+t"
 
-
 - name: prepare keycloak
   when: keycloak_enabled
   include_tasks: keycloak/main.yaml
@@ -54,7 +53,12 @@
     source_path: "{{ item.source }}"
     target_path: "{{ item.target }}"
 
+- name: prepare operator
+  when: operator_enabled
+  include_tasks: operator/prepare.yaml
+
 - name: download pre-built eaas-server
+  when: not operator_enabled
   get_url:
     force: "{{ eaas_component_ear in eaas_update_components }}"
     url: "{{ eaas_server_ear_url }}"
@@ -90,7 +94,7 @@
     dest: "{{ host_eaas_config_parts_dir }}/01-main.yaml"
 
 - name: create directory for nghttpx
-  file:  
+  file:
     path: "{{ host_eaas_config_nghttpx_dir }}"
     state: directory
 
@@ -151,3 +155,7 @@
     name: "{{host_eaas_service_name}}.service"
     state: started
     enabled: yes
+
+- name: bootstrap initial release
+  when: operator_enabled
+  include_tasks: operator/bootstrap.yaml

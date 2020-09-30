@@ -1,5 +1,6 @@
 ---
 - name: download pre-built ui
+  when: not operator_enabled
   get_url:
     url: "{{ ui_artifact_url }}"
     dest: "{{ host_ui_artifact_file }}"
@@ -8,6 +9,7 @@
       PRIVATE-TOKEN: "{{ ui_private_token  | default(omit) }}"
 
 - name: extract pre-built ui
+  when: not operator_enabled
   unarchive:
     src: "{{ host_ui_artifact_file }}"
     dest: "{{ host_ui_install_dir }}"
