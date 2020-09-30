@@ -19,6 +19,12 @@ services:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/proxy.js:/etc/nginx/proxy.js
       - ./welcome-content:/welcome-content
+{% if ui_enable_admin_ui %}
+      - ./config/admin-ui.json:/www/eaas-frontend-admin/dist/config.json:ro
+{% endif %}
+{% if ui_landing_page %}
+      - ./config/admin-ui.json:/www/landing-page/dist/config.json:ro
+{% endif %}
 {% if docker_network_name != '' %}
     networks:
     - {{ docker_network_name }}
