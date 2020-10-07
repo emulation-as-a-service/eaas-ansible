@@ -4,6 +4,7 @@ target_dir: '/work/target'
 docker_compose:
   project: eaas
   services:
+  - nginx
   - eaas
 channels:
 {{ operator_channels | to_nice_yaml(indent=2) }}
