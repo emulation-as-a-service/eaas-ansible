@@ -8,3 +8,7 @@ docker_compose:
   - eaas
 channels:
 {{ operator_channels | to_nice_yaml(indent=2) }}
+{%- if operator_credentials != '' -%}
+credentials:
+{{ operator_credentials | to_nice_yaml(indent=2) }}
+{% endif %}

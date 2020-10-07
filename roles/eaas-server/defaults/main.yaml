@@ -116,3 +116,4 @@ operator_image: "{{ operator.image | default('registry.gitlab.com/emulation-as-a
 operator_release_channel: "{{ operator.release.channel }}"
 operator_release_version: "{{ operator.release.version }}"
 operator_channels: "{{ operator.channels }}"
+operator_credentials: "{{ operator.credentials | default('') }}"
