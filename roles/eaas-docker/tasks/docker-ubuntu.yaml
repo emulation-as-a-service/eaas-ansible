@@ -2,7 +2,7 @@
 - name: install python-bindings for apt
   become: yes
   apt:
-    name: python-apt
+    name: "{{ 'python3-apt' if using_python3 else 'python-apt' }}"
     state: present
 
 - name: add docker-key

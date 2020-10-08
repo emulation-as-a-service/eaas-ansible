@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -eu
+
 __exit() {
     exit 0
 }
@@ -29,11 +31,11 @@ __osinfo() {
 
 
 echo 'checking python installation...'
-pypath="$(command -v python)"
+pypath="$(command -v python || command -v python3)"
 if [ -n "${pypath}" ] ; then
     echo "python found at: ${pypath}"
     echo -n 'python version: '
-    python --version
+    "${pypath}" --version
     __exit
 fi
 
@@ -42,7 +44,7 @@ osid="$(__osinfo ID)"
 case "${osid}" in
     ubuntu)
         sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update &&
-        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq python-minimal || __fail
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq python3-minimal || __fail
         ;;
     centos|redhat)
         sudo yum -y update && sudo yum install -y python || __fail

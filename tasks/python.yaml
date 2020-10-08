@@ -1,3 +1,11 @@
 ---
 - name: check python installation
   script: python-installer.sh
+
+- name: lookup python version
+  shell: 'python --version || python3 --version'
+  register: result
+
+- name: check if python 3 is used
+  set_fact:
+    using_python3: "{{ result.stdout is match('Python 3*') }}"

@@ -5,4 +5,4 @@
     update_cache: yes
     state: present
     name:
-    - python-pip
+    - "{{ 'python3-pip' if using_python3 else 'python-pip' }}"
