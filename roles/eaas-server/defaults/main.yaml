@@ -40,6 +40,7 @@ eaas_update_components: ''
 eaas_component_ui: 'ui'
 eaas_component_ear: 'ear'
 eaas_component_docker_image: 'docker-image'
+eaas_component_server_data: 'server-data'
 
 eaas_deployment_mode: 'all'
 eaas_hostname: "{{ eaas.public_fqdn | default(ansible_host) }}"
@@ -117,3 +118,10 @@ operator_release_channel: "{{ operator.release.channel }}"
 operator_release_version: "{{ operator.release.version }}"
 operator_channels: "{{ operator.channels }}"
 operator_credentials: "{{ operator.credentials | default('') }}"
+
+# autorun-scripts
+eaas_autorun_scripts_file: "{{ host_eaas_tmp }}/eaas-autorun-scripts.zip"
+eaas_autorun_scripts_tmpdir: "{{ host_eaas_tmp }}/eaas-autorun-scripts"
+eaas_autorun_scripts_install_dir: "{{ host_eaas_home }}/server-data/autorun-scripts"
+eaas_autorun_scripts_enabled: "{{ eaas.autorun_scripts.enabled | default(false) }}"
+eaas_autorun_scripts_url: "{{ eaas.autorun_scripts.source }}"

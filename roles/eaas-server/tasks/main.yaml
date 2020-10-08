@@ -6,6 +6,7 @@
     - "{{ eaas_component_ui }}"
     - "{{ eaas_component_ear }}"
     - "{{ eaas_component_docker_image }}"
+    - "{{ eaas_component_server_data }}"
   assert:
     that: eaas_update_components is subset(eaas_components)
     success_msg: "Components to update: {{ eaas_update_components }}"
@@ -135,6 +136,10 @@
 - name: prepare admin-ui
   when: ui_enable_admin_ui and eaas_deployment_mode != 'emucomp'
   include_tasks: ui/admin-ui.yaml
+
+- name: setup autorun-scripts
+  when: eaas_autorun_scripts_enabled
+  include_tasks: server-data/autorun-scripts.yaml
 
 - name: create systemd unit
   when: "unsupported_os is undefined"

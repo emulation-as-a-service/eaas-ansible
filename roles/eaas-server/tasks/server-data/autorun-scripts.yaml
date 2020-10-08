@@ -1,0 +1,45 @@
+---
+- name: download autorun-scripts archive
+  get_url:
+    url: "{{ eaas_autorun_scripts_url }}"
+    dest: "{{ eaas_autorun_scripts_file }}"
+    force: "{{ eaas_component_server_data in eaas_update_components }}"
+    headers:
+      private-token: "{{ autorun_scripts_private_token  | default(omit) }}"
+
+- name: create tmp-dir for autorun-scripts
+  file:
+    path: "{{ eaas_autorun_scripts_tmpdir }}"
+    state: directory
+
+- name: extract autorun-scripts archive
+  unarchive:
+    src: "{{ eaas_autorun_scripts_file }}"
+    dest: "{{ eaas_autorun_scripts_tmpdir }}"
+    remote_src: yes
+
+- name: find sub-directory containing scripts
+  register: result
+  find:
+    path: "{{ eaas_autorun_scripts_tmpdir }}"
+    pattern: 'scripts'
+    file_type: directory
+    recurse: yes
+    depth: 2
+
+- name: check if autorun-scripts are found
+  assert:
+    that: result.matched == 1
+    fail_msg: "Invalid autorun-scripts archive!"
+
+- name: install autorun-scripts
+  synchronize:
+    dest: "{{ eaas_autorun_scripts_install_dir }}"
+    src: "{{ item.path }}/"
+  loop: "{{ result.files }}"
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: remove tmp-dir for autorun-scripts
+  file:
+    path: "{{ eaas_autorun_scripts_tmpdir }}"
+    state: absent
