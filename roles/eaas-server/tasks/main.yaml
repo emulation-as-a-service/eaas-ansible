@@ -31,6 +31,7 @@
   - image-archive
   - server-data
   - log
+  - welcome-content
 
 - name: create eaas tmpStorage folder
   become: yes
