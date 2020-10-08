@@ -125,3 +125,10 @@ eaas_autorun_scripts_tmpdir: "{{ host_eaas_tmp }}/eaas-autorun-scripts"
 eaas_autorun_scripts_install_dir: "{{ host_eaas_home }}/server-data/autorun-scripts"
 eaas_autorun_scripts_enabled: "{{ eaas.autorun_scripts.enabled | default(false) }}"
 eaas_autorun_scripts_url: "{{ eaas.autorun_scripts.source }}"
+
+# image-generalization-patches
+eaas_generalization_patches_file: "{{ host_eaas_tmp }}/eaas-image-patches.zip"
+eaas_generalization_patches_tmpdir: "{{ host_eaas_tmp }}/eaas-image-patches"
+eaas_generalization_patches_install_dir: "{{ host_eaas_home }}/server-data/image-generalization-patches"
+eaas_generalization_patches_enabled: "{{ eaas.generalization_patches.enabled | default(false) }}"
+eaas_generalization_patches_url: "{{ eaas.generalization_patches.source }}"

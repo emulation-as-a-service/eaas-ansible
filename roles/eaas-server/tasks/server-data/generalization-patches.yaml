@@ -1,0 +1,45 @@
+---
+- name: download generalization-patches archive
+  get_url:
+    url: "{{ eaas_generalization_patches_url }}"
+    dest: "{{ eaas_generalization_patches_file }}"
+    force: "{{ eaas_component_server_data in eaas_update_components }}"
+    headers:
+      private-token: "{{ generalization_patches_private_token  | default(omit) }}"
+
+- name: create tmp-dir for generalization-patches
+  file:
+    path: "{{ eaas_generalization_patches_tmpdir }}"
+    state: directory
+
+- name: extract generalization-patches archive
+  unarchive:
+    src: "{{ eaas_generalization_patches_file }}"
+    dest: "{{ eaas_generalization_patches_tmpdir }}"
+    remote_src: yes
+
+- name: find sub-directory containing patches
+  register: result
+  find:
+    path: "{{ eaas_generalization_patches_tmpdir }}"
+    pattern: 'patches'
+    file_type: directory
+    recurse: yes
+    depth: 2
+
+- name: check if generalization-patches are found
+  assert:
+    that: result.matched == 1
+    fail_msg: "Invalid generalization-patches archive!"
+
+- name: install generalization-patches
+  synchronize:
+    dest: "{{ eaas_generalization_patches_install_dir }}"
+    src: "{{ item.path }}/"
+  loop: "{{ result.files }}"
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: remove tmp-dir for generalization-patches
+  file:
+    path: "{{ eaas_generalization_patches_tmpdir }}"
+    state: absent

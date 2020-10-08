@@ -141,6 +141,10 @@
   when: eaas_autorun_scripts_enabled
   include_tasks: server-data/autorun-scripts.yaml
 
+- name: setup generalization-patches
+  when: eaas_generalization_patches_enabled
+  include_tasks: server-data/generalization-patches.yaml
+
 - name: create systemd unit
   when: "unsupported_os is undefined"
   become: yes
