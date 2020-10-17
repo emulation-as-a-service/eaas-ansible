@@ -104,6 +104,14 @@ services:
     image: {{ docker_image }}
     container_name: {{ host_eaas_service_name }}
     privileged: true
+    depends_on:
+    - nginx
+{% if keycloak_enabled %}
+    - keycloak
+{% endif %}  
+{% if minio_enabled %}
+    - minio
+{% endif %}    
 {% if docker_network_name != '' %}
     networks:
     - {{ docker_network_name }}
