@@ -6,3 +6,4 @@
     state: present
     name:
     - "{{ 'python3-pip' if using_python3 else 'python-pip' }}"
+    - "unzip"
