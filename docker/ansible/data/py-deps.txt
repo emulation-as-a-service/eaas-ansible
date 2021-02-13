@@ -4,6 +4,11 @@ ansible
 # json_query filter
 jmespath
 
+# ansible's dep for
+# password_hash filter
+passlib
+bcrypt
+
 # GCP deps
 requests
 google-auth

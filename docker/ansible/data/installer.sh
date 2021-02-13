@@ -8,22 +8,10 @@ apk add --no-cache \
     openssh-client \
     rsync \
     python3 \
-    python3-dev \
-    openssl \
-    openssl-dev \
-    libffi \
-    libffi-dev \
-    musl-dev \
-    make \
-    gcc
-
-# install latest ansible + deps
-pip3 install -r py-deps.txt
-
-# remove dev packages
-apk del gcc \
-    python3-dev \
-    openssl-dev \
-    libffi-dev \
-    musl-dev \
-    make
+    py3-jmespath \
+    py3-requests \
+    py3-google-auth \
+    py3-cryptography \
+    py3-passlib \
+    py3-bcrypt \
+    ansible
