@@ -15,6 +15,7 @@ export PDNS_Url="${EAAS_DNS_SERVER%/}"
 export PDNS_ServerId="localhost"
 export PDNS_Token="${EAAS_DNS_APIKEY}"
 export PDNS_Ttl=60
+
 {% elif eaas_dns.provider == 'gcp' %}
 # GCP related options
 EAAS_DNS_RECORD_TTL=3600
@@ -28,4 +29,18 @@ export Le_DNSSleep=100
 
 # acme.sh + gcloud options
 ACMESH_DNS_API='dns_gcloud'
+
+{% elif eaas_dns.provider == 'cf' %}
+# CLOUDFLARE
+
+# acme.sh domain-check delay
+export Le_DNSSleep=5
+
+export EAAS_DNS_PROVIDER="cf"
+export ACMESH_DNS_API="dns_cf"
+export CF_Token="{{eaas_dns.cf_token }}"
+export CF_Zone_ID="{{ eaas_dns.cf_zone_id }}"
+
+EAAS_DNS_RECORD_TTL=3600
+
 {% endif %}
