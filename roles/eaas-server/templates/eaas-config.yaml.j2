@@ -12,15 +12,21 @@ objectarchive:
   default_archive: "{{ eaas_default_archive }}"
   user_archive_prefix: "{{ eaas_user_archive_prefix }}"
 
+{% if eaas_enable_user_auth %}
+authentication:
+  authJwksUri: "https://{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
+  authAudience: "{{ eaas_auth_audience }}"
+  authEnabled: true
+  keycloakAdminUser: {{ keycloak_admin_user }}
+  adminRoleLabel: {{ keycloak_admin_role_label }}
+  userRoleLabel: {{ keycloak_user_role_label }}
+{% endif %}
+
 emil:
   classificationservice: "{{ baseurl }}/"
   imageproposerservice: "{{ baseurl }}/"
 {% if eaas_enable_user_auth %}
-  authEnabled: true
-  keycloakAdminUser: {{ keycloak_admin_user }}
   singleUserMode: "{{ eaas_auth_single_user }}"
-  authJwksUri: "https://{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
-  authAudience: "{{ eaas_auth_audience }}"
 {% endif %}
 
 {% if minio_enabled %}

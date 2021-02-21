@@ -85,6 +85,8 @@ minio_data_path: "{{ minio.data_path | default('./data')}}"
 
 keycloak_enabled: "{{ keycloak.enabled | default(false) }}"
 keycloak_admin_user: "{{ keycloak.admin_user | default('admin') }}"
+keycloak_admin_role_label: "{{ keycloak.admin_role_labe | default('eaas-admin') }}"
+keycloak_user_role_label: "{{ keycloak.user_role_label | default('eaas-user') }}"
 keycloak_admin_password: "{{ keycloak.admin_password | default('') }}"
 keycloak_frontend_url: "{{ keycloak.frontend_url | default('') }}"
 keycloak_theme_repo: "{{ keycloak.theme_repo | default('') }}"
