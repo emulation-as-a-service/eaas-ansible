@@ -16,8 +16,7 @@
     force_source: "{{ eaas_component_docker_image in eaas_update_components }}"
     name: "{{ docker_image }}"
     state: present
-    build:
-      pull: yes
+    source: pull
 
 - name: generate docker-compose file
   template:
