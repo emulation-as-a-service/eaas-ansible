@@ -13,10 +13,11 @@
 - name: pull pre-built docker image
   become: "{{ 'no' if ansible_distribution == 'MacOSX' else 'yes' }}"
   docker_image:
-    force: "{{ eaas_component_docker_image in eaas_update_components }}"
+    force_source: "{{ eaas_component_docker_image in eaas_update_components }}"
     name: "{{ docker_image }}"
     state: present
-    pull: yes
+    build:
+      pull: yes
 
 - name: generate docker-compose file
   template:
