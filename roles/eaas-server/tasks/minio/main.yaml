@@ -1,0 +1,12 @@
+---
+- name: create minio runtime folders
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+  - "{{ minio_policies_dir }}"
+
+- name: prepare image-archive's policy
+  template:
+    src: minio/policies/image-archive.json
+    dest: "{{ minio_imagearchive_policy_file }}"

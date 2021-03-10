@@ -82,6 +82,8 @@ minio_secret: "{{ minio.secret | default('') }}"
 minio_user_key: "{{ minio.user_key | default ('') }}"
 minio_user_secret: "{{ minio.user_secret | default('') }}"
 minio_data_path: "{{ minio.data_path | default('./data')}}"
+minio_policies_dir: "{{ host_eaas_config_dir }}/minio/policies"
+minio_imagearchive_policy_file: "{{ minio_policies_dir }}/image-archive.json"
 
 keycloak_enabled: "{{ keycloak.enabled | default(false) }}"
 keycloak_admin_user: "{{ keycloak.admin_user | default('admin') }}"

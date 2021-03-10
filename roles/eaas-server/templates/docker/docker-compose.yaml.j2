@@ -127,6 +127,7 @@ services:
       MINIO_ADMIN_SECRET: {{ minio_secret }}
       MINIO_USER_KEY: {{ minio_user_key }}
       MINIO_USER_SECRET: {{ minio_user_secret }}
+      MINIO_ARCHIVE_POLICY_FILE: "{{ minio_imagearchive_policy_file }}"
 {% endif %}
 {% if portal is undefined %}
     ports:

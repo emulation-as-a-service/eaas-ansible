@@ -47,6 +47,10 @@
   when: keycloak_enabled
   include_tasks: keycloak/main.yaml
 
+- name: prepare minio
+  when: minio_enabled
+  include_tasks: minio/main.yaml
+
 - name: upload custom files
   when: eaas_deployment_mode != 'emucomp'
   loop: "{{ eaas_custom_files }}"
