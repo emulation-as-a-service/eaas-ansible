@@ -84,6 +84,7 @@ components:
 
 {% if eaas_enable_new_image_archive %}
 imagearchive:
+  # legacy implementation
   backends:
   - name: public
     type: filesystem
@@ -110,6 +111,55 @@ imagearchive:
     http_prefix: "http://nginx:81/"
     nameindex_config_path: /home/bwfla/.bwFLA/nameindices/default/
     order: 2
+
+  # image-archive v2
+  storage:
+    endpoints:
+    - name: "minio"
+      address: "http://minio:9000"
+      credentials:
+        access_key: "{{ minio_user_key }}"
+        secret_key: "{{ minio_user_secret }}"
+
+    locations:
+    - name: "default"
+      endpoint: "minio"
+      bucket: "image-archive"
+      paths:
+        container: "/containers"
+        machine: "/machines"
+        emulator: "/emulators"
+        template: "/templates"
+        checkpoint: "/images"
+        image: "/images"
+        rom: "/images"
+
+    - name: "public"
+      endpoint: "minio"
+      bucket: "image-archive"
+      paths:
+        container: "/public/containers"
+        machine: "/public/machines"
+        emulator: "/public/emulators"
+        template: "/public/templates"
+        checkpoint: "/public/images"
+        image: "/public/images"
+        rom: "/public/images"
+
+    - name: "remote"
+      endpoint: "minio"
+      bucket: "image-archive"
+      paths:
+        container: "/remote/containers"
+        machine: "/remote/machines"
+        emulator: "/remote/emulators"
+        template: "/remote/templates"
+        checkpoint: "/remote/images"
+        image: "/remote/images"
+        rom: "/remote/images"
+
+    default_location: "default"
+
 {% endif %}
 
 {% if eaas_enable_oaipmh_provider %}
