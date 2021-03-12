@@ -1,4 +1,3 @@
-
 {% if ui_frontend_url != '' %}
 {% set baseurl = ui_frontend_url %} 
 {% elif eaas_hostname == 'localhost' %}
@@ -170,7 +169,7 @@ metadata_provider:
     identity:
       repository_name: 'EaaSI data repository'
       earliest_date: '2018-11-01T00:00:00Z'
-      admin_email: 'admin@dummy.com'
+      admin_email: 'admin@example.invalid'
 
     source:
       base_url: "{{ baseurl }}/emil/metadata-repositories/public-environments"
@@ -184,7 +183,7 @@ metadata_provider:
     identity:
       repository_name: 'EaaSI data repository'
       earliest_date: '2018-11-01T00:00:00Z'
-      admin_email: 'admin@dummy.com'
+      admin_email: 'admin@example.invalid'
 
     source:
       base_url: "{{ baseurl }}/emil/metadata-repositories/public-images"
