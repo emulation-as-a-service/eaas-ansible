@@ -1,3 +1,10 @@
+---
+- name: create keycloak runtime dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+  - "{{ keycloak_secrets_dir }}"
 
 - name: create keycloak data dir
   become: yes
@@ -39,7 +46,8 @@
     repo: "{{ keycloak_theme_repo }}"
     dest: "{{ host_eaas_home }}/theme/"
 
-- name: generate random keycloak password
-  when: keycloak_admin_password == ''
-  set_fact:
-    keycloak_admin_password: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
+- name: prepare keycloak's admin password
+  include_tasks: utils/secret.yaml
+  vars:
+    filepath: "{{ keycloak_secrets_dir }}/admin"
+    varname: keycloak_admin_password
