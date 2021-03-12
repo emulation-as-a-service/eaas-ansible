@@ -4,7 +4,19 @@
     path: "{{ item }}"
     state: directory
   loop:
+  - "{{ minio_secrets_dir }}"
   - "{{ minio_policies_dir }}"
+
+- name: prepare minio secrets
+  include_tasks: utils/secret.yaml
+  vars:
+    filepath: "{{ minio_secrets_dir }}/{{ item.key }}"
+    varname: "{{ item.var }}"
+  loop:
+  - key: "{{ minio_key }}"
+    var: minio_secret
+  - key: "{{ minio_user_key }}"
+    var: minio_user_secret
 
 - name: prepare image-archive's policy
   template:
