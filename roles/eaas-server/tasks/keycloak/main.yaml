@@ -4,50 +4,40 @@
     path: "{{ item }}"
     state: directory
   loop:
+  - "{{ keycloak_config_dir }}"
   - "{{ keycloak_secrets_dir }}"
+  - "{{ keycloak_data_dir }}"
+  - "{{ keycloak_theme_dir }}"
 
-- name: create keycloak data dir
-  become: yes
-  file:
-    path: "{{ host_eaas_home }}/keycloak-data"
-    state: directory
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
-    mode: o+rwx 
-
-- name: create keycloak theme dir
-  become: yes
-  when: keycloak_theme_repo != ''
-  file:
-    path: "{{ host_eaas_home }}/theme"
-    state: directory
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
-    mode: o+rwx 
-
-- name: create keycloak import dir
-  become: yes
-  file:
-    path: "{{ host_eaas_home }}/keycloak-defaults"
-    state: directory
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
-    mode: o+rwx 
-
-- name: prep defaults / import
+- name: prep keycloak's defaults / import
   template:
     src: keycloak/default.json.j2
-    dest: "{{ host_eaas_home }}/keycloak-defaults/default.json" 
+    dest: "{{ keycloak_defaults_file }}"
 
-- name: checkout theme
+- name: checkout keycloak's theme
   when: keycloak_theme_repo != ''
-  become: yes
   git:
     repo: "{{ keycloak_theme_repo }}"
-    dest: "{{ host_eaas_home }}/theme/"
+    dest: "{{ keycloak_theme_dir }}"
 
 - name: prepare keycloak's admin password
   include_tasks: utils/secret.yaml
   vars:
     filepath: "{{ keycloak_secrets_dir }}/admin"
     varname: keycloak_admin_password
+
+
+- name: move keycloak's legacy data dir
+  shell: |
+    srcdir="{{ host_eaas_home }}/keycloak-data"
+    test -e "${srcdir}" || exit
+    mv ${srcdir}/* "{{ keycloak_data_dir }}"
+
+- name: remove keycloak's legacy data
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+  - "{{ host_eaas_home }}/keycloak-data"
+  - "{{ host_eaas_home }}/keycloak-defaults"
+  - "{{ host_eaas_home }}/theme"

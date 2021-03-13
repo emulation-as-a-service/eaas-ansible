@@ -78,12 +78,12 @@ services:
       KEYCLOAK_FRONTEND_URL: {{ keycloak_frontend_url }}
       KEYCLOAK_ALWAYS_HTTPS: "true"
 
-    command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.file=/import/default.json
+    command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.file=/run/keycloak/defaults.json
 
     volumes:
-      - ./keycloak-data:/opt/jboss/keycloak/standalone/data
-      - ./theme:/opt/jboss/keycloak/themes/eaas
-      - ./keycloak-defaults:/import
+      - {{ keycloak_data_dir }}:/opt/jboss/keycloak/standalone/data
+      - {{ keycloak_theme_dir }}:/opt/jboss/keycloak/themes/eaas
+      - {{ keycloak_defaults_file }}:/run/keycloak/defaults.json:ro
 {% endif %}
 
 {% if coturn_enabled %}
@@ -108,10 +108,10 @@ services:
     - nginx
 {% if keycloak_enabled %}
     - keycloak
-{% endif %}  
+{% endif %}
 {% if minio_enabled %}
     - minio
-{% endif %}    
+{% endif %}
 {% if docker_network_name != '' %}
     networks:
     - {{ docker_network_name }}

@@ -95,7 +95,12 @@ keycloak_frontend_url: "{{ keycloak.frontend_url | default('https://' + eaas_hos
 keycloak_theme_repo: "{{ keycloak.theme_repo | default('') }}"
 keycloak_enable_user_groups: "{{ keycloak.enable_user_groups | default(false) }}"
 keycloak_client_id: "{{keycloak.client_id | default('eaas') }}"
-keycloak_secrets_dir: "{{ host_eaas_config_dir }}/keycloak/secrets"
+keycloak_config_dir: "{{ host_eaas_config_dir }}/keycloak"
+keycloak_secrets_dir: "{{ keycloak_config_dir }}/secrets"
+keycloak_runtime_dir: "{{ host_eaas_home }}/keycloak"
+keycloak_data_dir: "{{ keycloak_runtime_dir }}/data"
+keycloak_theme_dir: "{{ keycloak_runtime_dir }}/theme"
+keycloak_defaults_file: "{{ keycloak_config_dir }}/defaults.json"
 
 coturn_enabled: "{{ coturn.enabled | default(false) }}"
 
