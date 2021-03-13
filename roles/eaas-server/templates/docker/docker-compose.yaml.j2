@@ -88,7 +88,7 @@ services:
 
 {% if coturn_enabled %}
   coturn:
-    image: eaas/coturn
+    image: registry.gitlab.com/emulation-as-a-service/coturn-image
     container_name: coturn
 {% if docker_network_name != '' %}
     networks:
