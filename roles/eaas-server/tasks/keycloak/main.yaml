@@ -30,7 +30,7 @@
 - name: move keycloak's legacy data dir
   shell: |
     srcdir="{{ host_eaas_home }}/keycloak-data"
-    test -e "${srcdir}" || exit
+    test -e "${srcdir}" || exit 0
     mv ${srcdir}/* "{{ keycloak_data_dir }}"
 
 - name: remove keycloak's legacy data
