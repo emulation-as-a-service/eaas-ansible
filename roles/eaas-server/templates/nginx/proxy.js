@@ -8,10 +8,8 @@ var hash = s => crypto.createHash("sha256").update(s).digest("hex");
 function imageId(r)
 {
 	var uri = r.variables.request_uri;
-  	var ids = uri.split("/");
- // r.log("ID: ");
- // r.log(ids[ids.length - 1]);
-	return ids[ids.length - 1];
+  var ids = uri.split("/");
+  return ids.length > 0 ? ids[ids.length - 1] : uri;
 }
 
 function token(r)
