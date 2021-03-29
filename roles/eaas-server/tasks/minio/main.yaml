@@ -18,7 +18,23 @@
   - key: "{{ minio_user_key }}"
     var: minio_user_secret
 
+- name: generate minio's docker-compose file
+  template:
+    src: docker/minio-services.yaml.j2
+    dest: "{{ host_eaas_home }}/minio-services.yaml"
+
 - name: prepare image-archive's policy
   template:
     src: minio/policies/image-archive.json
     dest: "{{ minio_imagearchive_policy_file }}"
+
+- name: upload image-archive's storage credentials
+  when: eaas_deployment_mode != 'emucomp' and storage.provider == 'google-cloud-storage'
+  include_tasks: custom-files.yaml
+  vars:
+    source_path: "{{ storage.credentials.file }}"
+    target_path: "{{ minio_secrets_dir }}/minio-gw-{{ curid + 1 }}.json"
+  loop: "{{ eaas_imagearchive_storage }}"
+  loop_control:
+    loop_var: storage
+    index_var: curid

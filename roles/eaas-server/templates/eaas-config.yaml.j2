@@ -1,5 +1,5 @@
 {% if ui_frontend_url != '' %}
-{% set baseurl = ui_frontend_url %} 
+{% set baseurl = ui_frontend_url %}
 {% elif eaas_hostname == 'localhost' %}
 {% set baseurl = 'http://eaas:8080' %}
 {% else %}
@@ -119,6 +119,13 @@ imagearchive:
       credentials:
         access_key: "{{ minio_user_key }}"
         secret_key: "{{ minio_user_secret }}"
+{% for storage in eaas_imagearchive_storage %}
+    - name: "minio-gw-{{ loop.index }}"
+      address: "{{ baseurl }}"
+      credentials:
+        access_key: "{{ storage.credentials.access_key | default(minio_key) }}"
+        secret_key: "{{ storage.credentials.secret_key | default(minio_secret) }}"
+{% endfor %}
 
     locations:
     - name: "default"
@@ -156,9 +163,29 @@ imagearchive:
         checkpoint: "/remote/images"
         image: "/remote/images"
         rom: "/remote/images"
+{% for storage in eaas_imagearchive_storage %}
+{% set name = 'minio-gw-' + loop.index | string %}
+{% for bucket in storage.buckets %}
+
+    - name: "{{ name }}-{{ loop.index }}"
+      endpoint: "{{ name }}"
+      bucket: "{{ bucket.name }}"
+      paths:
+{% if bucket.paths is defined %}
+        {{ bucket.paths | to_nice_yaml(indent=2) | indent(8) -}}
+{% else %}
+        container: "/containers"
+        machine: "/machines"
+        emulator: "/emulators"
+        template: "/templates"
+        checkpoint: "/images"
+        image: "/images"
+        rom: "/images"
+{% endif %}
+{% endfor %}
+{% endfor %}
 
     default_location: "default"
-
 {% endif %}
 
 {% if eaas_enable_oaipmh_provider %}
