@@ -16,7 +16,7 @@ services:
       MINIO_ACCESS_KEY: {{ minio_key }}
       MINIO_SECRET_KEY: {{ minio_secret }}
     command: server /data
-{% for storage in eaas_imagearchive_storage %}
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
 {% set name = 'minio-gw-' + loop.index | string %}
 
   {{ name }}:
@@ -31,7 +31,7 @@ services:
     volumes:
     - {{ minio_data_path }}/cache-{{ loop.index }}:/data
 {% if storage.provider == 'google-cloud-storage' %}
-    - {{ minio_secrets_dir }}/{{ name }}.json:/credentials.json
+    - {{ minio_secrets_dir }}/{{ storage.credentials.file | basename }}:/credentials.json
 {% endif %}
     environment:
       MINIO_ACCESS_KEY: {{ storage.credentials.access_key | default(minio_key) }}

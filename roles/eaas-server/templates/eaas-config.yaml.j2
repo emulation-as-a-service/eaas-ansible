@@ -119,7 +119,7 @@ imagearchive:
       credentials:
         access_key: "{{ minio_user_key }}"
         secret_key: "{{ minio_user_secret }}"
-{% for storage in eaas_imagearchive_storage %}
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
     - name: "minio-gw-{{ loop.index }}"
       address: "{{ baseurl }}"
       credentials:
@@ -128,6 +128,7 @@ imagearchive:
 {% endfor %}
 
     locations:
+{% if eaas_imagearchive_storage == [] %}
     - name: "default"
       endpoint: "minio"
       bucket: "image-archive"
@@ -163,16 +164,20 @@ imagearchive:
         checkpoint: "/remote/images"
         image: "/remote/images"
         rom: "/remote/images"
-{% for storage in eaas_imagearchive_storage %}
-{% set name = 'minio-gw-' + loop.index | string %}
-{% for bucket in storage.buckets %}
 
-    - name: "{{ name }}-{{ loop.index }}"
-      endpoint: "{{ name }}"
-      bucket: "{{ bucket.name }}"
+    default_location: "default"
+{% else %}
+{% for storage in eaas_imagearchive_storage if storage.provider == 'minio' %}
+{% if loop.index > 1 %}
+  {{ unsupported | mandatory('Multiple local MinIO instances are not supported!') }}
+{% endif %}
+{% for location in storage.locations %}
+    - name: "{{ location.name }}"
+      endpoint: "minio"
+      bucket: "{{ location.bucket }}"
       paths:
-{% if bucket.paths is defined %}
-        {{ bucket.paths | to_nice_yaml(indent=2) | indent(8) -}}
+{% if location.paths is defined %}
+        {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
 {% else %}
         container: "/containers"
         machine: "/machines"
@@ -182,10 +187,32 @@ imagearchive:
         image: "/images"
         rom: "/images"
 {% endif %}
-{% endfor %}
-{% endfor %}
 
-    default_location: "default"
+{% endfor %}
+{% endfor %}
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
+{% set endpoint = 'minio-gw-' + loop.index | string %}
+{% for location in storage.locations %}
+    - name: "{{ location.name }}"
+      endpoint: "{{ endpoint }}"
+      bucket: "{{ location.bucket }}"
+      paths:
+{% if location.paths is defined %}
+        {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
+{% else %}
+        container: "/containers"
+        machine: "/machines"
+        emulator: "/emulators"
+        template: "/templates"
+        checkpoint: "/images"
+        image: "/images"
+        rom: "/images"
+{% endif %}
+
+{% endfor %}
+{% endfor %}
+    default_location: "{{ eaas.imagearchive.default_location | mandatory }}"
+{% endif %}
 {% endif %}
 
 {% if eaas_enable_oaipmh_provider %}

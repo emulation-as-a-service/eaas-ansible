@@ -95,7 +95,7 @@ services:
 {% endif %}
 {% if minio_enabled %}
     - minio
-{% for provider in eaas_imagearchive_storage %}
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
     - minio-gw-{{ loop.index }}
 {% endfor %}
 {% endif %}
