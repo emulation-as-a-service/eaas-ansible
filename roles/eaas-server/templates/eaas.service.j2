@@ -9,8 +9,11 @@ WorkingDirectory={{ host_eaas_home }}
 ExecStartPre=/sbin/modprobe ip6table_filter
 {% endif %}
 {% set args = '--project-name eaas --file ./docker-compose.yaml' %}
+{% if minio_enabled %}
+    {%- set args = args + ' --file ./minio-services.yaml' %}
+{% endif %}
 {% if portal is defined %}
-    {% set args = args + ' --file ' + host_portal_home + '/docker-compose.yaml' %}
+    {%- set args = args + ' --file ' + host_portal_home + '/docker-compose.yaml' %}
 {% endif %}
 ExecStart={{ docker_compose_install_path }} {{ args }} up
 ExecStop={{ docker_compose_install_path }} {{ args }} down

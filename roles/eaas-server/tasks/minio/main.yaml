@@ -18,7 +18,35 @@
   - key: "{{ minio_user_key }}"
     var: minio_user_secret
 
+- name: check image-archive's storage location names
+  loop: "{{ eaas_imagearchive_storage | subelements('locations') }}"
+  assert:
+    that: item.1.name is regex('^[a-z]+(-[a-z0-9]+)*$')
+    fail_msg: "Invalid storage location's name: {{ item.1.name }}"
+
+- name: generate minio's docker-compose file
+  template:
+    src: docker/minio-services.yaml.j2
+    dest: "{{ host_eaas_home }}/minio-services.yaml"
+
 - name: prepare image-archive's policy
   template:
     src: minio/policies/image-archive.json
     dest: "{{ minio_imagearchive_policy_file }}"
+
+- set_fact:
+    filelist: []
+
+- name: collect image-archive's storage credentials to upload
+  when: item.provider == 'google-cloud-storage'
+  set_fact:
+    filelist: "{{ filelist + [ item.credentials.file ] }}"
+  loop: "{{ eaas_imagearchive_storage }}"
+
+- name: upload image-archive's storage credentials
+  when: eaas_deployment_mode != 'emucomp'
+  include_tasks: custom-files.yaml
+  vars:
+    source_path: "{{ item }}"
+    target_path: "{{ minio_secrets_dir }}/{{ item | basename }}"
+  loop: "{{ filelist }}"

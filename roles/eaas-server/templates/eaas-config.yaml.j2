@@ -1,5 +1,5 @@
 {% if ui_frontend_url != '' %}
-{% set baseurl = ui_frontend_url %} 
+{% set baseurl = ui_frontend_url %}
 {% elif eaas_hostname == 'localhost' %}
 {% set baseurl = 'http://eaas:8080' %}
 {% else %}
@@ -119,8 +119,16 @@ imagearchive:
       credentials:
         access_key: "{{ minio_user_key }}"
         secret_key: "{{ minio_user_secret }}"
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
+    - name: "minio-gw-{{ loop.index }}"
+      address: "{{ baseurl }}"
+      credentials:
+        access_key: "{{ storage.credentials.access_key | default(minio_key) }}"
+        secret_key: "{{ storage.credentials.secret_key | default(minio_secret) }}"
+{% endfor %}
 
     locations:
+{% if eaas_imagearchive_storage == [] %}
     - name: "default"
       endpoint: "minio"
       bucket: "image-archive"
@@ -158,7 +166,53 @@ imagearchive:
         rom: "/remote/images"
 
     default_location: "default"
+{% else %}
+{% for storage in eaas_imagearchive_storage if storage.provider == 'minio' %}
+{% if loop.index > 1 %}
+  {{ unsupported | mandatory('Multiple local MinIO instances are not supported!') }}
+{% endif %}
+{% for location in storage.locations %}
+    - name: "{{ location.name }}"
+      endpoint: "minio"
+      bucket: "{{ location.bucket }}"
+      paths:
+{% if location.paths is defined %}
+        {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
+{% else %}
+        container: "/containers"
+        machine: "/machines"
+        emulator: "/emulators"
+        template: "/templates"
+        checkpoint: "/images"
+        image: "/images"
+        rom: "/images"
+{% endif %}
 
+{% endfor %}
+{% endfor %}
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
+{% set endpoint = 'minio-gw-' + loop.index | string %}
+{% for location in storage.locations %}
+    - name: "{{ location.name }}"
+      endpoint: "{{ endpoint }}"
+      bucket: "{{ location.bucket }}"
+      paths:
+{% if location.paths is defined %}
+        {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
+{% else %}
+        container: "/containers"
+        machine: "/machines"
+        emulator: "/emulators"
+        template: "/templates"
+        checkpoint: "/images"
+        image: "/images"
+        rom: "/images"
+{% endif %}
+
+{% endfor %}
+{% endfor %}
+    default_location: "{{ eaas.imagearchive.default_location | mandatory }}"
+{% endif %}
 {% endif %}
 
 {% if eaas_enable_oaipmh_provider %}
