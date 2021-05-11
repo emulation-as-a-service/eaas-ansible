@@ -45,6 +45,11 @@
     group: "{{ ansible_user_gid }}"
     mode: "a+rwx,+t"
 
+- name: define eaas gateway's hostname
+  when: eaas_deployment_mode != 'emucomp'
+  set_fact:
+    eaas_gw_hostname: "{{ eaas_hostname }}"
+
 - name: prepare keycloak
   when: keycloak_enabled
   include_tasks: keycloak/main.yaml

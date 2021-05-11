@@ -25,6 +25,13 @@ backend=127.0.0.1,8080;/{{endpoint}}/
 
 {% if minio_enabled %}
 backend=minio,9000;/user-data/
+{# add routes for minio-gateways... #}
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
+{% set name = 'minio-gw-' + loop.index | string %}
+{% for location in storage.locations %}
+backend={{ name }},9000;/{{ location.bucket }}/
+{% endfor %}
+{% endfor %}
 {% endif %}
 
 backend=nginx,80;
