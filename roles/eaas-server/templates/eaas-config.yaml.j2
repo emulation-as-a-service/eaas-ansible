@@ -14,7 +14,7 @@ objectarchive:
 
 {% if eaas_enable_user_auth %}
 authentication:
-  authJwksUri: "https://{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
+  authJwksUri: "{{ eaas_protocol }}{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
   authAudience: "{{ eaas_auth_audience }}"
   authEnabled: true
   keycloakAdminUser: {{ keycloak_admin_user }}
