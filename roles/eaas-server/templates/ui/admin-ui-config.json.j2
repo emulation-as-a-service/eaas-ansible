@@ -46,7 +46,7 @@
   {% if keycloak_enabled %}
   , "auth0Config" : {
         "AUTH_CONFIGURED": true,
-        "DOMAIN": "{{ eaas_hostname }}/admin/redirect.html#{{ baseurl }}/auth/realms/master/protocol/openid-connect/",
+        "DOMAIN": "{{ eaas_protocol }}{{ eaas_hostname }}:{{ eaas_public_port }}/admin/redirect.html#{{ baseurl }}/auth/realms/master/protocol/openid-connect/",
         "CLIENT_ID": "{{ keycloak_client_id }}",
         "REDIRECT_URL": "/admin/",
         "issuer": "{{ baseurl }}/auth/realms/master",

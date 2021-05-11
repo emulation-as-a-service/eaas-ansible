@@ -1,7 +1,11 @@
 {% if ui_frontend_url != '' %}
 {% set baseurl = ui_frontend_url %}
 {% else %}
+{% if eaas_protocol == 'https://' %}
 {% set baseurl = eaas_protocol + eaas_hostname %}
+{% else %}
+{% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
+{% endif %}
 {% endif %}
 
 {
