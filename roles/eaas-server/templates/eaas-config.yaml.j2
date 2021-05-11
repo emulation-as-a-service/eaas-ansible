@@ -9,6 +9,7 @@
 objectarchive:
   httpexport: "{{ baseurl }}/objectarchive/"
   default_archive: "{{ eaas_default_archive }}"
+  user_archive_enabled: "{{ eaas_user_archive_enabled }}"
   user_archive_prefix: "{{ eaas_user_archive_prefix }}"
 
 {% if eaas_enable_user_auth %}
