@@ -45,6 +45,20 @@
     group: "{{ ansible_user_gid }}"
     mode: "a+rwx,+t"
 
+- name: create secrets folder
+  file:
+    path: "{{ eaas_secrets_dir }}"
+    state: directory
+
+- name: prepare eaas secrets
+  include_tasks: utils/secret.yaml
+  vars:
+    filepath: "{{ eaas_secrets_dir }}/{{ item.key }}"
+    varname: "{{ item.var }}"
+  loop:
+  - key: "eaas-api"
+    var: eaas_api_secret
+
 - name: define eaas gateway's hostname
   when: eaas_deployment_mode != 'emucomp'
   set_fact:

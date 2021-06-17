@@ -3,14 +3,14 @@
   when: (eaas_deployment_mode != 'emucomp') and (docker_ssl_certificate != '')
   copy:
     src: "{{ item.src }}"
-    dest: "{{ host_eaas_home }}/certificates/{{ item.name }}"
+    dest: "{{ item.dst }}"
   loop:
   - src: "{{ docker_ssl_certificate }}"
-    name: "server.crt"
+    dst: "{{ eaas_ssl_certificate }}"
   - src: "{{ docker_ssl_private_key }}"
-    name: "server.key"
+    dst: "{{ eaas_ssl_private_key }}"
 
-- name: setup nginx 
+- name: setup nginx
   when: eaas_http_proxy != ''
   include_tasks: proxy.yaml
 

@@ -9,7 +9,7 @@
 objectarchive:
   httpexport: "{{ baseurl }}/objectarchive/"
   default_archive: "{{ eaas_default_archive }}"
-  user_archive_enabled: "{{ eaas_user_archive_enabled }}"
+  user_archive_enabled: {{ eaas_user_archive_enabled | lower }}
   user_archive_prefix: "{{ eaas_user_archive_prefix }}"
 
 {% if eaas_enable_user_auth %}
@@ -26,7 +26,7 @@ emil:
   classificationservice: "{{ baseurl }}/"
   imageproposerservice: "{{ baseurl }}/"
 {% if eaas_enable_user_auth %}
-  singleUserMode: "{{ eaas_auth_single_user }}"
+  singleUserMode: {{ eaas_auth_single_user | lower }}
 {% endif %}
 
 {% if minio_enabled %}
@@ -46,11 +46,15 @@ ws:
   softwarearchive: "{{ baseurl }}"
 {% endif %}
 {% if eaas_enable_backend_auth is defined and eaas_enable_backend_auth %}
-  apiSecret: "{{ eaas_api_secret }}"
+  apiSecret: "{{ eaas_internal_api_secret }}"
 {% endif %}
 
 rest:
   blobstore: "{{ baseurl }}/blobstore/api/v1/blobs"
+{% if eaas_enable_backend_auth is defined and eaas_enable_backend_auth %}
+  internalApiSecret: "{{ eaas_internal_api_secret }}"
+  apiSecret: "{{ eaas_api_secret }}"
+{% endif %}
 
 emucomp:
   blobstore_soap: "{{ baseurl }}"
