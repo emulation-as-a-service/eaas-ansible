@@ -24,11 +24,6 @@
     that: item.1.name is regex('^[a-z]+(-[a-z0-9]+)*$')
     fail_msg: "Invalid storage location's name: {{ item.1.name }}"
 
-- name: generate minio's docker-compose file
-  template:
-    src: docker/minio-services.yaml.j2
-    dest: "{{ host_eaas_home }}/minio-services.yaml"
-
 - name: prepare image-archive's policy
   template:
     src: minio/policies/image-archive.json
