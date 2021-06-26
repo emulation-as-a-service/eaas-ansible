@@ -9,10 +9,10 @@
 - name: pull pre-built operator image
   become: "{{ 'no' if ansible_distribution == 'MacOSX' else 'yes' }}"
   docker_image:
-    force: "{{ eaas_component_docker_image in eaas_update_components }}"
+    force_source: "{{ eaas_component_docker_image in eaas_update_components }}"
     name: "{{ operator_image }}"
     state: present
-    pull: yes
+    source: pull
 
 - name: generate operator config file
   template:
