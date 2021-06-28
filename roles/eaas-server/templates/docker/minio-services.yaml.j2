@@ -37,6 +37,9 @@
       MINIO_ROOT_PASSWORD: {{ storage.credentials.s3_root_password }}
 {% endif %}
       MINIO_CACHE: "on"
+{% if storage.disable_range_cache is defined and storage.disable_range_cache | bool %}
+      MINIO_CACHE_RANGE: "off"
+{% endif %}
       MINIO_CACHE_DRIVES: /data
       MINIO_CACHE_QUOTA: 80
       MINIO_CACHE_AFTER: 1
