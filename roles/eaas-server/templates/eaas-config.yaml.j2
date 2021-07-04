@@ -145,6 +145,9 @@ imagearchive:
         checkpoint: "/images"
         image: "/images"
         rom: "/images"
+        environment: "/environments"
+        session: "/sessions"
+        network: "/network"
 
     - name: "public"
       endpoint: "minio"
@@ -157,6 +160,9 @@ imagearchive:
         checkpoint: "/public/images"
         image: "/public/images"
         rom: "/public/images"
+        environment: "/public/environments"
+        session: "/public/sessions"
+        network: "/public/network"
 
     - name: "remote"
       endpoint: "minio"
@@ -169,6 +175,9 @@ imagearchive:
         checkpoint: "/remote/images"
         image: "/remote/images"
         rom: "/remote/images"
+        environment: "/remote/environments"
+        session: "/remote/sessions"
+        network: "/remote/network"
 
     default_location: "default"
 {% else %}
