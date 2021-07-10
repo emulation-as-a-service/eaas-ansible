@@ -193,6 +193,9 @@ imagearchive:
 {% if location.paths is defined %}
         {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
 {% else %}
+        environment: "/environments"
+        session: "/sessions"
+        network: "/networks"
         container: "/containers"
         machine: "/machines"
         emulator: "/emulators"
@@ -214,6 +217,9 @@ imagearchive:
 {% if location.paths is defined %}
         {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
 {% else %}
+        environment: "/environments"
+        session: "/sessions"
+        network: "/networks"
         container: "/containers"
         machine: "/machines"
         emulator: "/emulators"
