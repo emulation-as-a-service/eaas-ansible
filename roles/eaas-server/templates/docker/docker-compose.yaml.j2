@@ -152,6 +152,7 @@ services:
     extra_hosts:
     - {{ eaas_hostname }}:127.0.0.1
 {% endif %}
+
 {% include 'minio-services.yaml.j2' %}
 
 {% if not docker_disable_tmp_volume %}
