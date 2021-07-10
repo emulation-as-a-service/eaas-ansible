@@ -147,7 +147,7 @@ imagearchive:
         rom: "/images"
         environment: "/environments"
         session: "/sessions"
-        network: "/network"
+        network: "/networks"
 
     - name: "public"
       endpoint: "minio"
@@ -162,7 +162,7 @@ imagearchive:
         rom: "/public/images"
         environment: "/public/environments"
         session: "/public/sessions"
-        network: "/public/network"
+        network: "/public/networks"
 
     - name: "remote"
       endpoint: "minio"
@@ -177,7 +177,7 @@ imagearchive:
         rom: "/remote/images"
         environment: "/remote/environments"
         session: "/remote/sessions"
-        network: "/remote/network"
+        network: "/remote/networks"
 
     default_location: "default"
 {% else %}
