@@ -43,6 +43,7 @@ eaas_component_docker_image: 'docker-image'
 eaas_component_server_data: 'server-data'
 
 eaas_deployment_mode: 'all'
+eaas_devmode_enabled: "{{ eaas.enable_devmode | default(false) }}"
 eaas_hostname: "{{ eaas.public_fqdn | default(ansible_host) }}"
 eaas_frontend_protocol: "{{eaas.frontend_protocol | default('http://') }}"
 eaas_public_port: "{{ eaas.public_port | default(docker_port) }}"

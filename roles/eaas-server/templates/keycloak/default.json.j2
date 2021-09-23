@@ -650,6 +650,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
+{% if eaas_devmode_enabled %}
+        "http://localhost:8080/*",
+        "http://localhost:8084/*",
+{% endif %}
         "{{ baseurl }}/*"
       ],
       "webOrigins": [
