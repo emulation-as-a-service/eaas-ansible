@@ -1,8 +1,4 @@
-{% if docker_ssl_enabled %}
-frontend=*,443
-{% else %}
-frontend=*,80;no-tls
-{% endif %}
+frontend=*,{{ eaas_public_port }}{{ ';no-tls' if not docker_ssl_enabled }}
 
 {% set eaas_endpoints = [
 			'blobstore',

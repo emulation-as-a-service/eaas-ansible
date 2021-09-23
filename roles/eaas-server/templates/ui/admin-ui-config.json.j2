@@ -2,11 +2,7 @@
 {% if ui_frontend_url != '' %}
 {% set baseurl = ui_frontend_url %}
 {% else %}
-{% if eaas_protocol == 'https://' %}
-{% set baseurl = eaas_protocol + eaas_hostname %}
-{% else %}
-{% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
-{% endif %}
+{% set baseurl = eaas_base_url %}
 {% endif %}
 {
   "baseUrl": "{{ baseurl }}",
@@ -46,7 +42,7 @@
   {% if keycloak_enabled %}
   , "auth0Config" : {
         "AUTH_CONFIGURED": true,
-        "DOMAIN": "{{ eaas_protocol }}{{ eaas_hostname }}:{{ eaas_public_port }}/admin/redirect.html#{{ baseurl }}/auth/realms/master/protocol/openid-connect/",
+        "DOMAIN": "{{ baseurl }}/admin/redirect.html#{{ baseurl }}/auth/realms/master/protocol/openid-connect/",
         "CLIENT_ID": "{{ keycloak_client_id }}",
         "REDIRECT_URL": "/admin/",
         "issuer": "{{ baseurl }}/auth/realms/master",

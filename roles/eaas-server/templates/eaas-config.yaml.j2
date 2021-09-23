@@ -3,7 +3,7 @@
 {% elif eaas_hostname == 'localhost' %}
 {% set baseurl = 'http://eaas:80' %}
 {% else %}
-{% set baseurl = eaas_protocol + eaas_hostname + ':' + eaas_public_port %}
+{% set baseurl = eaas_base_url %}
 {% endif %}
 
 objectarchive:
@@ -14,7 +14,7 @@ objectarchive:
 
 {% if eaas_enable_user_auth %}
 authentication:
-  authJwksUri: "{{ eaas_protocol }}{{ eaas_hostname }}/auth/realms/master/protocol/openid-connect/certs"
+  authJwksUri: "{{ baseurl }}/auth/realms/master/protocol/openid-connect/certs"
   authAudience: "{{ eaas_auth_audience }}"
   authEnabled: true
   keycloakAdminUser: {{ keycloak_admin_user }}
