@@ -1,0 +1,34 @@
+#!/bin/env sh
+
+set -eu
+
+cmd='docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh'
+
+__connect_and_login() {
+	${cmd} config credentials \
+		--server http://keycloak:8080/auth \
+		--user "{{ keycloak_admin_user }}"\
+		--password "{{ keycloak_admin_password }}" \
+		--realm master
+}
+
+retries=30
+while ! __connect_and_login; do
+	retries=$((${retries} - 1))
+	test "${retries}" -gt 0 || exit 1
+	sleep 1s
+done
+
+{% set redirect_uris = [eaas_base_url + "/*"] %}
+{% if eaas_devmode_enabled %}
+	{%- set redirect_uris = redirect_uris + ["http://localhost:8080/*", "http://localhost:8084/*"] %}
+{% endif %}
+
+echo "Updating client's properties..."
+${cmd} update clients/a8f1df16-de41-4dac-8cc7-35abbee912c6 \
+	--set 'rootUrl="{{ eaas_base_url }}"' \
+	--set 'adminUrl="{{ keycloak_frontend_url }}"' \
+	--set 'redirectUris={{ redirect_uris | to_json }}' \
+	--set 'webOrigins=["{{ eaas_base_url }}"]'
+
+echo "Keycloak's config updated"

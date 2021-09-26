@@ -26,6 +26,15 @@
     filepath: "{{ keycloak_secrets_dir }}/admin"
     varname: keycloak_admin_password
 
+- name: copy keycloak's hooks
+  include_tasks: utils/hook.yaml
+  vars:
+    kind: "{{ item.kind }}"
+    name: "{{ item.name }}"
+  loop:
+  - kind: "post-start"
+    name: "01-update-keycloak-config.sh"
+
 
 - name: move keycloak's legacy data dir
   shell: |
