@@ -35,6 +35,7 @@
   - welcome-content
   - keycloak
   - data
+  - hooks
 
 - name: create eaas tmpStorage folder
   become: yes
@@ -58,6 +59,12 @@
   loop:
   - key: "eaas-api"
     var: eaas_api_secret
+
+- name: "copy hook-runner script"
+  template:
+    src: hooks/runner.sh
+    dest: "{{ eaas_hooks_runner }}"
+    mode: u=rwx,g=rx,o=
 
 - name: define eaas gateway's hostname
   when: eaas_deployment_mode != 'emucomp'

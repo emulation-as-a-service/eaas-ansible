@@ -8,12 +8,14 @@ WorkingDirectory={{ host_eaas_home }}
 {% if eaas_enable_snapshots %}
 ExecStartPre=/sbin/modprobe ip6table_filter
 {% endif %}
+ExecStartPre={{ eaas_hooks_runner }} pre-start
 {% set args = '--project-name eaas --file ./docker-compose.yaml' %}
 {% if portal is defined %}
     {%- set args = args + ' --file ' + host_portal_home + '/docker-compose.yaml' %}
 {% endif %}
 ExecStart={{ docker_compose_install_path }} {{ args }} up
 ExecStop={{ docker_compose_install_path }} {{ args }} down
+ExecStartPost={{ eaas_hooks_runner }} post-start
 TimeoutSec=1200
 Restart=always
 

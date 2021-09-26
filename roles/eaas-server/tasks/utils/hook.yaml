@@ -1,0 +1,11 @@
+---
+- name: "create directory for {{ kind }} hooks"
+  file:
+    path: "{{ eaas_hooks_dir }}/{{ kind }}"
+    state: directory
+
+- name: "copy hook {{ name }} ({{ kind }})"
+  template:
+    src: hooks/{{ kind }}/{{ name }}.j2
+    dest: "{{ eaas_hooks_dir }}/{{ kind }}/{{ name }}"
+    mode: u=rwx,g=rx,o=
