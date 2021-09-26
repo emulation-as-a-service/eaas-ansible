@@ -63,7 +63,12 @@ services:
       KEYCLOAK_ALWAYS_HTTPS: "{% if eaas_protocol == 'https://' %}true{% else %}false{% endif %}"
       PROXY_ADDRESS_FORWARDING: "true"
 
-    command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.file=/run/keycloak/defaults.json
+    command:
+    - --server-config=standalone.xml
+    - -Dkeycloak.migration.action=import
+    - -Dkeycloak.migration.provider=singleFile
+    - -Dkeycloak.migration.strategy=IGNORE_EXISTING
+    - -Dkeycloak.migration.file=/run/keycloak/defaults.json
 
     volumes:
       - {{ keycloak_data_dir }}:/opt/jboss/keycloak/standalone/data
