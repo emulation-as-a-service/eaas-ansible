@@ -6,6 +6,7 @@
   loop:
   - "{{ minio_secrets_dir }}"
   - "{{ minio_policies_dir }}"
+  - "{{ minio_data_path }}"
 
 - name: prepare minio secrets
   include_tasks: utils/secret.yaml
