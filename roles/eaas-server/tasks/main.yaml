@@ -177,6 +177,13 @@
   when: eaas_generalization_patches_enabled
   include_tasks: server-data/generalization-patches.yaml
 
+- name: copy snapshot-related pre-start hook
+  when: eaas_enable_snapshots
+  include_tasks: utils/hook.yaml
+  vars:
+    kind: "pre-start"
+    name: "01-enable-ip6tables.sh"
+
 - name: create systemd unit
   when: "unsupported_os is undefined"
   become: yes

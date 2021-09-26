@@ -5,9 +5,6 @@ Requires=docker.service
 
 [Service]
 WorkingDirectory={{ host_eaas_home }}
-{% if eaas_enable_snapshots %}
-ExecStartPre=/sbin/modprobe ip6table_filter
-{% endif %}
 ExecStartPre={{ eaas_hooks_runner }} pre-start
 {% set args = '--project-name eaas --file ./docker-compose.yaml' %}
 {% if portal is defined %}
