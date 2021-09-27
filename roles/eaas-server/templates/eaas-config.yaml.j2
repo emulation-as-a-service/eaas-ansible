@@ -138,6 +138,7 @@ imagearchive:
       endpoint: "minio"
       bucket: "image-archive"
       paths:
+        aliasing: "/aliases"
         container: "/containers"
         machine: "/machines"
         emulator: "/emulators"
@@ -153,6 +154,7 @@ imagearchive:
       endpoint: "minio"
       bucket: "image-archive"
       paths:
+        aliasing: "/public/aliases"
         container: "/public/containers"
         machine: "/public/machines"
         emulator: "/public/emulators"
@@ -168,6 +170,7 @@ imagearchive:
       endpoint: "minio"
       bucket: "image-archive"
       paths:
+        aliasing: "/remote/aliases"
         container: "/remote/containers"
         machine: "/remote/machines"
         emulator: "/remote/emulators"
@@ -193,6 +196,7 @@ imagearchive:
 {% if location.paths is defined %}
         {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
 {% else %}
+        aliasing: "/aliases"
         environment: "/environments"
         session: "/sessions"
         network: "/networks"
@@ -217,6 +221,7 @@ imagearchive:
 {% if location.paths is defined %}
         {{ location.paths | to_nice_yaml(indent=2) | indent(8) -}}
 {% else %}
+        aliasing: "/aliases"
         environment: "/environments"
         session: "/sessions"
         network: "/networks"
