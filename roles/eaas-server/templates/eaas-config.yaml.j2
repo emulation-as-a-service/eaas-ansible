@@ -149,6 +149,7 @@ imagearchive:
         environment: "/environments"
         session: "/sessions"
         network: "/networks"
+        image-metadata: "/metadata/images"
 
     - name: "public"
       endpoint: "minio"
@@ -165,6 +166,7 @@ imagearchive:
         environment: "/public/environments"
         session: "/public/sessions"
         network: "/public/networks"
+        image-metadata: "/public/metadata/images"
 
     - name: "remote"
       endpoint: "minio"
@@ -181,6 +183,7 @@ imagearchive:
         environment: "/remote/environments"
         session: "/remote/sessions"
         network: "/remote/networks"
+        image-metadata: "/remote/metadata/images"
 
     default_location: "default"
 {% else %}
@@ -207,6 +210,7 @@ imagearchive:
         checkpoint: "/images"
         image: "/images"
         rom: "/images"
+        image-metadata: "/metadata/images"
 {% endif %}
 
 {% endfor %}
@@ -232,6 +236,7 @@ imagearchive:
         checkpoint: "/images"
         image: "/images"
         rom: "/images"
+        image-metadata: "/metadata/images"
 {% endif %}
 
 {% endfor %}
