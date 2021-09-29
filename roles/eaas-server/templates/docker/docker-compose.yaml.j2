@@ -110,6 +110,7 @@ services:
     - {{ docker_network_name }}
 {% endif %}
     environment:
+      EAAS_SERVER_OPTS: "-Dresteasy.preferJacksonOverJsonB=true"
       SSL_PROXY: "{{ docker_ssl_enabled | default("no") | lower }}"
 {% if not docker_ssl_enabled %}
       EAAS_PROXYPORT: {{ eaas_public_port }}
