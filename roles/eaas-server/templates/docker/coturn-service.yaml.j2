@@ -1,0 +1,11 @@
+  coturn:
+    image: registry.gitlab.com/emulation-as-a-service/coturn-image
+    container_name: coturn
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
+    ports:
+    - 3478:3478
+    - 3478:3478/udp
+    command: turnserver --listening-port 3478 --secure-stun --verbose -u eaas:eaas -r {{ eaas_hostname }}

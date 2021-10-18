@@ -1,0 +1,14 @@
+  operator:
+    image: {{ operator_image }}
+    container_name: operator
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
+    ports:
+    - 127.0.0.1:8000:8000
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ./operator/config.yaml:/work/config.yaml:ro
+    - ./operator/state:/work/state
+    - ./:/work/target

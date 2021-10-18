@@ -1,0 +1,67 @@
+  eaas:
+    image: {{ docker_image }}
+    container_name: {{ host_eaas_service_name }}
+    privileged: true
+    depends_on:
+    - nginx
+    - caddy
+{% if keycloak_enabled %}
+    - keycloak
+{% endif %}
+{% if minio_enabled %}
+    - minio
+{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
+    - minio-gw-{{ loop.index }}
+{% endfor %}
+{% endif %}
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
+    environment:
+      EAAS_SERVER_OPTS: "-Dresteasy.preferJacksonOverJsonB=true"
+      SSL_PROXY: "{{ docker_ssl_enabled | default("no") | lower }}"
+{% if not docker_ssl_enabled %}
+      EAAS_PROXYPORT: {{ eaas_public_port }}
+      EAAS_PROXYHOST: {{ eaas_hostname }}
+{% endif %}
+{% if minio_enabled %}
+      MINIO_ADMIN_KEY: {{ minio_key }}
+      MINIO_ADMIN_SECRET: {{ minio_secret }}
+      MINIO_USER_KEY: {{ minio_user_key }}
+      MINIO_USER_SECRET: {{ minio_user_secret }}
+      MINIO_ARCHIVE_POLICY_FILE: "/eaas/config/minio/policies/image-archive.json"
+{% endif %}
+    labels:
+      caddy: "https://{{ eaas_hostname }}"
+      caddy.@eaas.path: /blobstore/* /dig-pub-sharing/* /eaas/* /emil/* /emucomp/* /environment-proposer/* /imagearchive/* /imagebuilder/* /imageclassifier/* /imageproposer/* /oaipmh/* /objectarchive/* /softwarearchive/*
+      caddy.reverse_proxy: "@eaas {%raw%}{{upstreams 8080}}{%endraw%}"
+{% if portal is undefined %}
+    ports:
+    - 8080:8080
+{% endif %}
+{% if portal is defined %}
+    external_links:
+    - eaasi-nginx:{{ eaas_hostname }}
+{% endif %}
+    volumes:
+    - ./log/server:/home/bwfla/bw-fla-server/standalone/log
+    - ./server-data:/eaas/server-data
+    - {{ docker_objects_volume | default("./objects", true) }}:/eaas/objects
+    - {{ docker_export_volume | default("./export", true) }}:/eaas/export
+    - {{ docker_image_archive_volume | default("./image-archive", true) }}:/eaas/image-archive
+    - {{ docker_import_volume | default("./import", true) }}:/eaas/import
+    - {{ host_tmp_storage }}:/tmp-storage
+    - ./caddy:/home/bwfla/caddy:ro
+{% if not docker_disable_tmp_volume %}
+    - tmpfs_vol:/tmp    
+{% endif %}
+    - ./config:/eaas/config
+    - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
+    - ./certificates:/eaas/certificates
+    - ./deployments:/eaas/deployments
+{% if portal is undefined %}
+{% endif %}
+{% for volume in docker_custom_volumes %}
+    - {{ volume }}
+{% endfor %}

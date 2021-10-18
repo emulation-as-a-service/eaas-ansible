@@ -10,156 +10,26 @@ networks:
 
 {% endif %}
 services:
-  nginx:
-    image: nginx
-    container_name: nginx
-    volumes:
-      - {{ docker_image_archive_volume | default("./image-archive", true) }}:/image-archive:ro
-      - ./eaas-ui:/www
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/nginx/proxy.js:/etc/nginx/proxy.js
-      - ./welcome-content:/welcome-content
-{% if ui_enable_admin_ui %}
-      - ./config/admin-ui.json:/www/eaas-frontend-admin/dist/config.json:ro
-{% endif %}
-{% if ui_landing_page %}
-      - ./config/admin-ui.json:/www/landing-page/dist/config.json:ro
-{% endif %}
-{% if docker_network_name != '' %}
-    networks:
-    - {{ docker_network_name }}
-{% endif %}
-
+  
 {% if operator_enabled %}
-  operator:
-    image: {{ operator_image }}
-    container_name: operator
-{% if docker_network_name != '' %}
-    networks:
-    - {{ docker_network_name }}
-{% endif %}
-    ports:
-    - 127.0.0.1:8000:8000
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - ./operator/config.yaml:/work/config.yaml:ro
-    - ./operator/state:/work/state
-    - ./:/work/target
+{% include 'operator-service.yaml.j2' %}    
 {% endif %}
 
 {% if keycloak_enabled %}
-  keycloak:
-    image: jboss/keycloak
-    container_name: keycloak
-{% if docker_network_name != '' %}
-    networks:
-    - {{ docker_network_name }}
-{% endif %}
-    environment:
-      DB_VENDOR: h2
-      KEYCLOAK_USER: {{ keycloak_admin_user}}
-      KEYCLOAK_PASSWORD: {{ keycloak_admin_password }}
-      KEYCLOAK_FRONTEND_URL: {{ keycloak_frontend_url }}/
-      KEYCLOAK_ALWAYS_HTTPS: "{% if eaas_protocol == 'https://' %}true{% else %}false{% endif %}"
-      PROXY_ADDRESS_FORWARDING: "true"
-
-    command:
-    - --server-config=standalone.xml
-    - -Dkeycloak.migration.action=import
-    - -Dkeycloak.migration.provider=singleFile
-    - -Dkeycloak.migration.strategy=IGNORE_EXISTING
-    - -Dkeycloak.migration.file=/run/keycloak/defaults.json
-
-    volumes:
-      - {{ keycloak_data_dir }}:/opt/jboss/keycloak/standalone/data
-      - {{ keycloak_theme_dir }}:/opt/jboss/keycloak/themes/eaas
-      - {{ keycloak_defaults_file }}:/run/keycloak/defaults.json:ro
+{% include 'keycloak-service.yaml.j2' %}  
 {% endif %}
 
 {% if coturn_enabled %}
-  coturn:
-    image: registry.gitlab.com/emulation-as-a-service/coturn-image
-    container_name: coturn
-{% if docker_network_name != '' %}
-    networks:
-    - {{ docker_network_name }}
-{% endif %}
-    ports:
-    - 3478:3478
-    - 3478:3478/udp
-    command: turnserver --listening-port 3478 --secure-stun --verbose -u eaas:eaas -r {{ eaas_hostname }}
+{% include 'coturn-service.yaml.j2' %}
 {% endif %}
 
-  eaas:
-    image: {{ docker_image }}
-    container_name: {{ host_eaas_service_name }}
-    privileged: true
-    depends_on:
-    - nginx
-{% if keycloak_enabled %}
-    - keycloak
-{% endif %}
-{% if minio_enabled %}
-    - minio
-{% for storage in eaas_imagearchive_storage if storage.provider != 'minio' %}
-    - minio-gw-{{ loop.index }}
-{% endfor %}
-{% endif %}
-{% if docker_network_name != '' %}
-    networks:
-    - {{ docker_network_name }}
-{% endif %}
-    environment:
-      EAAS_SERVER_OPTS: "-Dresteasy.preferJacksonOverJsonB=true"
-      SSL_PROXY: "{{ docker_ssl_enabled | default("no") | lower }}"
-{% if not docker_ssl_enabled %}
-      EAAS_PROXYPORT: {{ eaas_public_port }}
-      EAAS_PROXYHOST: {{ eaas_hostname }}
-{% endif %}
-{% if minio_enabled %}
-      MINIO_ADMIN_KEY: {{ minio_key }}
-      MINIO_ADMIN_SECRET: {{ minio_secret }}
-      MINIO_USER_KEY: {{ minio_user_key }}
-      MINIO_USER_SECRET: {{ minio_user_secret }}
-      MINIO_ARCHIVE_POLICY_FILE: "/eaas/config/minio/policies/image-archive.json"
-{% endif %}
-{% if portal is undefined %}
-    ports:
-    - {{ docker_port_mapping }}
-{% if docker_network_ports != '' %}
-    - {{ docker_network_ports }}
-{% endif %}
-{% endif %}
-{% if portal is defined %}
-    external_links:
-    - eaasi-nginx:{{ eaas_hostname }}
-{% endif %}
-    volumes:
-    - ./log/server:/home/bwfla/bw-fla-server/standalone/log
-    - ./server-data:/eaas/server-data
-    - {{ docker_objects_volume | default("./objects", true) }}:/eaas/objects
-    - {{ docker_export_volume | default("./export", true) }}:/eaas/export
-    - {{ docker_image_archive_volume | default("./image-archive", true) }}:/eaas/image-archive
-    - {{ docker_import_volume | default("./import", true) }}:/eaas/import
-    - {{ host_tmp_storage }}:/tmp-storage
-{% if not docker_disable_tmp_volume %}
-    - tmpfs_vol:/tmp
-{% endif %}
-    - ./config:/eaas/config
-    - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
-    - ./certificates:/eaas/certificates
-    - ./deployments:/eaas/deployments
-{% if portal is undefined %}
-{% endif %}
-{% for volume in docker_custom_volumes %}
-    - {{ volume }}
-{% endfor %}
-{% if docker_ssl_enabled %}
-    extra_hosts:
-    - {{ eaas_hostname }}:127.0.0.1
-{% endif %}
+{% include 'caddy-service.yaml.j2' %}
+
+{% include 'nginx-service.yaml.j2' %}
 
 {% include 'minio-services.yaml.j2' %}
+
+{% include 'eaas-service.yaml.j2' %}
 
 {% if not docker_disable_tmp_volume %}
 volumes:

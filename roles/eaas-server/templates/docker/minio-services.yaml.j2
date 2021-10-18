@@ -1,6 +1,10 @@
   minio:
     image: minio/minio
     container_name: minio
+    labels:
+      caddy: "https://{{ eaas_hostname }}"
+      caddy.@minio.path: /user-data/
+      caddy.reverse_proxy: "@minio {%raw%}{{upstreams 9000}}{%endraw%}"
 {% if docker_network_name != '' %}
     networks:
     - {{ docker_network_name }}
