@@ -36,10 +36,6 @@
       caddy: {{ eaas_base_url }}
       caddy.@eaas.path: /blobstore/* /dig-pub-sharing/* /eaas/* /emil/* /emucomp/* /environment-proposer/* /imagearchive/* /imagebuilder/* /imageclassifier/* /imageproposer/* /oaipmh/* /objectarchive/* /softwarearchive/*
       caddy.reverse_proxy: "@eaas {%raw%}{{upstreams 8080}}{%endraw%}"
-{% if portal is undefined %}
-    ports:
-    - 8080:8080
-{% endif %}
 {% if portal is defined %}
     external_links:
     - eaasi-nginx:{{ eaas_hostname }}
@@ -53,7 +49,7 @@
     - {{ docker_import_volume | default("./import", true) }}:/eaas/import
     - {{ host_tmp_storage }}:/tmp-storage
     - ./caddy:/home/bwfla/caddy:ro
-{%- if eaas_gw_hostname == 'localhost' %}
+{% if eaas_gw_hostname == 'localhost' %}
     - /dev/null:/etc/hosts
 {% endif %}
 {% if not docker_disable_tmp_volume %}
