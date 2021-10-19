@@ -5,6 +5,9 @@
       eaasi:
         aliases:
           - {{ eaas_hostname }}
+{% if eaas_gw_hostname == 'localhost' %}
+          - localhost
+{% endif %}
     ports:
       - {{ eaas_public_port }}:{{ eaas_public_port }}
     volumes:

@@ -53,6 +53,9 @@
     - {{ docker_import_volume | default("./import", true) }}:/eaas/import
     - {{ host_tmp_storage }}:/tmp-storage
     - ./caddy:/home/bwfla/caddy:ro
+{%- if eaas_gw_hostname == 'localhost' %}
+    - /dev/null:/etc/hosts
+{% endif %}
 {% if not docker_disable_tmp_volume %}
     - tmpfs_vol:/tmp    
 {% endif %}
