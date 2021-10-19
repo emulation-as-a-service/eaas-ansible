@@ -18,6 +18,6 @@
     - {{ docker_network_name }}
 {% endif %}
     labels:
-      caddy: "https://{{ eaas_hostname }}"
+      caddy: {{ eaas_base_url }}
       caddy.@nginx.path: /admin /admin/*
       caddy.reverse_proxy: "@nginx {%raw%}{{upstreams 80}}{%endraw%}"

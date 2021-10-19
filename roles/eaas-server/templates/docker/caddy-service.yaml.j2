@@ -4,16 +4,16 @@
     networks:
       eaasi:
         aliases:
-        -  {{ eaas_hostname }}
+          - {{ eaas_hostname }}
     ports:
-      - 443:443
-      - 80:80
+      - {{ eaas_public_port }}:{{ eaas_public_port }}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./caddy:/data
+{% if eaas_dns.cf_token is defined %}
     labels:
       caddy: "https://*.{{ eaas_hostname }}"
       caddy.tls.dns: lego_deprecated cloudflare
     environment:
       CLOUDFLARE_DNS_API_TOKEN: {{ eaas_dns.cf_token }}
-  
+{% endif %} 

@@ -21,7 +21,7 @@
     - -Dkeycloak.migration.file=/run/keycloak/defaults.json
 
     labels:
-      caddy: "https://{{ eaas_hostname }}"
+      caddy: {{ eaas_base_url }}
       caddy.@keycloak.path: /auth /auth/*
       caddy.reverse_proxy: "@keycloak {%raw%}{{upstreams 8080}}{%endraw%}"
     

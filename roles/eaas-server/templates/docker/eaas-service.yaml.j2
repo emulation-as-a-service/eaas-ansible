@@ -33,7 +33,7 @@
       MINIO_ARCHIVE_POLICY_FILE: "/eaas/config/minio/policies/image-archive.json"
 {% endif %}
     labels:
-      caddy: "https://{{ eaas_hostname }}"
+      caddy: {{ eaas_base_url }}
       caddy.@eaas.path: /blobstore/* /dig-pub-sharing/* /eaas/* /emil/* /emucomp/* /environment-proposer/* /imagearchive/* /imagebuilder/* /imageclassifier/* /imageproposer/* /oaipmh/* /objectarchive/* /softwarearchive/*
       caddy.reverse_proxy: "@eaas {%raw%}{{upstreams 8080}}{%endraw%}"
 {% if portal is undefined %}
