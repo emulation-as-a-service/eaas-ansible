@@ -23,6 +23,7 @@
       caddy_1.tls.dns: lego_deprecated cloudflare
 {% endif %} 
     environment:
+      _PLACEHOLDER: "ensure nonempty environment block"
 {% if eaas_dns.cf_token is defined %}
       CLOUDFLARE_DNS_API_TOKEN: {{ eaas_dns.cf_token }}
 {% endif %}
