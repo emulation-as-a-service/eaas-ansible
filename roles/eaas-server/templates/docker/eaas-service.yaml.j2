@@ -36,6 +36,7 @@
       caddy: {{ eaas_base_url }}
       caddy.@eaas.path: /blobstore/* /dig-pub-sharing/* /eaas/* /emil/* /emucomp/* /environment-proposer/* /imagearchive/* /imagebuilder/* /imageclassifier/* /imageproposer/* /oaipmh/* /objectarchive/* /softwarearchive/*
       caddy.reverse_proxy: "@eaas {%raw%}{{upstreams 8080}}{%endraw%}"
+      caddy.uri: "@eaas path_regexp /{2,} /"
 {% if portal is defined %}
     external_links:
     - eaasi-nginx:{{ eaas_hostname }}

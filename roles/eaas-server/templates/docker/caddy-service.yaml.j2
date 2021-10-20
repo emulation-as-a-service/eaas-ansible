@@ -7,13 +7,21 @@
           - {{ eaas_hostname }}
     ports:
       - {{ eaas_public_port }}:{{ eaas_public_port }}
+{% if eaas_public_port != '80' %} 
+      - 80:80
+{% endif %}     
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./caddy:/data
-{% if eaas_dns.cf_token is defined %}
     labels:
+      caddy_0.order: error last
+      caddy_1: {{ eaas_base_url }} 
+      caddy_1.redir: / /admin/
+{% if eaas_dns.cf_token is defined %}
       caddy: "https://*.{{ eaas_hostname }}"
       caddy.tls.dns: lego_deprecated cloudflare
-    environment:
-      CLOUDFLARE_DNS_API_TOKEN: {{ eaas_dns.cf_token }}
 {% endif %} 
+    environment:
+{% if eaas_dns.cf_token is defined %}
+      CLOUDFLARE_DNS_API_TOKEN: {{ eaas_dns.cf_token }}
+{% endif %}
