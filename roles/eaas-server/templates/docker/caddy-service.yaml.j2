@@ -17,6 +17,7 @@
       caddy_0.order: error last
       caddy_1: {{ eaas_base_url }} 
       caddy_1.redir: / /admin/
+      caddy_1.error: 503
 {% if eaas_dns.cf_token is defined %}
       caddy: "https://*.{{ eaas_hostname }}"
       caddy.tls.dns: lego_deprecated cloudflare
