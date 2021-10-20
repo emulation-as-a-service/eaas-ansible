@@ -15,12 +15,12 @@
       - ./caddy:/data
     labels:
       caddy_0.order: error last
-      caddy_1: {{ eaas_base_url }} 
-      caddy_1.redir: / /admin/
-      caddy_1.error: 503
+      caddy: {{ eaas_base_url }} 
+      caddy.redir: / /admin/
+      caddy.error: 503
 {% if eaas_dns.cf_token is defined %}
-      caddy: "https://*.{{ eaas_hostname }}"
-      caddy.tls.dns: lego_deprecated cloudflare
+      caddy_1: "https://*.{{ eaas_hostname }}"
+      caddy_1.tls.dns: lego_deprecated cloudflare
 {% endif %} 
     environment:
 {% if eaas_dns.cf_token is defined %}
