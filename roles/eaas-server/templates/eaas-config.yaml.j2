@@ -1,7 +1,7 @@
 {% if ui_frontend_url != '' %}
 {% set baseurl = ui_frontend_url %}
 {% elif eaas_hostname == 'localhost' %}
-{% set baseurl = 'http://eaas:80' %}
+{% set baseurl = 'http://eaas:8080' %}
 {% else %}
 {% set baseurl = eaas_base_url %}
 {% endif %}
