@@ -92,6 +92,9 @@ eaas_common_server_options:
 - "-Dsun.net.client.defaultConnectTimeout=600000"
 - "-Dsun.net.client.defaultReadTimeout=600000"
 
+# user-defined list of migrations
+eaas_migrations: "{{ eaas.migrations | default([]) }}"
+
 minio_enabled: "{{ minio.enabled | default(true) }}"
 minio_key: "{{ minio.key | default('admin') }}"
 minio_secret: "{{ minio.secret | default('') }}"

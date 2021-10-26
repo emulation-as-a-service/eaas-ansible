@@ -289,3 +289,8 @@ metadata_harvester:
 {% endif %}
 
 clustermanager.providers.defaults.all.protocol: ""
+
+{% if eaas_migrations | length > 0 %}
+migrations:
+{{ eaas_migrations | to_nice_yaml(indent=2) }}
+{% endif %}
