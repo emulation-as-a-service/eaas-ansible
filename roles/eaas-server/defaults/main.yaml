@@ -85,6 +85,13 @@ eaas_ssl_private_key: "{{ eaas_ssl_basedir }}/server.key"
 eaas_hooks_dir: "{{ host_eaas_home }}/hooks"
 eaas_hooks_runner: "{{ eaas_hooks_dir }}/runner.sh"
 
+# options passed directly to the application-server
+eaas_server_options: "{{ eaas_common_server_options + (eaas.server_options | default([])) }}"
+eaas_common_server_options:
+- "-Dresteasy.preferJacksonOverJsonB=true"
+- "-Dsun.net.client.defaultConnectTimeout=600000"
+- "-Dsun.net.client.defaultReadTimeout=600000"
+
 minio_enabled: "{{ minio.enabled | default(true) }}"
 minio_key: "{{ minio.key | default('admin') }}"
 minio_secret: "{{ minio.secret | default('') }}"
