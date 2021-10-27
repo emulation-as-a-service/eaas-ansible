@@ -202,7 +202,7 @@
   become: yes
   service:
     name: "{{host_eaas_service_name}}.service"
-    state: started
+    state: "{{ 'started' if operator_enabled else omit }}"
     enabled: yes
 
 - name: bootstrap initial release
