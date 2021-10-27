@@ -80,7 +80,7 @@ eaas_user_archive_prefix: "{{ eaas.user_archive_prefix | default('user_archive')
 eaas_default_archive: "{{ eaas.default_archive | default('default')}}"
 eaas_imagearchive_storage: "{{ eaas.imagearchive.storage | default([]) }}"
 eaas_ssl_basedir: "{{ host_eaas_home }}/certificates"
-eaas_ssl_certificate: "{{ eaas_ssl_basedir }}/server.cer"
+eaas_ssl_certificate: "{{ eaas_ssl_basedir }}/server.crt"
 eaas_ssl_private_key: "{{ eaas_ssl_basedir }}/server.key"
 eaas_hooks_dir: "{{ host_eaas_home }}/hooks"
 eaas_hooks_runner: "{{ eaas_hooks_dir }}/runner.sh"
