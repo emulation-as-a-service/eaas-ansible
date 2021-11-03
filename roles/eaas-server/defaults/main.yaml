@@ -1,6 +1,5 @@
 ---
 host_eaas_home: "{{ host.eaas_home }}"
-host_build_dir: "{{ host.build_dir }}"
 host_eaas_config_dir: "{{ host_eaas_home }}/config"
 host_eaas_config_parts_dir: "{{ host_eaas_config_dir }}/eaas-config.d"
 host_eaas_config_nginx_dir: "{{ host_eaas_config_dir }}/nginx"

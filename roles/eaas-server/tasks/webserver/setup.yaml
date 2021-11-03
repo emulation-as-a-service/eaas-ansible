@@ -10,10 +10,6 @@
   - src: "{{ docker_ssl_private_key }}"
     dst: "{{ eaas_ssl_private_key }}"
 
-- name: setup nginx
-  when: eaas_http_proxy != ''
-  include_tasks: proxy.yaml
-
 - name: generate dns-env
   when: (eaas_deployment_mode != 'emucomp') and (eaas_dns != '')
   template:
