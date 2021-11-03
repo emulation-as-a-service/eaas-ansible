@@ -122,6 +122,10 @@ keycloak_defaults_file: "{{ keycloak_config_dir }}/defaults.json"
 
 coturn_enabled: "{{ coturn.enabled | default(false) }}"
 
+# add aliasing for user-facing ui configs,
+# so that 'ui' or 'demo_ui' can be used
+ui: "{{ demo_ui }}"
+
 ui_http_auth: "{{ ui.http_auth | default('') }}"
 ui_enable_screenshooter: "{{ ui.enable_screenshooter | default(true) }}"
 ui_enable_containers: "{{ ui.enable_containers | default(false) }}"
