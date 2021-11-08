@@ -123,14 +123,14 @@ services:
       MINIO_USER_SECRET: {{ minio_user_secret }}
       MINIO_ARCHIVE_POLICY_FILE: "/eaas/config/minio/policies/image-archive.json"
 {% endif %}
-{% if portal is undefined %}
+{% if eaasi_ui is undefined %}
     ports:
     - {{ docker_port_mapping }}
 {% if docker_network_ports != '' %}
     - {{ docker_network_ports }}
 {% endif %}
 {% endif %}
-{% if portal is defined %}
+{% if eaasi_ui is defined %}
     external_links:
     - eaasi-nginx:{{ eaas_hostname }}
 {% endif %}
@@ -149,7 +149,7 @@ services:
     - {{ host_eaas_config_nghttpx_dir }}/nghttpx.conf:/etc/nghttpx/nghttpx.conf
     - ./certificates:/eaas/certificates
     - ./deployments:/eaas/deployments
-{% if portal is undefined %}
+{% if eaasi_ui is undefined %}
 {% endif %}
 {% for volume in docker_custom_volumes %}
     - {{ volume }}
