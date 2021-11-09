@@ -27,6 +27,7 @@ done
 
 echo "Updating client's properties..."
 ${cmd} update clients/a8f1df16-de41-4dac-8cc7-35abbee912c6 \
+	--set 'standardFlowEnabled=true' \
 	--set 'rootUrl="{{ eaas_base_url }}"' \
 	--set 'adminUrl="{{ keycloak_frontend_url }}"' \
 	--set 'redirectUris={{ redirect_uris | to_json }}' \
