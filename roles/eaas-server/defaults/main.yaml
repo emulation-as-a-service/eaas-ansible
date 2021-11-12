@@ -95,6 +95,7 @@ eaas_common_server_options:
 eaas_migrations: "{{ eaas.migrations | default([]) }}"
 
 minio_enabled: "{{ minio.enabled | default(true) }}"
+minio_version: "{{ minio.version | default('latest') }}"
 minio_key: "{{ minio.key | default('admin') }}"
 minio_secret: "{{ minio.secret | default('') }}"
 minio_user_key: "{{ minio.user_key | default ('eaas') }}"

@@ -1,5 +1,5 @@
   minio:
-    image: minio/minio
+    image: minio/minio:{{ minio_version }}
     container_name: minio
 {% if docker_network_name != '' %}
     networks:
