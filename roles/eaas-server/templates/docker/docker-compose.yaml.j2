@@ -49,7 +49,7 @@ services:
 
 {% if keycloak_enabled %}
   keycloak:
-    image: jboss/keycloak
+    image: jboss/keycloak:{{ keycloak_version }}
     container_name: keycloak
 {% if docker_network_name != '' %}
     networks:
