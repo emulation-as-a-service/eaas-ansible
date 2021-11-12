@@ -21,6 +21,14 @@ while ! __connect_and_login; do
 	sleep 1s
 done
 
+echo "Updating realm's properties..."
+${kcadm} update realms/master --merge -s 'enabled=true' \
+	-h 'content-type=application/json' -f - << "EOF"
+{
+	"accessTokenLifespan": 3600
+}
+EOF
+
 # NOTE: client's protocol-mappers are currently referenced by names internally,
 #       although IDs have to be used for API reguests. Hence, renaming of existing
 #       mappers via an update operation will fail, resulting in two entries with
