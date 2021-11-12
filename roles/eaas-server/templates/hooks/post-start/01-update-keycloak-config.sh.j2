@@ -84,6 +84,21 @@ ${kcadm} update clients/${client_id} --merge -s 'enabled=true' \
 				"claim.name": "tid",
 				"jsonType.label": "String"
 			}
+		},
+		{
+			"id": "23340706-7bc9-4a96-a3d2-1a41e1b9ea23",
+			"name": "org-name",
+			"protocol": "openid-connect",
+			"protocolMapper": "oidc-usermodel-attribute-mapper",
+			"consentRequired": false,
+			"config": {
+				"userinfo.token.claim": "true",
+				"user.attribute": "orgname",
+				"id.token.claim": "false",
+				"access.token.claim": "false",
+				"claim.name": "orgname",
+				"jsonType.label": "String"
+			}
 		}
 	]
 }
