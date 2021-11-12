@@ -21,6 +21,17 @@ while ! __connect_and_login; do
 	sleep 1s
 done
 
+# NOTE: client's protocol-mappers are currently referenced by names internally,
+#       although IDs have to be used for API reguests. Hence, renaming of existing
+#       mappers via an update operation will fail, resulting in two entries with
+#       same ID but different names! As a workaround, delete a renamed mapper by
+#       it's ID first and re-add it via client's update later.
+
+echo "Deleting renamed procol-mappers..."
+for mapper_id in f3a3cd02-9cf7-48e4-af26-13d45b6112c1; do
+	${kcadm} delete clients/${client_id}/protocol-mappers/models/${mapper_id} || true
+done
+
 echo "Updating client's properties..."
 ${kcadm} update clients/${client_id} --merge -s 'enabled=true' \
 	-h 'content-type=application/json' -f - << "EOF"
@@ -41,6 +52,24 @@ ${kcadm} update clients/${client_id} --merge -s 'enabled=true' \
 		"http://localhost:8084",
 {% endif %}
 		"{{ eaas_base_url }}"
+	],
+	"protocolMappers": [
+		{
+			"id": "f3a3cd02-9cf7-48e4-af26-13d45b6112c1",
+			"name": "eaas-roles",
+			"protocol": "openid-connect",
+			"protocolMapper": "oidc-usermodel-client-role-mapper",
+			"consentRequired": false,
+			"config": {
+				"multivalued": "true",
+				"userinfo.token.claim": "true",
+				"id.token.claim": "true",
+				"access.token.claim": "true",
+				"claim.name": "roles",
+				"jsonType.label": "String",
+				"usermodel.clientRoleMapping.clientId": "eaas"
+			}
+		}
 	]
 }
 EOF

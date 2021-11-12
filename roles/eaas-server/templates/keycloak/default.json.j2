@@ -696,7 +696,7 @@
       "protocolMappers": [
         {
           "id": "f3a3cd02-9cf7-48e4-af26-13d45b6112c1",
-          "name": "role mapper",
+          "name": "eaas-roles",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usermodel-client-role-mapper",
           "consentRequired": false,
@@ -704,7 +704,7 @@
             "multivalued": "true",
             "userinfo.token.claim": "true",
             "id.token.claim": "true",
-            "access.token.claim": "false",
+            "access.token.claim": "true",
             "claim.name": "roles",
             "jsonType.label": "String",
             "usermodel.clientRoleMapping.clientId": "eaas"
