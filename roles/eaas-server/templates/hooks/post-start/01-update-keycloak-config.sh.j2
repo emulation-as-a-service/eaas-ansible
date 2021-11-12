@@ -112,4 +112,21 @@ ${kcadm} update clients/${client_id} --merge -s 'enabled=true' \
 }
 EOF
 
+echo "Updating client's default scopes..."
+set -- 67b6d2c4-fec5-4ada-ba5e-fc780ea46cf4
+
+for scope in "$@"; do
+	${kcadm} delete clients/${client_id}/default-client-scopes/${scope} || true
+done
+
+echo "Updating client's optional scopes..."
+set -- 5ac10aaa-07d1-4fbd-a43b-09a4d2af77f2 \
+       85a9e2b3-ef41-411e-a350-6ea3060f89b1 \
+       02cb4c41-b2b1-4cdf-b866-67c342ee4fa0 \
+       b3c97bfa-7cd8-40e2-babd-c5c873f3c06d
+
+for scope in "$@"; do
+	${kcadm} delete clients/${client_id}/optional-client-scopes/${scope} || true
+done
+
 echo "Keycloak's config updated"
