@@ -657,6 +657,10 @@
         "{{ baseurl }}/*"
       ],
       "webOrigins": [
+{% if eaas_devmode_enabled %}
+        "http://localhost:8080",
+        "http://localhost:8084",
+{% endif %}
         "{{ baseurl }}"
       ],
       "notBefore": 0,

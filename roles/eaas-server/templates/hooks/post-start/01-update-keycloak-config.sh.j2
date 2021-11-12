@@ -2,11 +2,12 @@
 
 set -eu
 
-cmd='docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh'
+kcadm='docker exec -i keycloak /opt/jboss/keycloak/bin/kcadm.sh'
+client_id='a8f1df16-de41-4dac-8cc7-35abbee912c6'
 
 __connect_and_login() {
 	docker ps | grep --quiet keycloak || return 1
-	${cmd} config credentials \
+	${kcadm} config credentials \
 		--server http://keycloak:8080/auth \
 		--user "{{ keycloak_admin_user }}"\
 		--password "{{ keycloak_admin_password }}" \
@@ -20,17 +21,28 @@ while ! __connect_and_login; do
 	sleep 1s
 done
 
-{% set redirect_uris = [eaas_base_url + "/*"] %}
-{% if eaas_devmode_enabled %}
-	{%- set redirect_uris = redirect_uris + ["http://localhost:8080/*", "http://localhost:8084/*"] %}
-{% endif %}
-
 echo "Updating client's properties..."
-${cmd} update clients/a8f1df16-de41-4dac-8cc7-35abbee912c6 \
-	--set 'standardFlowEnabled=true' \
-	--set 'rootUrl="{{ eaas_base_url }}"' \
-	--set 'adminUrl="{{ keycloak_frontend_url }}"' \
-	--set 'redirectUris={{ redirect_uris | to_json }}' \
-	--set 'webOrigins=["{{ eaas_base_url }}"]'
+${kcadm} update clients/${client_id} --merge -s 'enabled=true' \
+	-h 'content-type=application/json' -f - << "EOF"
+{
+	"standardFlowEnabled": true,
+	"rootUrl": "{{ eaas_base_url }}",
+	"adminUrl": "{{ keycloak_frontend_url }}",
+	"redirectUris": [
+{% if eaas_devmode_enabled %}
+		"http://localhost:8080/*",
+		"http://localhost:8084/*",
+{% endif %}
+		"{{ eaas_base_url }}/*"
+	],
+	"webOrigins": [
+{% if eaas_devmode_enabled %}
+		"http://localhost:8080",
+		"http://localhost:8084",
+{% endif %}
+		"{{ eaas_base_url }}"
+	]
+}
+EOF
 
 echo "Keycloak's config updated"
