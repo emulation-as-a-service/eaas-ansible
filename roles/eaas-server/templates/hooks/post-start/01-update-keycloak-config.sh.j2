@@ -69,6 +69,21 @@ ${kcadm} update clients/${client_id} --merge -s 'enabled=true' \
 				"jsonType.label": "String",
 				"usermodel.clientRoleMapping.clientId": "eaas"
 			}
+		},
+		{
+			"id": "9f446f31-2f55-492d-a5de-5f5059107dd8",
+			"name": "tenant-id",
+			"protocol": "openid-connect",
+			"protocolMapper": "oidc-usermodel-attribute-mapper",
+			"consentRequired": false,
+			"config": {
+				"userinfo.token.claim": "true",
+				"user.attribute": "tid",
+				"id.token.claim": "true",
+				"access.token.claim": "true",
+				"claim.name": "tid",
+				"jsonType.label": "String"
+			}
 		}
 	]
 }
