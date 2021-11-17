@@ -7,18 +7,20 @@
   - "{{ keycloak_config_dir }}"
   - "{{ keycloak_secrets_dir }}"
   - "{{ keycloak_data_dir }}"
-  - "{{ keycloak_theme_dir }}"
 
 - name: prep keycloak's defaults / import
   template:
     src: keycloak/default.json.j2
     dest: "{{ keycloak_defaults_file }}"
 
-- name: checkout keycloak's theme
-  when: keycloak_theme_repo != ''
-  git:
-    repo: "{{ keycloak_theme_repo }}"
-    dest: "{{ keycloak_theme_dir }}"
+- name: download keycloak's theme
+  when: keycloak_theme_enabled
+  get_url:
+    force: "{{ eaas_component_ui in eaas_update_components }}"
+    url: "{{ keycloak_theme_url }}"
+    dest: "{{ keycloak_theme_file }}"
+    headers:
+      PRIVATE-TOKEN: "{{ eaas_private_token  | default(omit) }}"
 
 - name: prepare keycloak's admin password
   include_tasks: utils/secret.yaml

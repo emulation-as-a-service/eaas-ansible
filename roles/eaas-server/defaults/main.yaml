@@ -112,15 +112,16 @@ keycloak_admin_role_label: "{{ keycloak.admin_role_labe | default('eaas-admin') 
 keycloak_user_role_label: "{{ keycloak.user_role_label | default('eaas-user') }}"
 keycloak_admin_password: "{{ keycloak.admin_password | default('') }}"
 keycloak_frontend_url: "{{ keycloak.frontend_url | default(eaas_base_url + '/auth') }}"
-keycloak_theme_repo: "{{ keycloak.theme_repo | default('') }}"
 keycloak_enable_user_groups: "{{ keycloak.enable_user_groups | default(false) }}"
 keycloak_client_id: "{{keycloak.client_id | default('eaas') }}"
 keycloak_config_dir: "{{ host_eaas_config_dir }}/keycloak"
 keycloak_secrets_dir: "{{ keycloak_config_dir }}/secrets"
 keycloak_runtime_dir: "{{ host_eaas_home }}/keycloak"
 keycloak_data_dir: "{{ keycloak_runtime_dir }}/data"
-keycloak_theme_dir: "{{ keycloak_runtime_dir }}/theme"
 keycloak_defaults_file: "{{ keycloak_config_dir }}/defaults.json"
+keycloak_theme_enabled: "{{ keycloak.theme is defined }}"
+keycloak_theme_name: "{{ keycloak.theme.name | default('') }}"
+keycloak_theme_file: "{{ keycloak_runtime_dir }}/eaasi-theme.jar"
 
 coturn_enabled: "{{ coturn.enabled | default(false) }}"
 
