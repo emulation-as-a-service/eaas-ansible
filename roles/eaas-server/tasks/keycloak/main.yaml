@@ -1,12 +1,14 @@
 ---
 - name: create keycloak runtime dirs
   file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
+    mode: "{{ item.mode | default(omit) }}"
     state: directory
   loop:
-  - "{{ keycloak_config_dir }}"
-  - "{{ keycloak_secrets_dir }}"
-  - "{{ keycloak_data_dir }}"
+  - path: "{{ keycloak_config_dir }}"
+  - path: "{{ keycloak_secrets_dir }}"
+  - path: "{{ keycloak_data_dir }}"
+    mode: u=rwx,g=rwx,o=rwx
 
 - name: prep keycloak's defaults / import
   template:
