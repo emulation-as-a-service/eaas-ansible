@@ -48,6 +48,10 @@
   "quickLoginCheckMilliSeconds": 1000,
   "maxDeltaTimeSeconds": 43200,
   "failureFactor": 30,
+{% if keycloak_theme_enabled %}
+  "loginTheme": "{{ keycloak_theme_name }}",
+  "accountTheme": "{{ keycloak_theme_name }}",
+{% endif %}
   "roles": {
     "realm": [
       {

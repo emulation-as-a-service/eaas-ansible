@@ -62,9 +62,6 @@ services:
       KEYCLOAK_FRONTEND_URL: {{ keycloak_frontend_url }}/
       KEYCLOAK_ALWAYS_HTTPS: "{% if eaas_protocol == 'https://' %}true{% else %}false{% endif %}"
       PROXY_ADDRESS_FORWARDING: "true"
-{% if keycloak_theme_enabled %}
-      KEYCLOAK_DEFAULT_THEME: "{{ keycloak_theme_name }}"
-{% endif %}
 
     command:
     - --server-config=standalone.xml
