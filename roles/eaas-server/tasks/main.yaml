@@ -93,10 +93,13 @@
 
 - name: download pre-built eaas-server
   when: not operator_enabled
+  become: yes
   get_url:
     force: "{{ eaas_component_ear in eaas_update_components }}"
     url: "{{ eaas_server_ear_url }}"
     dest: "{{ host_eaas_home }}/deployments/eaas-server.ear"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
     headers:
       PRIVATE-TOKEN: "{{ eaas_private_token  | default(omit) }}"
 

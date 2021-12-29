@@ -8,6 +8,19 @@
     headers:
       PRIVATE-TOKEN: "{{ ui_private_token  | default(omit) }}"
 
+- name: remove installed ui
+  when: not operator_enabled
+  become: yes
+  file:
+    path: "{{ host_ui_install_dir }}"
+    state: absent
+
+- name: prepare directory for ui
+  when: not operator_enabled
+  file:
+    path: "{{ host_ui_install_dir }}"
+    state: directory
+
 - name: extract pre-built ui
   when: not operator_enabled
   unarchive:
