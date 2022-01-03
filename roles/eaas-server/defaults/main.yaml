@@ -168,3 +168,6 @@ eaas_generalization_patches_tmpdir: "{{ host_eaas_tmp }}/eaas-image-patches"
 eaas_generalization_patches_install_dir: "{{ host_eaas_home }}/server-data/image-generalization-patches"
 eaas_generalization_patches_enabled: "{{ eaas.generalization_patches.enabled | default(false) }}"
 eaas_generalization_patches_url: "{{ eaas.generalization_patches.source }}"
+
+# workarounds for specific problems and issues
+eaas_workaround_docker_hub_ratelimits: "{{ workarounds.docker_hub_ratelimits | default(false) }}"
