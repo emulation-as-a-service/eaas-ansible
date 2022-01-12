@@ -33,3 +33,4 @@ function destURL(r) {
   return uri.match(/\/(https?:\/\/.+)$/)[1];
 }
 
+export default { imageId, token, destURL };
