@@ -141,6 +141,8 @@ services:
 {% endif %}
 {% endif %}
 {% if eaasi_ui is defined %}
+    expose:
+    - {{ docker_internal_port }}
     external_links:
     - eaasi-nginx:{{ eaas_hostname }}
 {% endif %}
