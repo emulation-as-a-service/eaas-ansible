@@ -34,6 +34,23 @@ services:
     - {{ docker_network_name }}
 {% endif %}
 
+  resolver:
+{% if eaas_workaround_docker_hub_ratelimits %}
+    image: mirror.gcr.io/library/nginx:stable
+{% else %}
+    image: nginx:stable
+{% endif %}
+    container_name: resolver
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
+    expose:
+    - 8080
+    volumes:
+    - ./config/nginx/resolver.conf:/etc/nginx/nginx.conf
+    - ./resolver/cache:/var/cache/nginx
+
 {% if operator_enabled %}
   operator:
     image: {{ operator_image }}
@@ -106,6 +123,7 @@ services:
     privileged: true
     depends_on:
     - nginx
+    - resolver
 {% if keycloak_enabled %}
     - keycloak
 {% endif %}
