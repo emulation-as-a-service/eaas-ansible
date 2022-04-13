@@ -155,6 +155,13 @@ operator_release_version: "{{ operator.release.version }}"
 operator_channels: "{{ operator.channels }}"
 operator_credentials: "{{ operator.credentials | default('') }}"
 
+# resolver options
+resolver_cache_enabled: "{{ (resolver.cache.enabled | default(false)) or eaas_deployment_mode == 'emucomp' }}"
+resolver_cache_kind: "{{ resolver.cache.kind | default('slice') }}"
+resolver_cache_capacity: "{{ resolver.cache.capacity | default('20g') }}"
+resolver_cache_expiration_time: "{{ resolver.cache.expiration_time | default('14d') }}"
+resolver_cache_slice_size: "{{ resolver.cache.slice_size | default('1m') }}"
+
 # autorun-scripts
 eaas_autorun_scripts_file: "{{ host_eaas_tmp }}/eaas-autorun-scripts.zip"
 eaas_autorun_scripts_tmpdir: "{{ host_eaas_tmp }}/eaas-autorun-scripts"

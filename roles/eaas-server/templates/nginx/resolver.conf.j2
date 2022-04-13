@@ -17,10 +17,58 @@ http {
                      levels=1:2 keys_zone=resolver-cache:8m
                      max_size=1g inactive=1h use_temp_path=off;
 
+{% if resolver_cache_enabled %}
+    # data-cache definition
+    proxy_cache_path /var/cache/nginx/data
+                     levels=1:2 keys_zone=data-cache:32m
+                     max_size={{ resolver_cache_capacity }} inactive={{ resolver_cache_expiration_time }} use_temp_path=off;
+
+{% endif %}
     server {
         listen 8080;
         resolver 127.0.0.11 ipv6=off;
 
+{% if resolver_cache_enabled %}
+        # cached resources
+        location / {
+            proxy_pass http://127.0.0.1:8082$uri;
+            proxy_intercept_errors on;
+            error_page 301 307 = @cacher;
+        }
+
+        location @cacher {
+            set $target $upstream_http_location;
+
+{% if resolver_cache_kind == 'slice' %}
+            slice {{ resolver_cache_slice_size }};
+
+            proxy_set_header Range $slice_range;
+{% endif %}
+            proxy_http_version 1.1;
+            proxy_pass $target;
+
+            add_header X-Cache-Status $upstream_cache_status;
+
+            # custom cache config
+            proxy_cache data-cache;
+{% if resolver_cache_kind == 'slice' %}
+            proxy_cache_key $request_method+$target+$slice_range;
+{% else %}
+            proxy_cache_key $request_method+$target;
+{% endif %}
+            proxy_cache_valid 200 206 24h;
+            proxy_cache_convert_head off;
+            proxy_cache_lock on;
+            proxy_cache_lock_timeout 0s;
+            proxy_cache_lock_age 2h;
+        }
+    }
+
+    server {
+        listen 8082;
+        resolver 127.0.0.11 ipv6=off;
+
+{% endif %}
         # custom cache config
         proxy_cache resolver-cache;
         proxy_cache_key $request_method+$scheme+$proxy_host$request_uri+$http_authorization;
