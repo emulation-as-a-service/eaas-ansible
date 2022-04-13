@@ -164,11 +164,6 @@
     src: nginx/nginx.conf
     dest: "{{ host_eaas_config_nginx_dir }}/nginx.conf"
 
-- name: prepare main nginx-js
-  template:
-    src: nginx/proxy.js
-    dest: "{{ host_eaas_config_nginx_dir }}/proxy.js"
-
 - name: prepare resolver-config
   template:
     src: nginx/resolver.conf.j2
