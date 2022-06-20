@@ -188,7 +188,9 @@ services:
     - {{ eaas_hostname }}:127.0.0.1
 {% endif %}
 
+{% if minio_enabled %}
 {% include 'minio-services.yaml.j2' %}
+{% endif %}
 
 {% if not docker_disable_tmp_volume %}
 volumes:
