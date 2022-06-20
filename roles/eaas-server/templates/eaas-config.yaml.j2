@@ -50,6 +50,7 @@ ws:
 {% endif %}
 
 rest:
+  gateway: "{{ baseurl }}/emil"
   blobstore: "{{ baseurl }}/blobstore/api/v1/blobs"
 {% if eaas_enable_backend_auth is defined and eaas_enable_backend_auth %}
   internalApiSecret: "{{ eaas_internal_api_secret }}"
@@ -106,13 +107,13 @@ imagearchive:
   - name: emulators
     type: filesystem
     basepath: /home/bwfla/image-archive/emulators
-    http_prefix: "http://nginx:81/"
+    http_prefix: "{{ baseurl }}/imagearchive/emulators"
     nameindex_config_path: /home/bwfla/.bwFLA/nameindices/emulators/
     export_handles: false
   - name: default
     type: filesystem
     basepath: /home/bwfla/image-archive/
-    http_prefix: "http://nginx:81/"
+    http_prefix: "{{ baseurl }}/imagearchive/default"
     nameindex_config_path: /home/bwfla/.bwFLA/nameindices/default/
     order: 2
 

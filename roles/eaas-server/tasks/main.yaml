@@ -36,6 +36,7 @@
   - keycloak
   - data
   - hooks
+  - resolver/cache
 
 - name: create eaas tmpStorage folder
   become: yes
@@ -163,10 +164,10 @@
     src: nginx/nginx.conf
     dest: "{{ host_eaas_config_nginx_dir }}/nginx.conf"
 
-- name: prepare main nginx-js
+- name: prepare resolver-config
   template:
-    src: nginx/proxy.js
-    dest: "{{ host_eaas_config_nginx_dir }}/proxy.js"
+    src: nginx/resolver.conf.j2
+    dest: "{{ host_eaas_config_nginx_dir }}/resolver.conf"
 
 - name: prepare admin-ui
   when: ui_enable_admin_ui and eaas_deployment_mode != 'emucomp'

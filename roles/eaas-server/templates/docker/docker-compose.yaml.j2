@@ -18,10 +18,8 @@ services:
 {% endif %}
     container_name: nginx
     volumes:
-      - {{ docker_image_archive_volume | default("./image-archive", true) }}:/image-archive:ro
       - ./eaas-ui:/www
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/nginx/proxy.js:/etc/nginx/proxy.js
       - ./welcome-content:/welcome-content
 {% if ui_enable_admin_ui %}
       - ./config/admin-ui.json:/www/eaas-frontend-admin/dist/config.json:ro
@@ -33,6 +31,23 @@ services:
     networks:
     - {{ docker_network_name }}
 {% endif %}
+
+  resolver:
+{% if eaas_workaround_docker_hub_ratelimits %}
+    image: mirror.gcr.io/library/nginx:stable
+{% else %}
+    image: nginx:stable
+{% endif %}
+    container_name: resolver
+{% if docker_network_name != '' %}
+    networks:
+    - {{ docker_network_name }}
+{% endif %}
+    expose:
+    - 8080
+    volumes:
+    - ./config/nginx/resolver.conf:/etc/nginx/nginx.conf
+    - ./resolver/cache:/var/cache/nginx
 
 {% if operator_enabled %}
   operator:
@@ -106,6 +121,7 @@ services:
     privileged: true
     depends_on:
     - nginx
+    - resolver
 {% if keycloak_enabled %}
     - keycloak
 {% endif %}
