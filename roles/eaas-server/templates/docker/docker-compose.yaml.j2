@@ -10,6 +10,7 @@ networks:
 
 {% endif %}
 services:
+{% if ui_enable_admin_ui or ui_landing_page %}
   nginx:
 {% if eaas_workaround_docker_hub_ratelimits %}
     image: mirror.gcr.io/library/nginx:stable
@@ -30,6 +31,7 @@ services:
 {% if docker_network_name != '' %}
     networks:
     - {{ docker_network_name }}
+{% endif %}
 {% endif %}
 
   resolver:
@@ -120,7 +122,6 @@ services:
     container_name: {{ host_eaas_service_name }}
     privileged: true
     depends_on:
-    - nginx
     - resolver
 {% if keycloak_enabled %}
     - keycloak

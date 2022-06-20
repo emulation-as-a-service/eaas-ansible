@@ -30,7 +30,12 @@ backend={{ name }},9000;/{{ location.bucket }}/
 {% endfor %}
 {% endif %}
 
+{% if ui_enable_admin_ui or ui_landing_page %}
 backend=nginx,80;
+{% else %}
+# catch-all backend
+backend=localhost,9999;
+{% endif %}
 
 {% if keycloak_enabled %}
 backend=keycloak,8080;/auth/
