@@ -1,0 +1,12 @@
+{
+    "type": "{{ config.type }}",
+    "name": "{{ config.name }}",
+    "defaultArchive": {{ config.default_archive | lower }},
+    "endpoint": "{{ config.endpoint }}",
+    "accessKey": "{{ config.access_key }}",
+    "secretKey": "{{ config.secret_key }}",
+{% if config.path is defined %}
+    "path": "{{ config.path }}",
+{% endif %}
+    "bucket": "{{ config.bucket }}"
+}
