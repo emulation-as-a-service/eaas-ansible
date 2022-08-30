@@ -181,7 +181,7 @@
     loop_var: config
   template:
     src: "object-archives/{{ config.type | lower }}.json.j2"
-    dest: "{{ host_eaas_config_objectarchive_dir }}/{{ config.name | lower | replace(' ', '-') }}"
+    dest: "{{ host_eaas_config_objectarchive_dir }}/{{ config.name | lower | replace(' ', '-') }}.json"
 
 - name: prepare admin-ui
   when: ui_enable_admin_ui and eaas_deployment_mode != 'emucomp'
