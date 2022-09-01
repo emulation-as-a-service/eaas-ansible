@@ -39,14 +39,14 @@
   },
   "baseEmulatorUrl": "{{ baseurl }}/admin/",
   "softwareArchiveId": "{{ eaas_software_archive_id | default('default') }}"
-  {% if keycloak_enabled %}
+  {% if eaas_enable_user_auth %}
   , "auth0Config" : {
         "AUTH_CONFIGURED": true,
-        "DOMAIN": "{{ baseurl }}/admin/redirect.html#{{ baseurl }}/auth/realms/master/protocol/openid-connect/",
+        "DOMAIN": "{{ baseurl }}/admin/redirect.html#{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/",
         "CLIENT_ID": "{{ keycloak_client_id }}",
         "REDIRECT_URL": "/admin/",
-        "issuer": "{{ baseurl }}/auth/realms/master",
-        "jwks_uri": "{{ baseurl }}/auth/realms/master/protocol/openid-connect/certs"
+        "issuer": "{{ keycloak_frontend_url }}/realms/master",
+        "jwks_uri": "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/certs"
     }
   {% endif %}
 }
