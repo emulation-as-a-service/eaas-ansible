@@ -124,6 +124,7 @@ keycloak_defaults_file: "{{ keycloak_config_dir }}/defaults.json"
 keycloak_theme_enabled: "{{ keycloak.theme is defined }}"
 keycloak_theme_name: "{{ keycloak.theme.name | default('') }}"
 keycloak_theme_file: "{{ keycloak_runtime_dir }}/eaasi-theme.jar"
+keycloak_redirect_uris: "{{ keycloak.redirect_uris | default([]) }}"
 
 coturn_enabled: "{{ coturn.enabled | default(false) }}"
 

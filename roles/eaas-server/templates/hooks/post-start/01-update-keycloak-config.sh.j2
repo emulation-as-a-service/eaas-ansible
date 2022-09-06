@@ -56,6 +56,9 @@ ${kcadm} update clients/${client_id} --merge -s 'enabled=true' \
 		"http://localhost:8080/*",
 		"http://localhost:8084/*",
 {% endif %}
+{% for uri in keycloak_redirect_uris %}
+		"{{ uri }}",
+{% endfor %}
 		"{{ eaas_base_url }}/*"
 	],
 	"webOrigins": [
