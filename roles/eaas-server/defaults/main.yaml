@@ -79,12 +79,21 @@ eaas_user_archive_enabled: "{{ eaas.user_archive_enabled | default(true)}}"
 eaas_user_archive_prefix: "{{ eaas.user_archive_prefix | default('user-')}}"
 eaas_default_archive: "{{ eaas.default_archive | default('default')}}"
 eaas_imagearchive_storage: "{{ eaas.imagearchive.storage | default([]) }}"
-eaas_objectarchive_backends: "{{ eaas.objectarchive.backends | default([]) }}"
+eaas_objectarchive_backends: "{{ eaas.objectarchive.backends | default(eaas_objectarchive_default_backends) }}"
 eaas_ssl_basedir: "{{ host_eaas_home }}/certificates"
 eaas_ssl_certificate: "{{ eaas_ssl_basedir }}/server.crt"
 eaas_ssl_private_key: "{{ eaas_ssl_basedir }}/server.key"
 eaas_hooks_dir: "{{ host_eaas_home }}/hooks"
 eaas_hooks_runner: "{{ eaas_hooks_dir }}/runner.sh"
+
+eaas_objectarchive_default_backends:
+- type: "S3"
+  name: "zero conf"
+  default_archive: true
+  endpoint: "http://minio:9000"
+  access_key: "{{ minio_user_key }}"
+  secret_key: "{{ minio_user_secret }}"
+  bucket: "object-archive"
 
 # options passed directly to the application-server
 eaas_server_options: "{{ eaas_common_server_options + (eaas.server_options | default([])) }}"
