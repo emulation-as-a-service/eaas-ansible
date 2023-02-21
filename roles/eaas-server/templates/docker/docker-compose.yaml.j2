@@ -183,7 +183,7 @@ services:
 {% for volume in docker_custom_volumes %}
     - {{ volume }}
 {% endfor %}
-{% if docker_ssl_enabled %}
+{% if docker_ssl_enabled and eaasi_ui is undefined %}
     extra_hosts:
     - {{ eaas_hostname }}:127.0.0.1
 {% endif %}
