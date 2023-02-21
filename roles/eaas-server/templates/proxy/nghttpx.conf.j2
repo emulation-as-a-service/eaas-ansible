@@ -31,6 +31,11 @@ backend={{ name }},9000;/{{ location.bucket }}/
 {% endfor %}
 {% endif %}
 
+# FIXME: assume local object-archives for now
+{% for backend in eaas_objectarchive_backends if backend.type == 'S3' %}
+backend=minio,9000;/{{ backend.bucket }}/
+{% endfor %}
+
 {% if ui_enable_admin_ui or ui_landing_page %}
 backend=nginx,80;
 {% else %}
