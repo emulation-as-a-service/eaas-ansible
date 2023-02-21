@@ -98,6 +98,23 @@ eaas_objectarchive_default_backends:
   secret_key: "{{ minio_user_secret }}"
   bucket: "object-archive"
 
+# backend's endpoints
+eaas_endpoints:
+- 'blobstore'
+- 'dig-pub-sharing'
+- 'eaas'
+- 'emil'
+- 'emucomp'
+- 'environment-proposer'
+- 'image-archive/v2'
+- 'imagearchive'
+- 'imagebuilder'
+- 'imageclassifier'
+- 'imageproposer'
+- 'oaipmh'
+- 'objectarchive'
+- 'softwarearchive'
+
 # options passed directly to the application-server
 eaas_server_options: "{{ eaas_common_server_options + (eaas.server_options | default([])) }}"
 eaas_common_server_options:

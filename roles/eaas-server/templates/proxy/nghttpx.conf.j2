@@ -7,22 +7,6 @@ frontend=*,{{ eaas_nossl_port }};no-tls
 frontend=*,{{ eaas_public_port }};no-tls
 {% endif %}
 
-{% set eaas_endpoints = [
-			'blobstore',
-			'dig-pub-sharing',
-			'eaas',
-			'emil',
-			'emucomp',
-			'environment-proposer',
-			'image-archive',
-			'imagearchive',
-			'imagebuilder',
-			'imageclassifier',
-			'imageproposer',
-			'oaipmh',
-			'objectarchive',
-			'softwarearchive'
-] %}
 {% for endpoint in eaas_endpoints %}
 backend=127.0.0.1,8080;/{{endpoint}}/
 {% endfor %}
