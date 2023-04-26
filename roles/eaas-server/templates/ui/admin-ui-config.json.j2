@@ -10,7 +10,7 @@
   "stopEmulatorRedirectURL": "{{ baseurl }}/admin/",
   "dashboardClusterAPIBaseURL": "{{ baseurl }}/eaas/api/v1/clusters/",
   "dashboardAccessToken": "{{ eaas_cluster_api_access_token | default('') }}",
-{% if eaas_enable_oaipmh_provider %}
+{% if ui_enable_oaipmh %}
   "oaipmhServiceBaseUrl": "{{ baseurl }}/oaipmh/",
 {% endif %}
 {% if ui_landing_page | default(false) %}
