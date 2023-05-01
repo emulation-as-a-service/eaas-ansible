@@ -15,5 +15,8 @@
   become: yes
   when: "unsupported_os is undefined"
   pip:
-    name: docker
+    name:
+    - requests<2.29
+    - urllib3<2
+    - docker
     state: present
