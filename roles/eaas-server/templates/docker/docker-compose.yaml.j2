@@ -22,6 +22,9 @@ services:
       - ./eaas-ui:/www
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./welcome-content:/welcome-content
+{% if eaas_deployment_mode == 'gateway' %}
+      - ./deployments:/welcome-content/deployments/{{ eaas_deployment_api_access_token }}
+{% endif %}
 {% if ui_enable_admin_ui %}
       - ./config/admin-ui.json:/www/eaas-frontend-admin/dist/config.json:ro
 {% endif %}
@@ -137,6 +140,7 @@ services:
     - {{ docker_network_name }}
 {% endif %}
     environment:
+      EAAS_DEPLOYMENT_API_TOKEN: "{{ eaas_deployment_api_access_token }}"
       EAAS_SERVER_OPTS: "{{ eaas_server_options | join(' ') }}"
       SSL_PROXY: "{{ docker_ssl_enabled | default("no") | lower }}"
 {% if not docker_ssl_enabled %}

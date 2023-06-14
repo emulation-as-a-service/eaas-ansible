@@ -66,6 +66,11 @@
   set_fact:
     eaas_internal_api_secret: "{{ lookup('password', '/dev/null length=32 chars=ascii_uppercase,digits') }}"
 
+- name: generate random deployment-api access-token
+  when: eaas_deployment_api_access_token is undefined
+  set_fact:
+    eaas_deployment_api_access_token: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
+
 - name: "copy hook-runner script"
   template:
     src: hooks/runner.sh
