@@ -121,7 +121,7 @@ imagearchive:
   storage:
     endpoints:
     - name: "minio"
-      address: "http://minio:9000"
+      address: "{% if eaas_deployment_mode == 'gateway' %}{{ eaas_base_url }}{% else %}http://minio:9000{% endif %}"
       credentials:
         access_key: "{{ minio_user_key }}"
         secret_key: "{{ minio_user_secret }}"
