@@ -61,6 +61,11 @@
   - key: "eaas-api"
     var: eaas_api_secret
 
+- name: generate random internal-api secret
+  when: eaas_internal_api_secret is undefined
+  set_fact:
+    eaas_internal_api_secret: "{{ lookup('password', '/dev/null length=32 chars=ascii_uppercase,digits') }}"
+
 - name: "copy hook-runner script"
   template:
     src: hooks/runner.sh
