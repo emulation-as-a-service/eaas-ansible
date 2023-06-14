@@ -93,7 +93,7 @@ eaas_objectarchive_default_backends:
 - type: "S3"
   name: "zero conf"
   default_archive: true
-  endpoint: "http://minio:9000"
+  endpoint: "{% if eaas_deployment_mode == 'gateway' %}{{ eaas_base_url }}{% else %}http://minio:9000{% endif %}"
   access_key: "{{ minio_user_key }}"
   secret_key: "{{ minio_user_secret }}"
   bucket: "object-archive"
