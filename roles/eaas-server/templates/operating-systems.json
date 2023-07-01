@@ -1,0 +1,485 @@
+{
+    "operatingSystemInformations": [
+        {
+            "id": "os:windows:xp:32bit",
+            "puids": [
+                "x-fmt/411",
+                "fmt/899"
+            ],
+            "extensions": [
+                "bin",
+                "exe",
+                "img"
+            ],
+            "label": "Windows XP (32bit)",
+            "kvmAvailable": true,
+            "qid": "Q11248",
+            "disk": "40G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "2",
+                "net": "rtl8139",
+                "audio": "ac97",
+                "memory": "1024",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:windows:xp:64bit",
+            "puids": [
+                "x-fmt/411",
+                "fmt/899",
+                "fmt/900"
+            ],
+            "extensions": [
+                "bin",
+                "exe",
+                "img"
+            ],
+            "label": "Windows XP (64bit)",
+            "kvmAvailable": true,
+            "qid": "Q6072277",
+            "disk": "40G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "2",
+                "net": "rtl8139",
+                "audio": "ac97",
+                "memory": "1024",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:windows:95",
+            "puids": [
+                "x-fmt/410",
+                "x-fmt/409",
+                "x-fmt/411",
+                "fmt/899"
+            ],
+            "extensions": [
+                "bin",
+                "exe",
+                "img"
+            ],
+            "label": "Windows 95",
+            "kvmAvailable": false,
+            "qid": "Q83370",
+            "disk": "12G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "1",
+                "net": "rtl8139",
+                "audio": "sb16",
+                "memory": "64",
+                "pointer": "lock"
+            }
+        },
+        {
+            "id": "os:windows:98",
+            "puids": [
+                "x-fmt/410",
+                "x-fmt/409",
+                "x-fmt/411",
+                "fmt/899"
+            ],
+            "extensions": [
+                "bin",
+                "exe",
+                "img"
+            ],
+            "label": "Windows 98",
+            "kvmAvailable": false,
+            "qid": "Q483132",
+            "disk": "12G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "1",
+                "net": "rtl8139",
+                "audio": "sb16",
+                "memory": "128",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:windows:2000",
+            "puids": [
+                "x-fmt/410",
+                "x-fmt/409",
+                "x-fmt/411",
+                "fmt/899"
+            ],
+            "extensions": [
+                "bin",
+                "exe",
+                "img"
+            ],
+            "label": "Windows 2000",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "40G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "2",
+                "net": "rtl8139",
+                "audio": "sb16",
+                "memory": "128",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:windows:server:2008",
+            "puids": [
+                "x-fmt/411",
+                "fmt/899",
+                "fmt/900"
+            ],
+            "label": "Windows Server 2008",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "120G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "std",
+                "cpu": "4",
+                "net": "e1000",
+                "audio": "hda",
+                "memory": "4096",
+                "pointer": "usb",
+                "kvmEnabled": true
+            }
+        },
+        {
+            "id": "os:windows:vista",
+            "puids": [
+                "x-fmt/411",
+                "fmt/899",
+                "fmt/900",
+                "fmt/733"
+            ],
+            "label": "Windows Vista",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "120G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "2",
+                "net": "e1000",
+                "audio": "ac97",
+                "memory": "2048",
+                "pointer": "usb",
+                "kvmEnabled": true
+            }
+        },
+        {
+            "id": "os:windows:server:2003",
+            "puids": [
+                "x-fmt/411",
+                "fmt/899",
+                "fmt/900"
+            ],
+            "label": "Windows Server 2003",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "60G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "2",
+                "net": "rtl8139",
+                "audio": "ac97",
+                "memory": "2048",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:windows:server:nt40",
+            "puids": [
+                "x-fmt/411",
+                "fmt/899",
+                "fmt/900"
+            ],
+            "label": "Windows Server NT 4.0",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "10G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "1",
+                "net": "rtl8139",
+                "audio": "sb16",
+                "memory": "128",
+                "pointer": "lock"
+            }
+        },
+        {
+            "id": "os:windows:311",
+            "puids": [
+                "x-fmt/410",
+                "x-fmt/409"
+            ],
+            "label": "Windows 3.x",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "1G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "1",
+                "net": "rtl8139",
+                "audio": "sb16",
+                "memory": "16",
+                "pointer": "lock"
+            }
+        },
+        {
+            "id": "os:mac:mk86",
+            "puids": [
+                "x-fmt/416"
+            ],
+            "label": "Apple System 7/8 (M68k)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "1G",
+            "template": "basiliskII",
+            "templateParameters": {}
+        },
+        {
+            "id": "os:mac:ppc",
+            "puids": [
+                "bwfla/1",
+                "x-fmt/416"
+            ],
+            "label": "Apple System 8-9.0.x (PPC)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "1G",
+            "template": "sheepshaver",
+            "templateParameters": {
+            }
+        },
+        {
+            "id": "os:other:amiga-uae",
+            "puids": [],
+            "label": "Amiga (UAE)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "20M",
+            "template": "amiga-uae",
+            "templateParameters": {
+                "rom": "",
+                "models": [
+                    "A500",
+                    "A500+",
+                    "A600",
+                    "A1000",
+                    "A1200",
+                    "A3000",
+                    "A4000",
+                    "CD32",
+                    "CDTV"
+                ],
+                "chosenModel": ""
+            }
+        },
+        {
+            "id": "os:other:vgba",
+            "puids": [],
+            "label": "GameBoy Advance",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "",
+            "template": "visualboyadvance",
+            "templateParameters": {}
+        },
+        {
+            "id": "os:mac:ppc-qemu",
+            "puids": [
+                "bwfla/1",
+                "x-fmt/416"
+            ],
+            "label": "Apple System 9.1.x - 10.4 (PPC)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "20G",
+            "template": "qemu-ppc",
+            "templateParameters": {
+                "net": "sungem",
+                "args": "-M mac99 -prom-env 'auto-boot?=true' -prom-env 'boot-args=-v' -prom-env 'vga-ndrv?=true' -device usb-kbd -g 1024x786x32"
+            }
+        },
+        {
+            "id": "os:other:sparc-ss5",
+            "puids": [],
+            "label": "Sun SPARC Station 5",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "20G",
+            "template": "qemu-sparc",
+            "templateParameters": {
+                "net": "lance",
+                "args": "-m 32"
+            }
+        },
+        {
+            "id": "os:other:chrome-53",
+            "puids": [],
+            "label": "Browser Chrome 53 (Flash-enabled)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "",
+            "template": "browser",
+            "uiOptions": {
+                "useXpra": true,
+                "xpraEncoding": "jpeg",
+                "useWebRTC": true
+            },
+            "templateParameters": {
+                "url": null,
+                "fullscreen": false,
+                "size": "1024,768"
+            }
+        },
+        {
+            "id": "os:other:chrome-53-fullscreen",
+            "puids": [],
+            "label": "Browser Chrome 53 (fullscreen-optimized)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "",
+            "template": "browser",
+            "uiOptions": {
+                "useXpra": true,
+                "xpraEncoding": "jpeg",
+                "useWebRTC": true
+            },
+            "templateParameters": {
+                "url": null,
+                "fullscreen": true,
+                "size": "1024,768"
+            }
+        },
+        {
+            "id": "os:linux:cent:77",
+            "puids": [
+                "fmt/689",
+                "fmt/795",
+                "fmt/794",
+                "fmt/793"
+            ],
+            "label": "CentOS",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "60G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "2",
+                "net": "rtl8139",
+                "audio": "ac97",
+                "memory": "2048",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:linux:ubuntu",
+            "puids": [
+                "fmt/689",
+                "fmt/795",
+                "fmt/794",
+                "fmt/793"
+            ],
+            "label": "Debian/Ubuntu",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "60G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "1",
+                "net": "rtl8139",
+                "audio": "ac97",
+                "memory": "1024",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:linux:fedora",
+            "puids": [
+                "fmt/689",
+                "fmt/795",
+                "fmt/794",
+                "fmt/793"
+            ],
+            "label": "Fedora",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "60G",
+            "template": "qemu-x86",
+            "templateParameters": {
+                "vga": "cirrus",
+                "cpu": "1",
+                "net": "rtl8139",
+                "audio": "ac97",
+                "memory": "1024",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:other:runtime:2020-02",
+            "puids": [],
+            "label": "Generic Container Runtime",
+            "kvmAvailable": true,
+            "qid": "",
+            "disk": "60G",
+            "template": "runtime",
+            "runtime": true,
+            "templateParameters": {
+                "cpu": "1",
+                "net": "e1000",
+                "memory": "2048",
+                "pointer": "usb"
+            }
+        },
+        {
+            "id": "os:other:runc2",
+            "puids": [],
+            "label": "Generic Emulator (runc2) (Beta)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "",
+            "template": "runc2",
+            "runtime": false,
+            "templateParameters": {}
+        },
+        {
+            "id": "os:other:pcem",
+            "puids": [],
+            "label": "PCem",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "",
+            "template": "pcem",
+            "runtime": false,
+            "templateParameters": {}
+        },
+        {
+            "id": "os:other:c64",
+            "puids": [],
+            "label": "C64 (Vice)",
+            "kvmAvailable": false,
+            "qid": "",
+            "disk": "",
+            "template": "c64-vice",
+            "runtime": false,
+            "templateParameters": {}
+        }
+    ]
+}

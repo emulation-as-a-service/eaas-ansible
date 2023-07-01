@@ -197,6 +197,12 @@
   when: ui_enable_admin_ui and eaas_deployment_mode != 'emucomp'
   include_tasks: ui/admin-ui.yaml
 
+- name: copy list of default operating-systems
+  when: eaas_deployment_mode != 'emucomp'
+  template:
+    src: "operating-systems.json"
+    dest: "{{ host_eaas_home }}/server-data/operating-systems.json"
+
 - name: setup autorun-scripts
   when: eaas_autorun_scripts_enabled
   include_tasks: server-data/autorun-scripts.yaml
