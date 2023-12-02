@@ -94,6 +94,16 @@ http {
             proxy_pass {{ baseurl }}/emil/environment-repository/images/$imgid/url$is_args$args;
         }
 
+        # case: roms
+        location ~* ^/roms/(?<imgid>.+)$ {
+            proxy_pass {{ baseurl }}/emil/environment-repository/roms/$imgid/url$is_args$args;
+        }
+
+        # case: checkpoints
+        location ~* ^/checkpoints/(?<imgid>.+)$ {
+            proxy_pass {{ baseurl }}/emil/environment-repository/checkpoints/$imgid/url$is_args$args;
+        }
+
         # case: objects
         location ~* ^/objects/(?<archive>[^/]+)/(?<object>[^/]+)/(?<subres>.+)$ {
             proxy_pass {{ baseurl }}/emil/object-repository/archives/$archive/objects/$object/resources/$subres/url$is_args$args;
