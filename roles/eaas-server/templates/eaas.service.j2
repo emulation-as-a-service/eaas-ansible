@@ -6,7 +6,7 @@ Requires=docker.service
 [Service]
 WorkingDirectory={{ host_eaas_home }}
 ExecStartPre={{ eaas_hooks_runner }} pre-start
-{% set args = '--project-name eaas --file ./docker-compose.yaml' %}
+{% set args = '--project-name eaas --file ' + host_eaas_home + '/docker-compose.yaml' %}
 {% if eaasi_ui is defined %}
     {%- set args = args + ' --file ' + host_eaasi_ui_home + '/docker-compose.yaml' %}
 {% endif %}
