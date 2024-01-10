@@ -73,11 +73,7 @@ services:
 
 {% if keycloak_enabled %}
   keycloak:
-{% if eaas_workaround_docker_hub_ratelimits %}
     image: quay.io/keycloak/keycloak:{{ keycloak_version }}
-{% else %}
-    image: jboss/keycloak:{{ keycloak_version }}
-{% endif %}
     container_name: keycloak
 {% if docker_network_name != '' %}
     networks:
