@@ -100,9 +100,9 @@ services:
     - -Dkeycloak.migration.file=/run/keycloak/defaults.json
 
     volumes:
-      - {{ keycloak_data_dir }}:/opt/jboss/keycloak/standalone/data
+      - {{ keycloak_data_dir }}:/opt/keycloak/data/h2
 {% if keycloak_theme_enabled %}
-      - {{ keycloak_theme_file }}:/opt/jboss/keycloak/standalone/deployments/eaasi-theme.jar:ro
+      - {{ keycloak_theme_file }}:/opt/keycloak/providers/eaasi-theme.jar:ro
 {% endif %}
       - {{ keycloak_defaults_file }}:/run/keycloak/defaults.json:ro
 {% endif %}
