@@ -93,6 +93,7 @@ services:
 {% else %}
     - start-dev
 {% endif %}
+    - --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true
     - -Dkeycloak.migration.action=import
     - -Dkeycloak.migration.provider=singleFile
     - -Dkeycloak.migration.strategy=IGNORE_EXISTING
