@@ -140,6 +140,7 @@ minio_imagearchive_policy_file: "{{ minio_policies_dir }}/image-archive.json"
 
 keycloak_enabled: "{{ keycloak.enabled | default(false) }}"
 keycloak_version: "{{ keycloak.version | default('latest') }}"
+keycloak_image: "quay.io/keycloak/keycloak:{{ keycloak_version }}"
 keycloak_admin_user: "{{ keycloak.admin_user | default('admin') }}"
 keycloak_admin_role_label: "{{ keycloak.admin_role_label | default('eaas-admin') }}"
 keycloak_user_role_label: "{{ keycloak.user_role_label | default('eaas-user') }}"
