@@ -82,6 +82,14 @@
   set_fact:
     eaas_gw_hostname: "{{ eaas_hostname }}"
 
+- name: read current docker-compose file
+  shell: "cat '{{ host_eaas_home }}/docker-compose.yaml' || echo ''"
+  register: result
+
+- name: parse current docker-compose file
+  set_fact:
+    docker_compose_file_content: "{{ result.stdout | from_yaml }}"
+
 - name: prepare keycloak
   when: keycloak_enabled
   include_tasks: keycloak/main.yaml
