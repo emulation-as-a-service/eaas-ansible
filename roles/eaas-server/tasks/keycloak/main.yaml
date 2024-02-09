@@ -58,3 +58,7 @@
 - name: look up keycloak's image
   set_fact:
     keycloak_current_image: "{{ docker_compose_file_content.services.keycloak.image | default(omit) }}"
+
+- name: look up keycloak's version
+  set_fact:
+    keycloak_current_version: "{{ keycloak_current_image.split(':')[1] | default('') }}"
