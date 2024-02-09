@@ -54,3 +54,7 @@
   - "{{ host_eaas_home }}/keycloak-data"
   - "{{ host_eaas_home }}/keycloak-defaults"
   - "{{ host_eaas_home }}/theme"
+
+- name: look up keycloak's image
+  set_fact:
+    keycloak_current_image: "{{ docker_compose_file_content.services.keycloak.image | default(omit) }}"
