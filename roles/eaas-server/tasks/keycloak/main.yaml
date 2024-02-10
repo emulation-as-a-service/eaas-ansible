@@ -7,6 +7,7 @@
   loop:
   - path: "{{ keycloak_config_dir }}"
   - path: "{{ keycloak_secrets_dir }}"
+  - path: "{{ keycloak_backups_dir }}"
   - path: "{{ keycloak_data_dir }}"
     mode: u=rwx,g=rwx,o=rwx
   - path: "{{ keycloak_import_dir }}"
@@ -41,7 +42,6 @@
   - kind: "post-start"
     name: "01-update-keycloak-config.sh"
 
-
 - name: move keycloak's legacy data dir
   shell: |
     srcdir="{{ host_eaas_home }}/keycloak-data"
@@ -64,3 +64,7 @@
 - name: look up keycloak's version
   set_fact:
     keycloak_current_version: "{{ keycloak_current_image.split(':')[1] | default('') }}"
+
+- name: export keycloak's state
+  when: keycloak_current_image != '' and keycloak_current_image != keycloak_image
+  import_tasks: realm-export.yaml
