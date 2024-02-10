@@ -226,6 +226,9 @@
     kind: "pre-start"
     name: "01-enable-ip6tables.sh"
 
+- name: import keycloak's external state
+  import_tasks: keycloak/realm-import.yaml
+
 - name: create systemd unit
   when: "unsupported_os is undefined"
   become: yes
