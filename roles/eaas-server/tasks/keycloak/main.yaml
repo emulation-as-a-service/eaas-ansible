@@ -9,6 +9,8 @@
   - path: "{{ keycloak_secrets_dir }}"
   - path: "{{ keycloak_data_dir }}"
     mode: u=rwx,g=rwx,o=rwx
+  - path: "{{ keycloak_import_dir }}"
+    mode: u=rwx,g=rwx,o=rwx
 
 - name: prep keycloak's defaults / import
   template:
