@@ -41,7 +41,6 @@
   - kind: "post-start"
     name: "01-update-keycloak-config.sh"
 
-
 - name: move keycloak's legacy data dir
   shell: |
     srcdir="{{ host_eaas_home }}/keycloak-data"
@@ -64,3 +63,7 @@
 - name: look up keycloak's version
   set_fact:
     keycloak_current_version: "{{ keycloak_current_image.split(':')[1] | default('') }}"
+
+- name: export keycloak's state
+  when: keycloak_current_version != '' and keycloak_current_version != keycloak_version
+  import_tasks: realm-export.yaml
