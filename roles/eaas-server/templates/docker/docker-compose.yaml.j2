@@ -83,6 +83,7 @@ services:
       DB_VENDOR: h2
       KEYCLOAK_ADMIN: "{{ keycloak_admin_user}}"
       KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"
+      KC_HOSTNAME_ADMIN_URL: "{{ keycloak_frontend_url }}/"
       KC_HOSTNAME_URL: "{{ keycloak_frontend_url }}/"
       KC_HTTP_RELATIVE_PATH: "/auth"
       KC_PROXY: "edge"
