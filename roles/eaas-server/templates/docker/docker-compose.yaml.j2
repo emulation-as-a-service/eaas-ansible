@@ -117,7 +117,7 @@ services:
     ports:
     - 3478:3478
     - 3478:3478/udp
-    command: turnserver --listening-port 3478 --secure-stun --verbose -u eaas:eaas -r {{ eaas_hostname }}
+    command: turnserver --listening-port 3478 --secure-stun -u eaas:eaas -r {{ eaas_hostname }}
 {% endif %}
 
   eaas:
