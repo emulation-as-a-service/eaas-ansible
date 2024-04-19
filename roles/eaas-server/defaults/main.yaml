@@ -121,6 +121,9 @@ eaas_common_server_options:
 - "-Dsun.net.client.defaultConnectTimeout=600000"
 - "-Dsun.net.client.defaultReadTimeout=600000"
 
+# options indirectly used by the application-server
+eaas_error_report_include_config: "{{ eaas.error_report_include_config | default(false) }}"
+
 # user-defined list of migrations
 eaas_migrations: "{{ eaas.migrations | default([]) }}"
 

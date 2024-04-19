@@ -140,6 +140,9 @@ services:
     - {{ docker_network_name }}
 {% endif %}
     environment:
+{% if eaas_error_report_include_config %}
+      EAAS_ERROR_REPORT_INCLUDE_CONFIG: "true"
+{% endif %}
       EAAS_DEPLOYMENT_API_TOKEN: "{{ eaas_deployment_api_access_token }}"
       EAAS_SERVER_OPTS: "{{ eaas_server_options | join(' ') }}"
       SSL_PROXY: "{{ docker_ssl_enabled | default("no") | lower }}"
