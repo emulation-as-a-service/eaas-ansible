@@ -1,0 +1,31 @@
+---
+- name: import keycloak's realms
+  become: yes
+  vars:
+    sname: "keycloak"
+    cname: "{{ docker_compose_file_content.services[sname].container_name | default(sname) }}"
+    import_mount: "/run/keycloak/import/{{ keycloak_import_file_name }}"
+  args:
+    chdir: "{{ host_eaas_home }}"
+  shell: |
+    set -eu
+    exec 2>&1
+
+    if ! test -e "{{ keycloak_import_file }}"; then
+        echo "No state found, skipping realms import..."
+        exit 0
+    fi
+
+    trap '{{ docker_compose_install_path }} -p eaas down' EXIT
+
+    echo "Importing realms from: {{ keycloak_import_file }}"
+    {{ docker_compose_install_path }} -p eaas run \
+        --volume "{{ keycloak_import_file }}:{{ import_mount }}:ro" \
+        --rm --no-deps -T --name "{{ cname }}" "{{ sname }}" \
+        import --file "{{ import_mount }}"
+
+- name: remove keycloak's import file
+  become: yes
+  file:
+    path: "{{ keycloak_import_file }}"
+    state: absent

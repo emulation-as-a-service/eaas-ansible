@@ -1,0 +1,54 @@
+---
+- name: export keycloak's realms
+  become: yes
+  vars:
+    sname: "keycloak"
+    cname: "{{ docker_compose_file_content.services[sname].container_name }}"
+    default_args: "{{ docker_compose_file_content.services[sname].command }}"
+    export_mount: "/run/keycloak/export"
+  args:
+    chdir: "{{ host_eaas_home }}"
+  shell: |
+    set -eu
+    exec 2>&1
+
+    if test -z "$(ls -A "{{ keycloak_data_dir }}")"; then
+        echo "No database found, skipping realms export..."
+        exit 0
+    fi
+
+    if test -e "{{ keycloak_import_file }}"; then
+        echo "State already exists at: {{ keycloak_import_file }}"
+        echo "Aborting realms export..."
+        exit 1
+    fi
+
+    trap '{{ docker_compose_install_path }} -p eaas down' EXIT
+
+    echo "Starting container {{ cname }}..."
+    {{ docker_compose_install_path }} -p eaas run \
+        --volume "{{ keycloak_import_dir }}:{{ export_mount }}" \
+        --detach --rm --no-deps -T --name "{{ cname }}" "{{ sname }}"\
+        {{ default_args | reject('match', '-Dkeycloak\.migration\.*') | join(' ') }} \
+        -Dkeycloak.migration.action=export \
+        -Dkeycloak.migration.provider=singleFile \
+        -Dkeycloak.migration.file={{ export_mount }}/{{ keycloak_import_file_name }}
+
+    echo "Waiting for container {{ cname }}..."
+    timeout 30 sh -c 'while test -z "$(docker ps --quiet --latest --filter name="{{ cname }}")"; do sleep 1; done'
+
+    echo "Waiting for realm export..."
+    timeout 120 sh -c 'while test "$(tail -n 1 {{ keycloak_import_file }})" != "} ]"; do sleep 1; done'
+    echo "Realm exported to: {{ keycloak_import_file }}"
+
+- name: archive keycloak's database
+  become: yes
+  shell: |
+    echo "Archiving existing database..."
+    mv -v "{{ keycloak_data_dir }}" "{{ keycloak_backups_dir }}/data-{{ ansible_date_time.epoch }}"
+
+- name: recreate keycloak data dir
+  file:
+    path: "{{ keycloak_data_dir }}"
+    mode: u=rwx,g=rwx,o=rwx
+    state: directory

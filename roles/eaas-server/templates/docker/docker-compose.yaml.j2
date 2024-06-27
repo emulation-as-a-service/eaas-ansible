@@ -73,11 +73,7 @@ services:
 
 {% if keycloak_enabled %}
   keycloak:
-{% if eaas_workaround_docker_hub_ratelimits %}
-    image: quay.io/keycloak/keycloak:{{ keycloak_version }}
-{% else %}
-    image: jboss/keycloak:{{ keycloak_version }}
-{% endif %}
+    image: {{ keycloak_image }}
     container_name: keycloak
 {% if docker_network_name != '' %}
     networks:
@@ -85,23 +81,29 @@ services:
 {% endif %}
     environment:
       DB_VENDOR: h2
-      KEYCLOAK_USER: {{ keycloak_admin_user}}
-      KEYCLOAK_PASSWORD: "{{ keycloak_admin_password }}"
-      KEYCLOAK_FRONTEND_URL: {{ keycloak_frontend_url }}/
-      KEYCLOAK_ALWAYS_HTTPS: "{% if eaas_protocol == 'https://' %}true{% else %}false{% endif %}"
-      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_ADMIN: "{{ keycloak_admin_user}}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"
+      KC_HOSTNAME_ADMIN_URL: "{{ keycloak_frontend_url }}/"
+      KC_HOSTNAME_URL: "{{ keycloak_frontend_url }}/"
+      KC_HTTP_RELATIVE_PATH: "/auth"
+      KC_PROXY: "edge"
 
     command:
-    - --server-config=standalone.xml
+{% if docker_ssl_enabled %}
+    - start
+{% else %}
+    - start-dev
+{% endif %}
+    - --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true
     - -Dkeycloak.migration.action=import
     - -Dkeycloak.migration.provider=singleFile
     - -Dkeycloak.migration.strategy=IGNORE_EXISTING
     - -Dkeycloak.migration.file=/run/keycloak/defaults.json
 
     volumes:
-      - {{ keycloak_data_dir }}:/opt/jboss/keycloak/standalone/data
+      - {{ keycloak_data_dir }}:/opt/keycloak/data/h2
 {% if keycloak_theme_enabled %}
-      - {{ keycloak_theme_file }}:/opt/jboss/keycloak/standalone/deployments/eaasi-theme.jar:ro
+      - {{ keycloak_theme_file }}:/opt/keycloak/providers/eaasi-theme.jar:ro
 {% endif %}
       - {{ keycloak_defaults_file }}:/run/keycloak/defaults.json:ro
 {% endif %}
